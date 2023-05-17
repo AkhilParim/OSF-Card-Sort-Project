@@ -1,0 +1,19 @@
+.mat-card{
+    background-color: black;
+    height: 100%;
+    width: 100%;
+    .border-container{
+        background-color: white;
+        margin: 10px;
+        border-radius: 15px;
+        height: 100%;
+        width: 100%;
+    }
+    .second-border-container{
+        margin : 10px;
+        border: solid black 3px;
+        border-radius: 15px;
+        height: 100%;
+        width: 100%;
+    }
+}
