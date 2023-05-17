@@ -11,6 +11,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SwiperModule } from 'swiper/angular';
 import { SingleCardComponent } from './components/single-card/single-card.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { SingleCardComponent } from './components/single-card/single-card.compon
     BrowserAnimationsModule,
     MatCardModule,
     MatIconModule,
-    SwiperModule
+    SwiperModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent],

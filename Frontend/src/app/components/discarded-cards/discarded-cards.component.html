@@ -1,12 +1,61 @@
 <div class="container">
-    <h1>Summary</h1>
+    <div class="buttons">
+        <div class="btn option1">
+            Play discarded cards
+        </div>
+        <div class="btn option2">
+            Reposition
+        </div>
+    </div>
     <div class="main">
         <div class="left-panel">
-            <h4>Discarded Cards</h4>
+            <p class="summary">Summary</p>
+            <p class="disc-cards">Discarded Cards</p>
+
+            <div cdkDropList
+                #todoList="cdkDropList"
+                [cdkDropListData]="todo"
+                [cdkDropListConnectedTo]="[dropZone]"
+                cdkDropListSortingDisabled
+                class="card-list"
+                (cdkDropListDropped)="drop($event)">
+                    <div class="card-container"
+                        *ngFor="let item of todo"
+                        cdkDrag
+                        (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
+                        [cdkDragData]="item"
+                        (cdkDragMoved)="moved($event)">
+                        <img src="../../assets/home.svg" alt="">
+                        <div *cdkDragPlaceholder class="field-placeholder"></div>
+                    </div>
+            </div>
+        </div>
+        
+        <div class="right-panel">
+            <div cdkDropList
+                #dropZone="cdkDropList"
+                [cdkDropListData]="done"
+                class="drag-zone"
+                cdkDropListSortingDisabled="true"
+                (cdkDropListDropped)="drop($event)">
+                <ng-container *ngFor="let item of done">
+                <div cdkDrag
+                    class="item-box"
+                    cdkDragBoundary=".drag-zone"
+                    [style.top.px]="item.y"
+                    [style.left.px]="item.x"
+                    [style.z-index]="item['z-index']"
+                    (cdkDragStarted)="changeZIndex(item)"
+                    (cdkDragDropped)="changePosition($event, item)">
+                        <img src="../../assets/home.svg" alt="">
+                        <div *cdkDragPlaceholder class="field-placeholder"></div>
+                </div>
+                </ng-container>
+            </div>
 
         </div>
-        <div class="right-panel">
-            
-        </div>
+    </div>
+    <div class="footer">
+
     </div>
 </div>

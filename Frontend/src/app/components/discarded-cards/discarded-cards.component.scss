@@ -1,4 +1,83 @@
-.main {
+
+.container {
+    height: 100vh;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    p {
+        margin: 0;
+    }
+    .buttons {
+        display: flex;
+        gap: 30px;
+        justify-content: center;
+        .btn {
+            height: 100px;
+            width: 700px;
+            font-size: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            cursor: pointer;
+        }
+        .option1 {
+            background: linear-gradient(90deg, #F4F1BB 2.6%, #BC3908 71.09%);
+            border-radius: 0px 0px 50px 50px;
+        }
+        .option2 {
+            background: linear-gradient(90deg, #305252 2.6%, #031926 40.14%);
+            border-radius: 0px 0px 50px 50px;
+        }
+    }
+    .main {
+        display: flex;
+        flex-direction: row;
+        padding: 70px 70px 90px;
+        height: 100%;
+        .left-panel {
+            width: 400px;
+            .summary {
+                font-weight: 700;
+                font-size: 40px;
+                margin-bottom: 100px;
+            }
+            .disc-cards {
+                font-size: 30px;
+                font-weight: 700;
+                margin-bottom: 24px;
+            }
+            .card-list {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 16px;
+                .card-container {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 94px;
+                    height: 90px;
+                    background: linear-gradient(180deg, #031926 -12.22%, rgba(234, 235, 237, 0) 117.62%);
+                    border-radius: 20px;
+                }
+            }
+        }
+        .right-panel {
+            width: 100%;
+            margin-left: 110px;
+            margin-top: 15px;
+            .drag-zone {
+                position:relative;
+                flex-grow:1;
+                height: 100%;
+                background: linear-gradient(90deg, #9792E3 0%, #F4F1BB 100%);
+                box-shadow: 0px 4px 30px 20px rgba(0, 0, 0, 0.25);
+                border-radius: 30px;
+                overflow: hidden;
+                .item-box {
+                  position:absolute;
+                }
+            }
+
+        }
+    }
 }
