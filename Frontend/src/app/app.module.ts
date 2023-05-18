@@ -12,13 +12,15 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SwiperModule } from 'swiper/angular';
 import { SingleCardComponent } from './components/single-card/single-card.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { DiscussPageComponent } from './components/discuss-page/discuss-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DiscardedCardsComponent,
     CardCarouselComponent,
-    SingleCardComponent
+    SingleCardComponent,
+    DiscussPageComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +29,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     MatCardModule,
     MatIconModule,
     SwiperModule,
-    DragDropModule
+    DragDropModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

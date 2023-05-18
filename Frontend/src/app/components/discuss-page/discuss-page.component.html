@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="buttons" #dropZone>
+        <div class="btn">
+            <!-- <div class="back-btn">
+                <img src="" alt="back">
+            </div> -->
+            Rank
+        </div>
+    </div>
+    <div class="main">
+        <div class="display-card-wrapper" cdkDropList
+            (cdkDropListDropped)="placeCard($event)"
+            [cdkDropListData]="service.cardData">
+            <div cdkDrag 
+                class="display-card" 
+                (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
+                (cdkDragMoved)="moved($event)">
+                <p class="label">{{ service.cardData.label }}</p>
+                <p class="preview">{{ service.cardData.preview }}</p>
+                <img src="{{ service.cardData.image }}" alt="image" class="image">
+                <img *cdkDragPreview src="{{ service.cardData.image }}" alt="image">
+            </div>
+        </div>
+        <div class="text">
+            <p>{{ service.cardData.text }}</p>
+        </div>
+    </div>
+</div>

@@ -26,16 +26,16 @@
             <div class="display-card-wrapper"
                 cdkDropList
                 (cdkDropListDropped)="placeCard($event)"
-                [cdkDropListData]="cardData">
-                <div *ngIf="cardData.length" cdkDrag 
+                [cdkDropListData]="rankCoordinates">
+                <div *ngIf="rankCoordinates.length" cdkDrag 
                     class="display-card" 
                     (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
-                    [cdkDragData]="cardData[0]"
+                    [cdkDragData]="rankCoordinates[0]"
                     (cdkDragMoved)="moved($event)">
-                    <p class="title">Home</p>
-                    <p class="text">L. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                    <img src="/assets/home.svg" alt="logo" class="logo">
-                    <img *cdkDragPreview src="/assets/home.svg" alt="image">
+                    <p class="label">{{ service.cardData.label }}</p>
+                    <p class="preview">{{ service.cardData.preview }}</p>
+                    <img src="{{ service.cardData.image }}" alt="image" class="image">
+                    <img *cdkDragPreview src="{{ service.cardData.image }}" alt="image">
                 </div>
             </div>
         </ng-container>

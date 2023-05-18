@@ -4,6 +4,7 @@ import {
   CdkDragMove,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { AppService } from 'src/app/app.service';
 @Component({
   selector: 'app-discarded-cards',
   templateUrl: './discarded-cards.component.html',
@@ -14,12 +15,14 @@ export class DiscardedCardsComponent implements OnInit {
   todo: Array<any> = [];
   off: any;
   _pointerPosition: any;
-  isRankPage: Boolean = true;   // differentiates between Rank and Discard pages
+  isRankPage: Boolean = false;   // differentiates between Rank and Discard pages
   isCardPlaced: Boolean = false;   // checks if card has been ranked in Rank page
-  cardData: Array<any> = [];
+  rankCoordinates: Array<any> = [];
 
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
 
+  constructor(public service: AppService) { }
+  
   ngOnInit(): void {
     this.todo = [
       { label: 'Home1', x: 0, y: 0, 'z-index': 0 },
@@ -31,8 +34,13 @@ export class DiscardedCardsComponent implements OnInit {
       { label: 'Home7', x: 0, y: 0, 'z-index': 0 },
       { label: 'Home8', x: 0, y: 0, 'z-index': 0 },
     ];
-
-    this.cardData = [{ label: 'Home', x: 0, y: 0, 'z-index': 0 }]
+    
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    if(urlParams.has('rank') && urlParams.get('rank') == 'true') {
+      this.rankCoordinates = [{ label: 'Home', x: 0, y: 0, 'z-index': 0 }]
+      this.isRankPage = true;
+    }
   }
 
   drop(event: CdkDragDrop<any[]>) {  
@@ -71,7 +79,7 @@ export class DiscardedCardsComponent implements OnInit {
       x > rectZone.width)) {
       event.item.data.y = y;
       event.item.data.x = x;
-      this.cardData = [];
+      this.rankCoordinates = [];
       this.done.push(event.item.data);
       this.changeZIndex(event.item.data);
       setTimeout(() => {
