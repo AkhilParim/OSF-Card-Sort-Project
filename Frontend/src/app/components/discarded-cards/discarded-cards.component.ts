@@ -16,21 +16,25 @@ export class DiscardedCardsComponent implements OnInit {
   todo: Array<any> = [];
   off: any;
   _pointerPosition: any;
+  isRankPage: Boolean = true;
+  isCardPlaced: Boolean = false;
+  cardData: Array<any> = [];
 
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
 
   ngOnInit(): void {
     this.todo = [
-      { label: 'Get to work', x: 0, y: 0, 'z-index': 0 },
-      { label: 'Pick up groceries', x: 0, y: 0, 'z-index': 0 },
-      { label: 'Go home', x: 0, y: 0, 'z-index': 0 },
-      { label: 'Fall asleep', x: 0, y: 0, 'z-index': 0 },
-      { label: 'Get up', x: 0, y: 0, 'z-index': 0 },
-      { label: 'Brush teeth', x: 0, y: 0, 'z-index': 0 },
-      { label: 'Take a shower', x: 0, y: 0, 'z-index': 0 },
-      { label: 'Check e-mail', x: 0, y: 0, 'z-index': 0 },
-      { label: 'Walk dog', x: 0, y: 0, 'z-index': 0 },
+      { label: 'Home1', x: 0, y: 0, 'z-index': 0 },
+      { label: 'Home2', x: 0, y: 0, 'z-index': 0 },
+      { label: 'Home3', x: 0, y: 0, 'z-index': 0 },
+      { label: 'Home4', x: 0, y: 0, 'z-index': 0 },
+      { label: 'Home5', x: 0, y: 0, 'z-index': 0 },
+      { label: 'Home6', x: 0, y: 0, 'z-index': 0 },
+      { label: 'Home7', x: 0, y: 0, 'z-index': 0 },
+      { label: 'Home8', x: 0, y: 0, 'z-index': 0 },
     ];
+
+    this.cardData = [{ label: 'Home', x: 0, y: 0, 'z-index': 0 }]
   }
 
   drop(event: CdkDragDrop<any[]>) {  
@@ -44,7 +48,7 @@ export class DiscardedCardsComponent implements OnInit {
     let x = this._pointerPosition.x -
       this.off.x - this.dropZone.nativeElement.getBoundingClientRect().left;
 
-    if (this.checkIfItemInBounds(x, y, event)) {
+    if(this.checkIfItemInBounds(x, y, event)) {
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
@@ -55,6 +59,21 @@ export class DiscardedCardsComponent implements OnInit {
       event.item.data.x = x;
       this.changeZIndex(event.item.data);
     }
+  }
+
+  placeCard(event: CdkDragDrop<any[]>) {
+    let y = this._pointerPosition.y - this.dropZone.nativeElement.getBoundingClientRect().top;
+    let x = this._pointerPosition.x - this.dropZone.nativeElement.getBoundingClientRect().left;
+    // if(this.checkIfItemInBounds(x, y, event)) {
+      event.item.data.y = y;
+      event.item.data.x = x;
+      this.cardData = [];
+      this.done.push(event.item.data);
+      this.changeZIndex(event.item.data);
+      setTimeout(() => {
+        this.isCardPlaced = true;
+      }, 100)
+    // }
   }
 
   moved(event: CdkDragMove<any>) {
@@ -101,6 +120,5 @@ export class DiscardedCardsComponent implements OnInit {
 
     return !out;
   }
-
 
 }

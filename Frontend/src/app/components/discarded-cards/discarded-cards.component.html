@@ -1,37 +1,75 @@
 <div class="container">
     <div class="buttons">
-        <div class="btn option1">
-            Play discarded cards
-        </div>
-        <div class="btn option2">
-            Reposition
-        </div>
-    </div>
-    <div class="main">
-        <div class="left-panel">
-            <p class="summary">Summary</p>
-            <p class="disc-cards">Discarded Cards</p>
-
-            <div cdkDropList
-                #todoList="cdkDropList"
-                [cdkDropListData]="todo"
-                [cdkDropListConnectedTo]="[dropZone]"
-                cdkDropListSortingDisabled
-                class="card-list"
-                (cdkDropListDropped)="drop($event)">
-                    <div class="card-container"
-                        *ngFor="let item of todo"
-                        cdkDrag
-                        (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
-                        [cdkDragData]="item"
-                        (cdkDragMoved)="moved($event)">
-                        <img src="../../assets/home.svg" alt="">
-                        <div *cdkDragPlaceholder class="field-placeholder"></div>
-                    </div>
+        <ng-container *ngIf="isRankPage && !isCardPlaced; else multipleBtns">
+            <div class="singleBtn btn option1">
+                <!-- <div class="back-btn">
+                    <img src="" alt="back">
+                </div> -->
+                Cards
             </div>
-        </div>
+        </ng-container>
         
-        <div class="right-panel">
+        <ng-template #multipleBtns>
+            <div class="btn option1">
+                <p *ngIf="!isRankPage">Play discarded cards</p>
+                <p *ngIf="isRankPage">Cards</p>
+            </div>
+            <div class="btn option2">
+                <p *ngIf="!isRankPage">Reposition</p>
+                <p *ngIf="isRankPage">Lock it in</p>
+            </div>
+        </ng-template>
+    </div>
+
+    <div class="main">
+        <ng-container *ngIf="isRankPage; else discardedCards">
+            <div class="display-card-wrapper"
+                cdkDropList
+                (cdkDropListDropped)="placeCard($event)"
+                [cdkDropListData]="cardData">
+                <div *ngIf="cardData.length" cdkDrag 
+                    class="display-card" 
+                    (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
+                    [cdkDragData]="cardData[0]"
+                    (cdkDragMoved)="moved($event)">
+                    <p class="title">Home</p>
+                    <p class="text">L. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <img src="/assets/home.svg" alt="logo" class="logo">
+                    <img *cdkDragPreview src="/assets/home.svg" alt="image">
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-template #discardedCards>
+            <div class="discarded-cards-wrapper">
+                <p class="summary">Summary</p>
+                <p class="disc-cards">Discarded Cards</p>
+                <div cdkDropList
+                    #todoList="cdkDropList"
+                    [cdkDropListData]="todo"
+                    [cdkDropListConnectedTo]="[dropZone]"
+                    cdkDropListSortingDisabled
+                    class="card-list"
+                    (cdkDropListDropped)="drop($event)">
+                        <div class="card-container"
+                            *ngFor="let item of todo"
+                            cdkDrag
+                            (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
+                            [cdkDragData]="item"
+                            (cdkDragMoved)="moved($event)">
+                            <img src="../../assets/home.svg" alt="">
+                            <div *cdkDragPlaceholder class="field-placeholder"></div>
+                        </div>
+                </div>
+            </div>
+        </ng-template>
+
+        
+        <div class="drop-zone-wrapper">
+            <div class="importance">
+                <p>Less important</p>
+                <p>Important</p>
+            </div>
             <div cdkDropList
                 #dropZone="cdkDropList"
                 [cdkDropListData]="done"
@@ -39,17 +77,17 @@
                 cdkDropListSortingDisabled="true"
                 (cdkDropListDropped)="drop($event)">
                 <ng-container *ngFor="let item of done">
-                <div cdkDrag
-                    class="item-box"
-                    cdkDragBoundary=".drag-zone"
-                    [style.top.px]="item.y"
-                    [style.left.px]="item.x"
-                    [style.z-index]="item['z-index']"
-                    (cdkDragStarted)="changeZIndex(item)"
-                    (cdkDragDropped)="changePosition($event, item)">
+                    <div cdkDrag
+                        class="item-box"
+                        cdkDragBoundary=".drag-zone"
+                        [style.top.px]="item.y"
+                        [style.left.px]="item.x"
+                        [style.z-index]="item['z-index']"
+                        (cdkDragStarted)="changeZIndex(item)"
+                        (cdkDragDropped)="changePosition($event, item)">
                         <img src="../../assets/home.svg" alt="">
                         <div *cdkDragPlaceholder class="field-placeholder"></div>
-                </div>
+                    </div>
                 </ng-container>
             </div>
 
