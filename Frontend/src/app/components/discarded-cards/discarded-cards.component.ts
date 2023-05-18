@@ -1,9 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   CdkDragDrop,
-  CdkDropList,
   CdkDragMove,
-  moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 @Component({
@@ -16,8 +14,8 @@ export class DiscardedCardsComponent implements OnInit {
   todo: Array<any> = [];
   off: any;
   _pointerPosition: any;
-  isRankPage: Boolean = true;
-  isCardPlaced: Boolean = false;
+  isRankPage: Boolean = true;   // differentiates between Rank and Discard pages
+  isCardPlaced: Boolean = false;   // checks if card has been ranked in Rank page
   cardData: Array<any> = [];
 
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
@@ -38,7 +36,7 @@ export class DiscardedCardsComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<any[]>) {  
-    // handles event when card is dropped
+    // handles event when card is dropped in Discard page
     if (event.previousContainer === event.container) {
       return;
     }
@@ -62,6 +60,7 @@ export class DiscardedCardsComponent implements OnInit {
   }
 
   placeCard(event: CdkDragDrop<any[]>) {
+    // handles event when card is dropped in Rank page
     const rectZone = this.dropZone.nativeElement.getBoundingClientRect();
     let y = this._pointerPosition.y - rectZone.top;
     let x = this._pointerPosition.x - rectZone.left;
@@ -90,6 +89,7 @@ export class DiscardedCardsComponent implements OnInit {
   }
 
   changePosition(event: CdkDragDrop<any>, field: any) {
+    // handles the change of position of a card within the drop zone
     let y = +field.y + event.distance.y;
     let x = +field.x + event.distance.x;
 
