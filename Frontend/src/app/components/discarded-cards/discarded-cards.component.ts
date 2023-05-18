@@ -62,9 +62,14 @@ export class DiscardedCardsComponent implements OnInit {
   }
 
   placeCard(event: CdkDragDrop<any[]>) {
-    let y = this._pointerPosition.y - this.dropZone.nativeElement.getBoundingClientRect().top;
-    let x = this._pointerPosition.x - this.dropZone.nativeElement.getBoundingClientRect().left;
-    // if(this.checkIfItemInBounds(x, y, event)) {
+    const rectZone = this.dropZone.nativeElement.getBoundingClientRect();
+    let y = this._pointerPosition.y - rectZone.top;
+    let x = this._pointerPosition.x - rectZone.left;
+    
+    if(!(y < 0 ||
+      x < 0 ||
+      y > rectZone.height ||
+      x > rectZone.width)) {
       event.item.data.y = y;
       event.item.data.x = x;
       this.cardData = [];
@@ -72,8 +77,8 @@ export class DiscardedCardsComponent implements OnInit {
       this.changeZIndex(event.item.data);
       setTimeout(() => {
         this.isCardPlaced = true;
-      }, 100)
-    // }
+      }, 100);
+    }
   }
 
   moved(event: CdkDragMove<any>) {
