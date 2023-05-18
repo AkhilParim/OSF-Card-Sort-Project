@@ -11,30 +11,18 @@ import { AppService } from 'src/app/app.service';
   styleUrls: ['./discarded-cards.component.scss']
 })
 export class DiscardedCardsComponent implements OnInit {
-  done: Array<any> = [];
-  todo: Array<any> = [];
   off: any;
   _pointerPosition: any;
   isRankPage: Boolean = false;   // differentiates between Rank and Discard pages
   isCardPlaced: Boolean = false;   // checks if card has been ranked in Rank page
   rankCoordinates: Array<any> = [];
+  isTokensPage: Boolean = false;
 
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
 
   constructor(public service: AppService) { }
   
   ngOnInit(): void {
-    this.todo = [
-      { label: 'Home1', x: 0, y: 0, 'z-index': 0 },
-      { label: 'Home2', x: 0, y: 0, 'z-index': 0 },
-      { label: 'Home3', x: 0, y: 0, 'z-index': 0 },
-      { label: 'Home4', x: 0, y: 0, 'z-index': 0 },
-      { label: 'Home5', x: 0, y: 0, 'z-index': 0 },
-      { label: 'Home6', x: 0, y: 0, 'z-index': 0 },
-      { label: 'Home7', x: 0, y: 0, 'z-index': 0 },
-      { label: 'Home8', x: 0, y: 0, 'z-index': 0 },
-    ];
-    
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     if(urlParams.has('rank') && urlParams.get('rank') == 'true') {
@@ -44,7 +32,7 @@ export class DiscardedCardsComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<any[]>) {  
-    // handles event when card is dropped in Discard page
+    // handles event when discarded card is placed on the drop zone
     if (event.previousContainer === event.container) {
       return;
     }
@@ -68,7 +56,7 @@ export class DiscardedCardsComponent implements OnInit {
   }
 
   placeCard(event: CdkDragDrop<any[]>) {
-    // handles event when card is dropped in Rank page
+    // handles event when card in the Rank page is placed on the drop zone
     const rectZone = this.dropZone.nativeElement.getBoundingClientRect();
     let y = this._pointerPosition.y - rectZone.top;
     let x = this._pointerPosition.x - rectZone.left;
@@ -80,7 +68,7 @@ export class DiscardedCardsComponent implements OnInit {
       event.item.data.y = y;
       event.item.data.x = x;
       this.rankCoordinates = [];
-      this.done.push(event.item.data);
+      this.service.placedCards.push(event.item.data);
       this.changeZIndex(event.item.data);
       setTimeout(() => {
         this.isCardPlaced = true;
@@ -88,12 +76,17 @@ export class DiscardedCardsComponent implements OnInit {
     }
   }
 
+  placeToken(event: CdkDragDrop<any[]>) {
+    // handles event when a token is placed
+    console.log(this._pointerPosition);
+  }
+
   moved(event: CdkDragMove<any>) {
     this._pointerPosition = event.pointerPosition;
   }
 
   changeZIndex(item: any) {
-    this.done.forEach((x) => (x['z-index'] = x == item ? 1 : 0));
+    this.service.placedCards.forEach((x) => (x['z-index'] = x == item ? 1 : 0));
   }
 
   changePosition(event: CdkDragDrop<any>, field: any) {
@@ -117,9 +110,11 @@ export class DiscardedCardsComponent implements OnInit {
     }
     field.x = x;
     field.y = y;
-    this.done = this.done.sort((a, b) =>
+    this.service.placedCards = this.service.placedCards.sort((a, b) =>
       a['z-index'] > b['z-index'] ? 1 : a['z-index'] < b['z-index'] ? -1 : 0
     );
+    console.log(this.service.placedCards);
+    
   }
 
   checkIfItemInBounds(x: number, y: number, event: any) {
