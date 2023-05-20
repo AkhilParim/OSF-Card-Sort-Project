@@ -13,6 +13,7 @@ import { SwiperModule } from 'swiper/angular';
 import { SingleCardComponent } from './components/single-card/single-card.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { DiscussScreenComponent } from './components/discuss-screen/discuss-screen.component';
+import { DiscussPageComponent } from './components/discuss-page/discuss-page.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { DiscussScreenComponent } from './components/discuss-screen/discuss-scre
     DiscardedCardsComponent,
     CardCarouselComponent,
     SingleCardComponent,
-    DiscussScreenComponent
+    DiscussScreenComponent,
+    DiscussPageComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +31,7 @@ import { DiscussScreenComponent } from './components/discuss-screen/discuss-scre
     MatCardModule,
     MatIconModule,
     SwiperModule,
-    DragDropModule
+    DragDropModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

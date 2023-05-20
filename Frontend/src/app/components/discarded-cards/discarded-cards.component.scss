@@ -1,4 +1,13 @@
 
+.token {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    &.token1 { background: #931F1D }
+    &.token2 { background: #3F6DA4 }
+    &.token3 { background: #DC851F }
+    &.token4 { background: #417B5A }
+}
 .container {
     height: 100vh;
     display: flex;
@@ -25,11 +34,11 @@
             position: relative;
             cursor: default;
             .back-btn {
-                position: absolute;
-                left: 50px;
-                top: 20px;
-                width: 100px;
-                height: 50px;
+                // position: absolute;
+                // left: 50px;
+                // top: 20px;
+                // width: 100px;
+                // height: 50px;
             }
         }
         .option1 {
@@ -46,62 +55,79 @@
         flex-direction: row;
         padding: 70px 70px 90px;
         height: 100%;
-        .display-card-wrapper {
+        .options {
             width: 400px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 35px;
-            .display-card {
-                background: linear-gradient(180deg, #031926 42.42%, rgba(234, 235, 237, 0) 99.22%);
-                box-shadow: 0px 4px 30px 21px rgba(0, 0, 0, 0.25);
-                border-radius: 40px;
-                color: #fff;
-                width: 220px;
-                height: 450px;
-                padding: 42px;
+            .display-card-wrapper {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                align-items: center;
+                .display-card {
+                    background: linear-gradient(180deg, #031926 42.42%, rgba(234, 235, 237, 0) 99.22%);
+                    box-shadow: 0px 4px 30px 21px rgba(0, 0, 0, 0.25);
+                    border-radius: 40px;
+                    color: #fff;
+                    width: 220px;
+                    padding: 42px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    .label {
+                        font-weight: 700;
+                        font-size: 50px;
+                        line-height: 61px;
+                        margin-bottom: 36px;
+                    }
+                    .preview {
+                        font-size: 16px;
+                        margin-bottom: 70px;
+                    }
+                    .image {
+                        width: 100px;
+                    }
+                }
+            }
+            .tokens-wrapper {
                 display: flex;
                 flex-direction: column;
-                align-items: center;
-                .title {
-                    font-weight: 700;
-                    font-size: 50px;
-                    line-height: 61px;
-                    margin-bottom: 36px;
-                }
-                .text {
-                    font-size: 16px;
-                    margin-bottom: 70px;
-                }
-                .logo {
-                    width: 100px;
-                }
-            }
-        }
-        .discarded-cards-wrapper {
-            width: 400px;
-            .summary {
-                font-weight: 700;
-                font-size: 40px;
-                margin-bottom: 100px;
-            }
-            .disc-cards {
-                font-size: 30px;
-                font-weight: 700;
-                margin-bottom: 24px;
-            }
-            .card-list {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 16px;
-                .card-container {
+                gap: 22px;
+                .token-container {
                     display: flex;
-                    justify-content: center;
+                    gap: 25px;
                     align-items: center;
-                    width: 94px;
-                    height: 90px;
-                    background: linear-gradient(180deg, #031926 -12.22%, rgba(234, 235, 237, 0) 117.62%);
-                    border-radius: 20px;
+                    p {
+                        font-weight: 700;
+                        font-size: 30px;
+                    }
+                }
+            }
+            .discarded-cards-wrapper {
+                .summary {
+                    font-weight: 700;
+                    font-size: 40px;
+                    margin-bottom: 100px;
+                }
+                .disc-cards {
+                    font-size: 30px;
+                    font-weight: 700;
+                    margin-bottom: 24px;
+                }
+                .card-list {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 16px;
+                    .card-container {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 94px;
+                        height: 90px;
+                        background: linear-gradient(180deg, #031926 -12.22%, rgba(234, 235, 237, 0) 117.62%);
+                        border-radius: 20px;
+                    }
                 }
             }
         }
