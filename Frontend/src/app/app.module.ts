@@ -12,7 +12,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SwiperModule } from 'swiper/angular';
 import { SingleCardComponent } from './components/single-card/single-card.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
-import { DiscussScreenComponent } from './components/discuss-screen/discuss-screen.component';
 import { DiscussPageComponent } from './components/discuss-page/discuss-page.component';
 
 @NgModule({
@@ -21,7 +20,6 @@ import { DiscussPageComponent } from './components/discuss-page/discuss-page.com
     DiscardedCardsComponent,
     CardCarouselComponent,
     SingleCardComponent,
-    DiscussScreenComponent,
     DiscussPageComponent
   ],
   imports: [
