@@ -1,13 +1,16 @@
 <mat-card class="mat-card">
-    <div class="border-container">
-        <div class="second-border-container">
-            <mat-card-header> </mat-card-header>
-            <mat-icon>{{ card.imageUrl }}</mat-icon>
-            <mat-card-content>
+            <mat-card-header class="mat-card-header">
+              {{ card.title }} 
+            </mat-card-header>
+        
+            <mat-card-content class="mat-card-content">
               <p>
-                {{ card.title }}
+                <!-- {{ card.content }} -->
               </p>
-            </mat-card-content>                
-        </div>
-    </div>
+              <p>
+            <mat-icon class="mat-icon">{{ card.imageUrl }}</mat-icon>
+              </p>
+            </mat-card-content>  
+            <mat-card-footer class="mat-card-footer">
+            </mat-card-footer>              
 </mat-card>

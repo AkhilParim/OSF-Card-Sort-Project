@@ -1,19 +1,27 @@
 .mat-card{
-    background-color: black;
     height: 100%;
     width: 100%;
-    .border-container{
-        background-color: white;
-        margin: 10px;
-        border-radius: 15px;
-        height: 100%;
-        width: 100%;
+    border: solid black 10px;    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(180deg, #031926 42.42%, rgba(234, 235, 237, 0) 99.22%);
+    box-shadow: 0px 4px 30px 21px rgba(0, 0, 0, 0.25); 
+    color : white;
+    .mat-icon{
+        height: 40%;
+        width: 40%;
+        font-size: 48px;
+        color:rgba(0, 0, 0, 0.25);
     }
-    .second-border-container{
-        margin : 10px;
-        border: solid black 3px;
-        border-radius: 15px;
-        height: 100%;
-        width: 100%;
+    .mat-card-header{
+        height: 5%;
+    }
+    .mat-card-content{
+        font-size: 16px;
+    }
+    .mat-card-footer{
+        height: 5%;
     }
 }
