@@ -20,10 +20,10 @@ export class AppService {
   }
 
   placedCards: Array<any> = [
-    {'label': 'Home5', 'x': 559.94921875, 'y': 155.6015625, 'z-index': 0},
-    {'label': 'Home1', 'x': 753.6953125, 'y': 165.98046875, 'z-index': 0},
-    {'label': 'Home2', 'x': 116.8515625, 'y': 40.43359375, 'z-index': 0},
-    {'label': 'Home6', 'x': 204.640625, 'y': 257.1171875, 'z-index': 1}
+    {'label': 'File', 'x': 559.94921875, 'y': 155.6015625, 'z-index': 0, 'image': 'file-solid'},
+    {'label': 'Gear', 'x': 753.6953125, 'y': 165.98046875, 'z-index': 0, 'image': 'gear-solid'},
+    {'label': 'Shield', 'x': 116.8515625, 'y': 40.43359375, 'z-index': 0, 'image': 'shield-solid'},
+    {'label': 'Filter', 'x': 204.640625, 'y': 257.1171875, 'z-index': 1, 'image': 'filter-solid'}
   ]
 
   todoCards: Array<any> = [
@@ -32,4 +32,11 @@ export class AppService {
     { label: 'Home7', x: 0, y: 0, 'z-index': 0 },
     { label: 'Home8', x: 0, y: 0, 'z-index': 0 },
   ];
+
+  tokens: Array<any> = [
+    { label: 'Angry', color: '#931F1D' },
+    { label: 'Frustrating', color: '#3F6DA4' },
+    { label: 'Okay', color: '#DC851F' },
+    { label: 'Great', color: '#417B5A' }
+  ]
 }

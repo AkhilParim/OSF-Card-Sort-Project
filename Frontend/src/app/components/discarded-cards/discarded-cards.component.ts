@@ -78,7 +78,11 @@ export class DiscardedCardsComponent implements OnInit {
 
   placeToken(event: CdkDragDrop<any[]>) {
     // handles event when a token is placed
-    console.log(this._pointerPosition);
+    const rectZone = this.dropZone.nativeElement.getBoundingClientRect();
+    let y = this._pointerPosition.y - this.off.y - rectZone.top;
+    let x = this._pointerPosition.x - this.off.x - rectZone.left;
+    console.log(x, y);
+    
   }
 
   moved(event: CdkDragMove<any>) {
@@ -114,7 +118,6 @@ export class DiscardedCardsComponent implements OnInit {
       a['z-index'] > b['z-index'] ? 1 : a['z-index'] < b['z-index'] ? -1 : 0
     );
     console.log(this.service.placedCards);
-    
   }
 
   checkIfItemInBounds(x: number, y: number, event: any) {

@@ -1,13 +1,4 @@
 
-.token {
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    &.token1 { background: #931F1D }
-    &.token2 { background: #3F6DA4 }
-    &.token3 { background: #DC851F }
-    &.token4 { background: #417B5A }
-}
 .container {
     height: 100vh;
     display: flex;
@@ -102,6 +93,10 @@
                         font-weight: 700;
                         font-size: 30px;
                     }
+                    .token {
+                        width: 80px !important;
+                        height: 80px !important;
+                    }
                 }
             }
             .discarded-cards-wrapper {
@@ -153,8 +148,21 @@
                 .item-box {
                   position:absolute;
                 }
+                img {
+                    width: 50px;
+                    height: 50px;
+                }
             }
 
         }
     }
+}
+.token {  // needs to be in global scope for cdkDrag
+    border-radius: 50%;
+    width: 40px !important;
+    height: 40px !important;
+    // &.token1 { background: #931F1D }
+    // &.token2 { background: #3F6DA4 }
+    // &.token3 { background: #DC851F }
+    // &.token4 { background: #417B5A }
 }
