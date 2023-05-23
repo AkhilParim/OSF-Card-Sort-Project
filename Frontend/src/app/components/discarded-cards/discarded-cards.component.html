@@ -46,14 +46,14 @@
             <ng-container *ngIf="currentPage == 'token'">
                 <div cdkDropList class="tokens-wrapper"
                     (cdkDropListDropped)="placeToken($event)">
-                    <ng-container *ngFor="let token of service.tokens;">
+                    <ng-container *ngFor="let token of service.tokens | keyvalue">
                         <div class="token-container">
                             <div cdkDrag 
                             (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
-                            [cdkDragData]="token"
+                            [cdkDragData]="token.value"
                             (cdkDragMoved)="cardMoveListener($event)"
-                            class="token" [style.background]="token.color"></div>
-                            <p>{{ token.label }}</p>
+                            class="token" [style.background]="token.value.color"></div>
+                            <p>{{ token.value.label }}</p>
                         </div>
                     </ng-container>
                 </div>
@@ -84,8 +84,6 @@
             </ng-container>
         </div>
 
-
-        
         <div class="drop-zone-wrapper">
             <div class="importance">
                 <p>Less important</p>
@@ -99,22 +97,26 @@
                 (cdkDropListDropped)="placeCard($event)">
                 <ng-container *ngFor="let item of localPlaced">
                     <div cdkDrag
-                        class="item-box"
+                        class="item-box-wrapper"
                         cdkDragBoundary=".drag-zone"
                         [style.top.px]="item.y"
                         [style.left.px]="item.x"
                         [style.z-index]="item['z-index']"
                         (cdkDragStarted)="changeZIndex(item)"
                         (cdkDragDropped)="changePosition($event, item)">
-                        <img src="../../assets/{{ service.cardsData[item.label].image }}.svg" alt="">
+                        <div class="item-box">
+                            <img src="../../assets/{{ service.cardsData[item.label].image }}.svg" alt="">
+                            <ng-container *ngFor="let token of item.tokens; let i = index">
+                                <div class="item-token" id="token-{{ i }}" [style.background]="service.tokens[token].color"></div>
+                            </ng-container>
+                        </div>
                         <div *cdkDragPlaceholder class="field-placeholder"></div>
                     </div>
                 </ng-container>
             </div>
-
         </div>
     </div>
     <div class="footer">
-
+        <button>done</button>
     </div>
 </div>

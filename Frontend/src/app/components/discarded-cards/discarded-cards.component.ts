@@ -31,6 +31,7 @@ export class DiscardedCardsComponent implements OnInit {
     }
     this.localTodo = this.service.todoCards.map(ele => ele);  // cloning todo cards
     this.localPlaced = this.service.placedCards.map(ele => ele);  // cloning placed cards
+    this.localPlaced.sort((a,b) => (a.x > b.x) ? 1 : ((b.x > a.x) ? -1 : 0));  // sorting based on x-coordinates
     if(this.service.displayCard) {
       this.displayCardData = this.service.cardsData[this.service.displayCard]      
     }
@@ -85,7 +86,7 @@ export class DiscardedCardsComponent implements OnInit {
       x < 0 ||
       y > rectZone.height ||
       x > rectZone.width)) {
-      let coordinates = { 'label': event.item.data, 'x': x, 'y': y, 'z-index': 0 }
+      let coordinates = { 'label': event.item.data, 'x': x, 'y': y, 'z-index': 0, tokens: new Set() }
       this.localTodo = this.localTodo.filter(card => card != String(event.item.data));
       this.localPlaced.push(coordinates);
       this.changeZIndex(coordinates);
@@ -100,6 +101,15 @@ export class DiscardedCardsComponent implements OnInit {
     const rectZone = this.dropZone.nativeElement.getBoundingClientRect();
     let y = this._pointerPosition.y - this.off.y - rectZone.top;
     let x = this._pointerPosition.x - this.off.x - rectZone.left;
+
+    for(var i = 0; i < this.localPlaced.length; i++) {
+      let ele = this.localPlaced[i];
+      if(((ele.x < x && x < ele.x+50) || (ele.x < x+40 && x+40 < ele.x+50))
+        && ((ele.y < y && y < ele.y+50) || (ele.y < y+40 && y+40 < ele.y+50))) {   // checking if token is placed on any card
+        this.localPlaced[i].tokens.add(event.item.data.label);
+        break;
+      };
+    };
   }
 
   cardMoveListener(event: CdkDragMove<any>) {
