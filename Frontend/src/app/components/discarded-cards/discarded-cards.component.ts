@@ -5,6 +5,7 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { AppService } from 'src/app/app.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-discarded-cards',
   templateUrl: './discarded-cards.component.html',
@@ -13,21 +14,26 @@ import { AppService } from 'src/app/app.service';
 export class DiscardedCardsComponent implements OnInit {
   off: any;
   _pointerPosition: any;
-  isRankPage: Boolean = false;   // differentiates between Rank and Discard pages
-  isCardPlaced: Boolean = false;   // checks if card has been ranked in Rank page
-  rankCoordinates: Array<any> = [];
-  isTokensPage: Boolean = false;
+  isCardPlaced: Boolean = false;   // checks if card has been placed in drop zone in Rank page
+  currentPage: string = '';  // pages = 'rank' or 'token' or 'discardedCards'
+  localTodo!: Array<any>;
+  localPlaced!: Array<any>;
+  displayCardData!: any;  // data of the card that is displayed in Rank page
 
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
 
-  constructor(public service: AppService) { }
+  constructor(public service: AppService, private router: Router) { }
   
   ngOnInit(): void {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    if(urlParams.has('rank') && urlParams.get('rank') == 'true') {
-      this.rankCoordinates = [{ label: 'Home', x: 0, y: 0, 'z-index': 0 }]
-      this.isRankPage = true;
+    if(urlParams.has('page')) {
+      this.currentPage = String(urlParams.get('page'));
+    }
+    this.localTodo = this.service.todoCards.map(ele => ele);  // cloning todo cards
+    this.localPlaced = this.service.placedCards.map(ele => ele);  // cloning placed cards
+    if(this.service.displayCard) {
+      this.displayCardData = this.service.cardsData[this.service.displayCard]      
     }
   }
 
@@ -65,11 +71,13 @@ export class DiscardedCardsComponent implements OnInit {
       x < 0 ||
       y > rectZone.height ||
       x > rectZone.width)) {
-      event.item.data.y = y;
-      event.item.data.x = x;
-      this.rankCoordinates = [];
-      this.service.placedCards.push(event.item.data);
-      this.changeZIndex(event.item.data);
+
+      let coordinates = { 'label': event.item.data, 'x': x, 'y': y, 'z-index': 0 }
+      
+      this.localTodo = this.localTodo.filter(card => card != String(event.item.data));
+      this.localPlaced.push(coordinates);
+
+      this.changeZIndex(coordinates);
       setTimeout(() => {
         this.isCardPlaced = true;
       }, 100);
@@ -81,16 +89,14 @@ export class DiscardedCardsComponent implements OnInit {
     const rectZone = this.dropZone.nativeElement.getBoundingClientRect();
     let y = this._pointerPosition.y - this.off.y - rectZone.top;
     let x = this._pointerPosition.x - this.off.x - rectZone.left;
-    console.log(x, y);
-    
   }
 
-  moved(event: CdkDragMove<any>) {
+  cardMoveListener(event: CdkDragMove<any>) {
     this._pointerPosition = event.pointerPosition;
   }
 
   changeZIndex(item: any) {
-    this.service.placedCards.forEach((x) => (x['z-index'] = x == item ? 1 : 0));
+    this.localPlaced.forEach((x) => (x['z-index'] = x == item ? 1 : 0));
   }
 
   changePosition(event: CdkDragDrop<any>, field: any) {
@@ -114,10 +120,9 @@ export class DiscardedCardsComponent implements OnInit {
     }
     field.x = x;
     field.y = y;
-    this.service.placedCards = this.service.placedCards.sort((a, b) =>
+    this.localPlaced = this.localPlaced.sort((a, b) =>
       a['z-index'] > b['z-index'] ? 1 : a['z-index'] < b['z-index'] ? -1 : 0
     );
-    console.log(this.service.placedCards);
   }
 
   checkIfItemInBounds(x: number, y: number, event: any) {
@@ -132,4 +137,13 @@ export class DiscardedCardsComponent implements OnInit {
     return !out;
   }
 
+  fixCardPosition() {
+    this.service.todoCards = this.localTodo.map(ele => ele);  // storing new todo cards
+    this.service.placedCards = this.localPlaced.map(ele => ele);  // storing new placed cards
+
+    const queryStringPairs = '/drag-and-drop?page=token';
+    this.router.navigateByUrl(queryStringPairs).then(() => {
+      window.location.reload();
+    });
+  }
 }

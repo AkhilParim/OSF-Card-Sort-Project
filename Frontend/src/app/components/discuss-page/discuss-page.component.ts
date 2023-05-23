@@ -1,6 +1,6 @@
 import { AppService } from './../../app.service';
 import { CdkDragDrop, CdkDragMove } from '@angular/cdk/drag-drop';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,15 +8,23 @@ import { Router } from '@angular/router';
   templateUrl: './discuss-page.component.html',
   styleUrls: ['./discuss-page.component.scss']
 })
-export class DiscussPageComponent {
+export class DiscussPageComponent implements OnInit {
   off: any;
   _pointerPosition: any;
+  displayCardData: any;
   
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
   
   constructor(private router: Router, public service: AppService) { }
+
+  ngOnInit(): void {
+    if(this.service.displayCard) {
+      this.displayCardData = this.service.cardsData[this.service.displayCard]
+    }
+  }
   
-  moved(event: CdkDragMove<any>) {
+  
+  cardMoveListener(event: CdkDragMove<any>) {
     this._pointerPosition = event.pointerPosition;
   }
 
@@ -30,7 +38,7 @@ export class DiscussPageComponent {
       x < 0 ||
       y > rectZone.height ||
       x > rectZone.width)) {
-        const queryStringPairs = '/drag-and-drop?rank=true';
+        const queryStringPairs = '/drag-and-drop?page=rank';
         this.router.navigateByUrl(queryStringPairs);
     }
   }
