@@ -31,13 +31,14 @@
                     (cdkDropListDropped)="placeCard($event)">
                     <div *ngIf="!isCardPlaced" cdkDrag 
                         class="display-card" 
-                        (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
+                        (pointerdown)="off = { x: 0, y: 0 }"
                         [cdkDragData]="displayCardData.label"
                         (cdkDragMoved)="cardMoveListener($event)">
                         <p class="label">{{ displayCardData.label }}</p>
                         <p class="preview">{{ displayCardData.preview }}</p>
                         <img src="../../assets/{{ displayCardData.image }}.svg" alt="image" class="image">
                         <img *cdkDragPreview src="../../assets/{{ displayCardData.image }}.svg" alt="image">
+                        <!-- (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }" -->
                     </div>
                 </div>
             </ng-container>
@@ -68,7 +69,7 @@
                         [cdkDropListConnectedTo]="[dropZone]"
                         cdkDropListSortingDisabled
                         class="card-list"
-                        (cdkDropListDropped)="drop($event)">
+                        (cdkDropListDropped)="placeCard($event)">
                             <div class="card-container"
                                 *ngFor="let item of localTodo"
                                 cdkDrag
@@ -95,7 +96,7 @@
                 [cdkDropListData]="localPlaced"
                 class="drag-zone"
                 cdkDropListSortingDisabled="true"
-                (cdkDropListDropped)="drop($event)">
+                (cdkDropListDropped)="placeCard($event)">
                 <ng-container *ngFor="let item of localPlaced">
                     <div cdkDrag
                         class="item-box"
