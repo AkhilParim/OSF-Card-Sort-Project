@@ -1,10 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import {
-  CdkDragDrop,
-  CdkDragMove,
-} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragMove } from '@angular/cdk/drag-drop';
 import { AppService } from 'src/app/app.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
+
 @Component({
   selector: 'app-discarded-cards',
   templateUrl: './discarded-cards.component.html',
@@ -21,7 +21,7 @@ export class DiscardedCardsComponent implements OnInit {
 
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
 
-  constructor(public service: AppService, private router: Router) { }
+  constructor(public service: AppService, private router: Router, public dialog: MatDialog) { }
   
   ngOnInit(): void {
     const queryString = window.location.search;
@@ -153,6 +153,13 @@ export class DiscardedCardsComponent implements OnInit {
     const queryStringPairs = '/drag-and-drop?page=token';
     this.router.navigateByUrl(queryStringPairs).then(() => {
       window.location.reload();
+    });
+  }
+
+  openDialog() {
+    let dialogRef = this.dialog.open(DialogBoxComponent, { data: this.currentPage == 'token' ? 'tokens' : 'cards' });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Result', result);
     });
   }
 }

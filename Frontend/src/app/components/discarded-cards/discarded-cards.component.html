@@ -117,6 +117,6 @@
         </div>
     </div>
     <div class="footer">
-        <button>done</button>
+        <button *ngIf="currentPage=='token'" (click)="openDialog()">done</button>
     </div>
 </div>
