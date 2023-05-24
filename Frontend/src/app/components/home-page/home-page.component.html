@@ -1,0 +1,22 @@
+<div class="page-container">
+    <div class="buttons">
+        <div class="btn">
+            Discuss
+        </div>
+    </div>
+    <div class="content-container">
+        <div class="used-cards-container">
+            <div class="section-header">
+                Used Cards
+            </div>
+            <div class="card-container">
+                <div class="card-box" *ngFor="let card of usedCards; index as i">
+                    <mat-icon class="mat-icon">{{ card.imageUrl }} </mat-icon>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-container">
+            <app-card-carousel></app-card-carousel>
+        </div>
+    </div>
+</div>
