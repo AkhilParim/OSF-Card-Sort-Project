@@ -5,7 +5,15 @@ import { DiscardedCardsComponent } from './components/discarded-cards/discarded-
 
 const routes: Routes = [
   { path: '', component: DiscussPageComponent },
-  { path: 'drag-and-drop', component: DiscardedCardsComponent},
+  { 
+    path: 'drag-and-drop',
+    children: [
+      { path: '', redirectTo: '/', pathMatch: 'full' },
+      { path: 'rank', component: DiscardedCardsComponent },
+      { path: 'token', component: DiscardedCardsComponent },
+      { path: 'discardedCards', component: DiscardedCardsComponent },
+    ]
+  },
 ];
 
 @NgModule({

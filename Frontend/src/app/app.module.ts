@@ -14,6 +14,8 @@ import { SingleCardComponent } from './components/single-card/single-card.compon
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { DiscussPageComponent } from './components/discuss-page/discuss-page.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DialogBoxComponent } from './components/dialog-box/dialog-box.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import { HomePageComponent } from './components/home-page/home-page.component';
     CardCarouselComponent,
     SingleCardComponent,
     DiscussPageComponent,
-    HomePageComponent
+    HomePageComponent,
+    DialogBoxComponent
   ],
   imports: [
     BrowserModule,
@@ -32,6 +35,7 @@ import { HomePageComponent } from './components/home-page/home-page.component';
     MatIconModule,
     SwiperModule,
     DragDropModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent],

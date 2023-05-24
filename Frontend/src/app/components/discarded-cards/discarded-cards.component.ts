@@ -1,10 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import {
-  CdkDragDrop,
-  CdkDragMove,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragMove } from '@angular/cdk/drag-drop';
 import { AppService } from 'src/app/app.service';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
+
 @Component({
   selector: 'app-discarded-cards',
   templateUrl: './discarded-cards.component.html',
@@ -13,80 +13,105 @@ import { AppService } from 'src/app/app.service';
 export class DiscardedCardsComponent implements OnInit {
   off: any;
   _pointerPosition: any;
-  isRankPage: Boolean = false;   // differentiates between Rank and Discard pages
-  isCardPlaced: Boolean = false;   // checks if card has been ranked in Rank page
-  rankCoordinates: Array<any> = [];
-  isTokensPage: Boolean = false;
+  isCardPlaced: Boolean = false;   // checks if card has been placed in drop zone in Rank page
+  currentPage!: string;  // pages = 'rank' or 'token' or 'discardedCards'
+  localTodo!: Array<any>;
+  localPlaced!: Array<any>;
+  displayCardData!: any;  // data of the card that is displayed in Rank page
 
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
 
-  constructor(public service: AppService) { }
+  constructor(public service: AppService, private router: Router, public dialog: MatDialog) { }
   
   ngOnInit(): void {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    if(urlParams.has('rank') && urlParams.get('rank') == 'true') {
-      this.rankCoordinates = [{ label: 'Home', x: 0, y: 0, 'z-index': 0 }]
-      this.isRankPage = true;
+    this.currentPage = String(this.router.url.split('/').slice(-1));
+    this.localTodo = this.service.todoCards.map(ele => ele);  // cloning todo cards
+    this.localPlaced = this.service.placedCards.map(ele => ele);  // cloning placed cards
+    this.localPlaced.sort((a,b) => (a.x > b.x) ? 1 : ((b.x > a.x) ? -1 : 0));  // sorting based on x-coordinates
+    if(this.service.displayCard) {
+      this.displayCardData = this.service.cardsData[this.service.displayCard]      
     }
   }
 
-  drop(event: CdkDragDrop<any[]>) {  
-    // handles event when discarded card is placed on the drop zone
-    if (event.previousContainer === event.container) {
-      return;
-    }
-    let y = this._pointerPosition.y -
-      this.off.y - this.dropZone.nativeElement.getBoundingClientRect().top;
+  // drop(event: CdkDragDrop<any[]>) {  
+  //   // handles event when discarded card is placed on the drop zone
+  //   if (event.previousContainer === event.container) {
+  //     return;
+  //   }
+  //   let y = this._pointerPosition.y -
+  //     this.off.y - this.dropZone.nativeElement.getBoundingClientRect().top;
 
-    let x = this._pointerPosition.x -
-      this.off.x - this.dropZone.nativeElement.getBoundingClientRect().left;
+  //   let x = this._pointerPosition.x -
+  //     this.off.x - this.dropZone.nativeElement.getBoundingClientRect().left;
 
-    if(this.checkIfItemInBounds(x, y, event)) {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-      event.item.data.y = y;
-      event.item.data.x = x;
-      this.changeZIndex(event.item.data);
-    }
-  }
+  //   if(this.checkIfItemInBounds(x, y, event)) {
+  //     transferArrayItem(
+  //       event.previousContainer.data,
+  //       event.container.data,
+  //       event.previousIndex,
+  //       event.currentIndex
+  //     );
+  //     event.item.data.y = y;
+  //     event.item.data.x = x;
+  //     this.changeZIndex(event.item.data);
+  //   }
+  // }
+
+  // checkIfItemInBounds(x: number, y: number, event: any) {
+  //   const rectZone = this.dropZone.nativeElement.getBoundingClientRect();
+  //   const rectElement = event.item.element.nativeElement.getBoundingClientRect();
+  //   const out =
+  //     y < 0 ||
+  //     x < 0 ||
+  //     y > rectZone.height - rectElement.height ||
+  //     x > rectZone.width - rectElement.width;
+  //   return !out;
+  // }
 
   placeCard(event: CdkDragDrop<any[]>) {
     // handles event when card in the Rank page is placed on the drop zone
+    if (event.previousContainer === event.container) {
+      return;
+    }
+
     const rectZone = this.dropZone.nativeElement.getBoundingClientRect();
-    let y = this._pointerPosition.y - rectZone.top;
-    let x = this._pointerPosition.x - rectZone.left;
-    
+    let x = this._pointerPosition.x - this.off.x - rectZone.left;
+    let y = this._pointerPosition.y - this.off.y - rectZone.top;
+
     if(!(y < 0 ||
       x < 0 ||
       y > rectZone.height ||
       x > rectZone.width)) {
-      event.item.data.y = y;
-      event.item.data.x = x;
-      this.rankCoordinates = [];
-      this.service.placedCards.push(event.item.data);
-      this.changeZIndex(event.item.data);
-      setTimeout(() => {
-        this.isCardPlaced = true;
-      }, 100);
+      let coordinates = { 'label': event.item.data, 'x': x, 'y': y, 'z-index': 0, tokens: new Set() }
+      this.localTodo = this.localTodo.filter(card => card != String(event.item.data));
+      this.localPlaced.push(coordinates);
+      this.changeZIndex(coordinates);
+      this.isCardPlaced = true;
     }
   }
 
   placeToken(event: CdkDragDrop<any[]>) {
     // handles event when a token is placed
-    console.log(this._pointerPosition);
+    const rectZone = this.dropZone.nativeElement.getBoundingClientRect();
+    let y = this._pointerPosition.y - this.off.y - rectZone.top;
+    let x = this._pointerPosition.x - this.off.x - rectZone.left;
+
+    for(var i = 0; i < this.localPlaced.length; i++) {
+      let ele = this.localPlaced[i];
+      if(((ele.x < x && x < ele.x+50) || (ele.x < x+40 && x+40 < ele.x+50))
+        && ((ele.y < y && y < ele.y+50) || (ele.y < y+40 && y+40 < ele.y+50))) {   // checking if token is placed on any card
+        this.localPlaced[i].tokens.add(event.item.data.label);
+        break;
+      };
+    };
   }
 
-  moved(event: CdkDragMove<any>) {
+  cardMoveListener(event: CdkDragMove<any>) {
     this._pointerPosition = event.pointerPosition;
   }
 
   changeZIndex(item: any) {
-    this.service.placedCards.forEach((x) => (x['z-index'] = x == item ? 1 : 0));
+    this.localPlaced.forEach((x) => (x['z-index'] = x == item ? 1 : 0));
   }
 
   changePosition(event: CdkDragDrop<any>, field: any) {
@@ -110,23 +135,35 @@ export class DiscardedCardsComponent implements OnInit {
     }
     field.x = x;
     field.y = y;
-    this.service.placedCards = this.service.placedCards.sort((a, b) =>
+    this.localPlaced = this.localPlaced.sort((a, b) =>
       a['z-index'] > b['z-index'] ? 1 : a['z-index'] < b['z-index'] ? -1 : 0
     );
-    console.log(this.service.placedCards);
-    
   }
 
-  checkIfItemInBounds(x: number, y: number, event: any) {
-    const rectZone = this.dropZone.nativeElement.getBoundingClientRect();
-    const rectElement = event.item.element.nativeElement.getBoundingClientRect();
-    const out =
-      y < 0 ||
-      x < 0 ||
-      y > rectZone.height - rectElement.height ||
-      x > rectZone.width - rectElement.width;
-
-    return !out;
+  fixCardPosition() {
+    if(this.localTodo.length != 0) {
+      this.service.todoCards = this.localTodo.map(ele => ele);  // storing new todo cards
+      this.service.placedCards = this.localPlaced.map(ele => ele);  // storing new placed cards
+      // this.router.navigate(['/']);
+    } else {
+      this.openDialog();
+    }
   }
 
+  openDialog() {
+    let dialogRef = this.dialog.open(DialogBoxComponent, { data: this.currentPage == 'token' ? 'tokens' : 'cards' });
+    dialogRef.afterClosed().subscribe(result => {
+      this.handleNextPage(result);
+    });
+  }
+
+  handleNextPage(result: string) {
+    if(this.currentPage == 'rank') {
+      if(result == 'true') {
+        this.router.navigate(['drag-and-drop/token'])
+      } else {
+        this.router.navigate(['drag-and-drop/discardedCards'])
+      }
+    }
+  }
 }
