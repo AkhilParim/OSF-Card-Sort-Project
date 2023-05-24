@@ -141,15 +141,29 @@ export class DiscardedCardsComponent implements OnInit {
   }
 
   fixCardPosition() {
-    this.service.todoCards = this.localTodo.map(ele => ele);  // storing new todo cards
-    this.service.placedCards = this.localPlaced.map(ele => ele);  // storing new placed cards
-    this.router.navigate(['/drag-and-drop/token'])
+    if(this.localTodo.length != 0) {
+      this.service.todoCards = this.localTodo.map(ele => ele);  // storing new todo cards
+      this.service.placedCards = this.localPlaced.map(ele => ele);  // storing new placed cards
+      // this.router.navigate(['/']);
+    } else {
+      this.openDialog();
+    }
   }
 
   openDialog() {
     let dialogRef = this.dialog.open(DialogBoxComponent, { data: this.currentPage == 'token' ? 'tokens' : 'cards' });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Result', result);
+      this.handleNextPage(result);
     });
+  }
+
+  handleNextPage(result: string) {
+    if(this.currentPage == 'rank') {
+      if(result == 'true') {
+        this.router.navigate(['drag-and-drop/token'])
+      } else {
+        this.router.navigate(['drag-and-drop/discardedCards'])
+      }
+    }
   }
 }

@@ -11,6 +11,7 @@ const routes: Routes = [
       { path: '', redirectTo: '/', pathMatch: 'full' },
       { path: 'rank', component: DiscardedCardsComponent },
       { path: 'token', component: DiscardedCardsComponent },
+      { path: 'discardedCards', component: DiscardedCardsComponent },
     ]
   },
 ];
