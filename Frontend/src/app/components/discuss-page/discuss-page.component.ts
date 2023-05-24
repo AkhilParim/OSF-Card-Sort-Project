@@ -38,8 +38,7 @@ export class DiscussPageComponent implements OnInit {
       x < 0 ||
       y > rectZone.height ||
       x > rectZone.width)) {
-        const queryStringPairs = '/drag-and-drop?page=rank';
-        this.router.navigateByUrl(queryStringPairs);
+        this.router.navigate(['/drag-and-drop/rank']);
     }
   }
 }

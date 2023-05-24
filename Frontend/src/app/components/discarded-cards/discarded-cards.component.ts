@@ -14,7 +14,7 @@ export class DiscardedCardsComponent implements OnInit {
   off: any;
   _pointerPosition: any;
   isCardPlaced: Boolean = false;   // checks if card has been placed in drop zone in Rank page
-  currentPage: string = '';  // pages = 'rank' or 'token' or 'discardedCards'
+  currentPage!: string;  // pages = 'rank' or 'token' or 'discardedCards'
   localTodo!: Array<any>;
   localPlaced!: Array<any>;
   displayCardData!: any;  // data of the card that is displayed in Rank page
@@ -24,11 +24,7 @@ export class DiscardedCardsComponent implements OnInit {
   constructor(public service: AppService, private router: Router, public dialog: MatDialog) { }
   
   ngOnInit(): void {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    if(urlParams.has('page')) {
-      this.currentPage = String(urlParams.get('page'));
-    }
+    this.currentPage = String(this.router.url.split('/').slice(-1));
     this.localTodo = this.service.todoCards.map(ele => ele);  // cloning todo cards
     this.localPlaced = this.service.placedCards.map(ele => ele);  // cloning placed cards
     this.localPlaced.sort((a,b) => (a.x > b.x) ? 1 : ((b.x > a.x) ? -1 : 0));  // sorting based on x-coordinates
@@ -90,9 +86,7 @@ export class DiscardedCardsComponent implements OnInit {
       this.localTodo = this.localTodo.filter(card => card != String(event.item.data));
       this.localPlaced.push(coordinates);
       this.changeZIndex(coordinates);
-      setTimeout(() => {
-        this.isCardPlaced = true;
-      }, 100);
+      this.isCardPlaced = true;
     }
   }
 
@@ -149,11 +143,7 @@ export class DiscardedCardsComponent implements OnInit {
   fixCardPosition() {
     this.service.todoCards = this.localTodo.map(ele => ele);  // storing new todo cards
     this.service.placedCards = this.localPlaced.map(ele => ele);  // storing new placed cards
-
-    const queryStringPairs = '/drag-and-drop?page=token';
-    this.router.navigateByUrl(queryStringPairs).then(() => {
-      window.location.reload();
-    });
+    this.router.navigate(['/drag-and-drop/token'])
   }
 
   openDialog() {

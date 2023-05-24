@@ -12,7 +12,7 @@
         justify-content: center;
         .btn {
             height: 100px;
-            width: 700px;
+            width: 100%;
             font-size: 50px;
             display: flex;
             justify-content: center;
@@ -153,6 +153,9 @@
                 img {
                     width: 50px;   // this value should be same as value in placeToken function
                     height: 50px;   // this value should be same as value in placeToken function
+                }
+                .cdk-drag.display-card {
+                    display: none;
                 }
             }
 

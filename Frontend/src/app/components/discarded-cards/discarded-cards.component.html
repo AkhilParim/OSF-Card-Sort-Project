@@ -15,9 +15,11 @@
                 <p *ngIf="currentPage != 'rank'">Play discarded cards</p>
                 <p *ngIf="currentPage == 'rank'">Cards</p>
             </div>
-            <div class="btn option2">
-                <p *ngIf="currentPage != 'rank'">Reposition</p>
-                <p *ngIf="currentPage == 'rank'" (click)="fixCardPosition()">{{ localTodo.length ? 'Lock it in' : 'Done' }}</p>
+            <div  *ngIf="currentPage != 'rank'" class="btn option2">
+                <p>Reposition</p>
+            </div>
+            <div  class="btn option2" *ngIf="currentPage == 'rank'"  (click)="fixCardPosition()">
+                <p>{{ localTodo.length ? 'Lock it in' : 'Done' }}</p>
             </div>
         </ng-template>
     </div>
@@ -27,6 +29,7 @@
             <ng-container *ngIf="currentPage == 'rank'">
                 <div class="display-card-wrapper"
                     cdkDropList
+                    [cdkDropListConnectedTo]="[dropZone]"
                     [cdkDropListData]="[displayCardData.label]"
                     (cdkDropListDropped)="placeCard($event)">
                     <div *ngIf="!isCardPlaced" cdkDrag 
