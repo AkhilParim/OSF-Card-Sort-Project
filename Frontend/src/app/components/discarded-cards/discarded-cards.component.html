@@ -106,6 +106,7 @@
                         [style.left.px]="item.x"
                         [style.z-index]="item['z-index']"
                         (cdkDragStarted)="changeZIndex(item)"
+                        [cdkDragDisabled]="currentPage == 'rank' && item.label == displayCardData.label ? false : true"
                         (cdkDragDropped)="changePosition($event, item)">
                         <div class="item-box">
                             <img src="../../assets/{{ service.cardsData[item.label].image }}.svg" alt="">
@@ -120,6 +121,6 @@
         </div>
     </div>
     <div class="footer">
-        <button *ngIf="currentPage=='token'" (click)="openDialog()">done</button>
+        <button *ngIf="currentPage != 'rank'" (click)="openDialog()">done</button>
     </div>
 </div>

@@ -153,17 +153,19 @@ export class DiscardedCardsComponent implements OnInit {
   openDialog() {
     let dialogRef = this.dialog.open(DialogBoxComponent, { data: this.currentPage == 'token' ? 'tokens' : 'cards' });
     dialogRef.afterClosed().subscribe(result => {
-      this.handleNextPage(result);
+      if(result == 'true') {
+        this.handleNextPage();
+      }
     });
   }
 
-  handleNextPage(result: string) {
+  handleNextPage() {
+    this.service.todoCards = this.localTodo.map(ele => ele);  // storing new todo cards
+    this.service.placedCards = this.localPlaced.map(ele => ele);  // storing new placed cards
     if(this.currentPage == 'rank') {
-      if(result == 'true') {
-        this.router.navigate(['drag-and-drop/token'])
-      } else {
-        this.router.navigate(['drag-and-drop/discardedCards'])
-      }
+      this.router.navigate(['drag-and-drop/discardedCards'])
+    } else if(this.currentPage == 'discardedCards') {
+      this.router.navigate(['drag-and-drop/token'])
     }
   }
 }
