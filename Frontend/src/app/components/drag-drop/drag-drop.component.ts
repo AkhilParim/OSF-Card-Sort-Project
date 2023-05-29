@@ -6,11 +6,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 
 @Component({
-  selector: 'app-discarded-cards',
-  templateUrl: './discarded-cards.component.html',
-  styleUrls: ['./discarded-cards.component.scss']
+  selector: 'app-drag-drop',
+  templateUrl: './drag-drop.component.html',
+  styleUrls: ['./drag-drop.component.scss']
 })
-export class DiscardedCardsComponent implements OnInit {
+export class DragDropComponent implements OnInit {
   off: any;
   _pointerPosition: any;
   isCardPlaced: Boolean = false;   // checks if card has been placed in drop zone in Rank page

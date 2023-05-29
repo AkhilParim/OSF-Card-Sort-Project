@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DiscardedCardsComponent } from './discarded-cards.component';
+import { DragDropComponent } from './drag-drop.component';
 
-describe('DiscardedCardsComponent', () => {
-  let component: DiscardedCardsComponent;
-  let fixture: ComponentFixture<DiscardedCardsComponent>;
+describe('DragDropComponent', () => {
+  let component: DragDropComponent;
+  let fixture: ComponentFixture<DragDropComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DiscardedCardsComponent ]
+      declarations: [ DragDropComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DiscardedCardsComponent);
+    fixture = TestBed.createComponent(DragDropComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

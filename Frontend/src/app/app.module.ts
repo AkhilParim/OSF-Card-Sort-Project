@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DiscardedCardsComponent } from './components/discarded-cards/discarded-cards.component';
+import { DragDropComponent } from './components/drag-drop/drag-drop.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CardCarouselComponent } from './components/card-carousel/card-carousel.component';
 import {MatCardModule} from '@angular/material/card';
@@ -20,7 +20,7 @@ import { DialogBoxComponent } from './components/dialog-box/dialog-box.component
 @NgModule({
   declarations: [
     AppComponent,
-    DiscardedCardsComponent,
+    DragDropComponent,
     CardCarouselComponent,
     SingleCardComponent,
     DiscussPageComponent,
