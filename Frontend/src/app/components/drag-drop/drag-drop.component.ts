@@ -14,11 +14,11 @@ export class DragDropComponent implements OnInit {
   off: any;
   _pointerPosition: any;
   isCardPlaced: Boolean = false;   // checks if card has been placed in drop zone in Rank page
-  currentPage!: string;  // pages = 'rank' or 'token' or 'discardedCards'
+  currentPage!: string;  // pages = 'rank' or 'token' or 'summary'
   localTodo!: Array<any>;
   localPlaced!: Array<any>;
   displayCardData!: any;  // data of the card that is displayed in Rank page
-  stateOfSummaryPage: string = '';   // discardedCards or Reposition state
+  stateOfSummaryPage: string = '';   // discardedCards or reposition state
 
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
 
@@ -173,8 +173,8 @@ export class DragDropComponent implements OnInit {
     this.service.placedCards = this.localPlaced.map(ele => ele);  // storing new placed cards
     if(this.currentPage == 'rank') {
       this.service.todoCards = this.localTodo.map(ele => ele);  // storing new todo cards
-      this.router.navigate(['drag-and-drop/discardedCards'])
-    } else if(this.currentPage == 'discardedCards') {
+      this.router.navigate(['drag-and-drop/summary'])
+    } else if(this.currentPage == 'summary') {
       this.service.discardedCards = this.localTodo.map(ele => ele);  // storing new discarded cards
       this.router.navigate(['drag-and-drop/token'])
     }

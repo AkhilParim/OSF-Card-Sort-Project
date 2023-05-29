@@ -11,7 +11,7 @@ const routes: Routes = [
       { path: '', redirectTo: '/', pathMatch: 'full' },
       { path: 'rank', component: DragDropComponent },
       { path: 'token', component: DragDropComponent },
-      { path: 'discardedCards', component: DragDropComponent },
+      { path: 'summary', component: DragDropComponent },
     ]
   },
 ];
