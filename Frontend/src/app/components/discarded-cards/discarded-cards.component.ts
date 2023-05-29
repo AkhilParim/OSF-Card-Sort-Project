@@ -18,6 +18,7 @@ export class DiscardedCardsComponent implements OnInit {
   localTodo!: Array<any>;
   localPlaced!: Array<any>;
   displayCardData!: any;  // data of the card that is displayed in Rank page
+  stateOfSummaryPage: string = '';   // discardedCards or Reposition state
 
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
 
@@ -25,7 +26,11 @@ export class DiscardedCardsComponent implements OnInit {
   
   ngOnInit(): void {
     this.currentPage = String(this.router.url.split('/').slice(-1));
-    this.localTodo = this.service.todoCards.map(ele => ele);  // cloning todo cards
+    if(this.currentPage == 'rank') {
+      this.localTodo = this.service.todoCards.map(ele => ele);  // cloning todo cards
+    } else {  // Summary Page
+      this.localTodo = this.service.discardedCards.map(ele => ele);
+    }
     this.localPlaced = this.service.placedCards.map(ele => ele);  // cloning placed cards
     this.localPlaced.sort((a,b) => (a.x > b.x) ? 1 : ((b.x > a.x) ? -1 : 0));  // sorting based on x-coordinates
     if(this.service.displayCard) {
@@ -154,18 +159,29 @@ export class DiscardedCardsComponent implements OnInit {
     let dialogRef = this.dialog.open(DialogBoxComponent, { data: this.currentPage == 'token' ? 'tokens' : 'cards' });
     dialogRef.afterClosed().subscribe(result => {
       if(result == 'true') {
-        this.handleNextPage();
+        if(this.currentPage != 'token') {
+          this.handleSummaryNextPage();
+        } else {
+          this.handleTokenNextPage();
+        }
       }
     });
   }
 
-  handleNextPage() {
-    this.service.todoCards = this.localTodo.map(ele => ele);  // storing new todo cards
+  handleSummaryNextPage() {
+    // handles the redirection to next page from summary page
     this.service.placedCards = this.localPlaced.map(ele => ele);  // storing new placed cards
     if(this.currentPage == 'rank') {
+      this.service.todoCards = this.localTodo.map(ele => ele);  // storing new todo cards
       this.router.navigate(['drag-and-drop/discardedCards'])
     } else if(this.currentPage == 'discardedCards') {
+      this.service.discardedCards = this.localTodo.map(ele => ele);  // storing new discarded cards
       this.router.navigate(['drag-and-drop/token'])
     }
+  }
+
+  handleTokenNextPage() {
+    // handles the redirection to next page from token page
+
   }
 }

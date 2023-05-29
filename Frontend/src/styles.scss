@@ -6,8 +6,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;  }
     box-sizing: border-box;
 }
 
+
+// rotating border CSS
 .rotating-border {
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,14 +20,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;  }
     z-index: -1;
     inset: -4px;
 }   
-
-.rotating-border h2 {
-    color: rgb(226, 226, 226);
-    text-shadow: 2px 2px black;
-    font-size: 8em;
-    z-index: 2;
-}
-
 .rotating-border::before {
     content: '';
     position: absolute;
@@ -35,20 +28,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;  }
     background: conic-gradient(from 180deg at 50% 50%, #BC3908 0deg, rgba(0, 0, 0, 0) 360deg);
     animation: rotate 4s linear infinite;
 }
-
-// .rotating-border::after {
-//     content: '';
-//     position: absolute;
-//     inset: 5px;
-//     border-radius: 20px;
-//     background: linear-gradient(180deg, #031926 -12.22%, rgba(234, 235, 237, 0) 117.62%);
-// }
-
 @keyframes rotate {
-    from {
-        transform: rotate(360deg);
-    }
-    to {
-        transform: rotate(0deg);
-    }
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+}
+.cdk-drag-preview .rotating-border {
+    display: none;
 }
