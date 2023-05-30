@@ -3,9 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { DiscussPageComponent } from './components/discuss-page/discuss-page.component';
 import { DragDropComponent } from './components/drag-drop/drag-drop.component';
 import { EndPageComponent } from './components/end-page/end-page.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
 
 const routes: Routes = [
-  { path: '', component: DiscussPageComponent },
+  { path: '', component: HomePageComponent },
+  { path: 'discuss', component: DiscussPageComponent},
   { 
     path: 'drag-and-drop',
     children: [

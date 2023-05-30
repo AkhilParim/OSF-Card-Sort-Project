@@ -15,13 +15,14 @@ export class DragDropComponent implements OnInit {
   off: any;
   _pointerPosition: any;
   isCardPlaced: Boolean = false;   // checks if card has been placed in drop zone in Rank page
-  localTodo!: Array<string>;
+  localDiscardedCards!: Array<string>;
   localPlaced!: Array<IPlacedCard>;
   displayCardData!: ICardData;  // data of the card that is displayed in Rank page
   currentPageAndState: ICurrentPageAndState = {
     page: '',  // pages = 'rank' or 'token' or 'summary'
     state: ''  // statesOfSummaryPage = 'discardedCards' or 'reposition',     statesOfTokensPage = 'tokenSummary' or 'tokenChanges'
   };
+  isLastCard: Boolean = this.service.placedCards.length + this.service.discardedCards.length + 1 >= Object.keys(this.service.cardsData).length;
 
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
 
@@ -30,15 +31,12 @@ export class DragDropComponent implements OnInit {
   ngOnInit(): void {
     this.currentPageAndState.page = String(this.router.url.split('/').slice(-1)) as PageTypes;
     if(this.currentPageAndState.page == 'rank') {
-      this.localTodo = this.service.todoCards.map(ele => ele);  // cloning todo cards
+      this.displayCardData = this.service.cardsData[this.service.displayCard];  
     } else {  // Summary Page
-      this.localTodo = this.service.discardedCards.map(ele => ele);
+      this.localDiscardedCards = this.service.discardedCards.map(ele => ele);   // cloning todo cards
     }
     this.localPlaced = this.service.placedCards.map(ele => ele);  // cloning placed cards
     this.localPlaced.sort((a,b) => (a.x > b.x) ? 1 : ((b.x > a.x) ? -1 : 0));  // sorting based on x-coordinates
-    if(this.service.displayCard) {
-      this.displayCardData = this.service.cardsData[this.service.displayCard]      
-    }
   }
 
   placeCard(event: CdkDragDrop<any[]>) {
@@ -56,7 +54,9 @@ export class DragDropComponent implements OnInit {
       y > rectZone.height ||
       x > rectZone.width)) {
       let coordinates: IPlacedCard = { 'label': event.item.data, 'x': x, 'y': y, 'z-index': 0, tokens: new Set() }
-      this.localTodo = this.localTodo.filter(card => card != String(event.item.data));
+      if(this.currentPageAndState.page == 'summary') {
+        this.localDiscardedCards = this.localDiscardedCards.filter(card => card != String(event.item.data));
+      }
       this.localPlaced.push(coordinates);
       this.changeZIndex(coordinates);
       this.isCardPlaced = true;
@@ -113,11 +113,11 @@ export class DragDropComponent implements OnInit {
     );
   }
 
-  fixCardPosition() {
-    if(this.localTodo.length != 0) {
-      this.service.todoCards = this.localTodo.map(ele => ele);  // storing new todo cards
+  fixRankCardPosition() {
+    if(!this.isLastCard) {
       this.service.placedCards = this.localPlaced.map(ele => ele);  // storing new placed cards
-      // this.router.navigate(['/']);
+      this.service.discardedCards = this.service.discardedCards.filter(ele => ele != this.displayCardData.label);
+      this.router.navigate(['/']);
     } else {
       this.openDialog();
     }
@@ -140,10 +140,9 @@ export class DragDropComponent implements OnInit {
     // handles the redirection to next page from summary page
     this.service.placedCards = this.localPlaced.map(ele => ele);  // storing new placed cards
     if(this.currentPageAndState.page == 'rank') {
-      this.service.todoCards = this.localTodo.map(ele => ele);  // storing new todo cards
       this.router.navigate(['drag-and-drop/summary'])
     } else if(this.currentPageAndState.page == 'summary') {
-      this.service.discardedCards = this.localTodo.map(ele => ele);  // storing new discarded cards
+      this.service.discardedCards = this.localDiscardedCards.map(ele => ele);  // storing new discarded cards
       this.router.navigate(['drag-and-drop/token'])
     }
   }
@@ -156,5 +155,10 @@ export class DragDropComponent implements OnInit {
       this.service.placedCards = this.localPlaced.map(ele => ele);  // storing placed cards with tokens added
       this.router.navigate(['end'])
     }
+  }
+
+  NavigateToHome() {
+    this.service.discardedCards = this.service.discardedCards.filter(ele => ele != this.displayCardData.label);
+    this.router.navigate(['/']);
   }
 }

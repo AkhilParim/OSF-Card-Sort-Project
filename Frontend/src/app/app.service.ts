@@ -8,7 +8,7 @@ export class AppService {
 
   constructor() { }
 
-  displayCard = 'Home';  // card to be displayed in Display and Rank pages
+  displayCard = '';  // card to be displayed in Display and Rank pages
 
   cardsData: ICardsData = {
     'Home': {
@@ -42,29 +42,15 @@ export class AppService {
       content: `L. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`
     }
   }
-
-  usedCards: Array<any> = [
-    'Home',
-    'File',
-    'Gear',
-    'Shield',
-    'Filter'
-  ]
   
   placedCards: Array<IPlacedCard> = [
     // {'label': 'File', 'x': 559.94921875, 'y': 155.6015625, 'z-index': 0, tokens: new Set()},
-    {'label': 'Gear', 'x': 753.6953125, 'y': 165.98046875, 'z-index': 0, tokens: new Set()},
-    {'label': 'Shield', 'x': 116.8515625, 'y': 40.43359375, 'z-index': 0, tokens: new Set()},
-    {'label': 'Filter', 'x': 204.640625, 'y': 257.1171875, 'z-index': 0, tokens: new Set()}
+    // {'label': 'Gear', 'x': 753.6953125, 'y': 165.98046875, 'z-index': 0, tokens: new Set()},
+    // {'label': 'Shield', 'x': 116.8515625, 'y': 40.43359375, 'z-index': 0, tokens: new Set()},
+    // {'label': 'Filter', 'x': 204.640625, 'y': 257.1171875, 'z-index': 0, tokens: new Set()}
   ]
 
-  todoCards: Array<string> = [
-    'Home'
-  ]
-
-  discardedCards: Array<string> = [
-    'File'
-  ]
+  discardedCards: Array<string> = []
 
   tokens: ITokens = {
     'Angry': { label: 'Angry', color: '#931F1D' },

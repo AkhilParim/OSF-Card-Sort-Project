@@ -5,7 +5,7 @@
                 <!-- <div class="back-btn">
                     <img src="" alt="back">
                 </div> -->
-                <p *ngIf="currentPageAndState.page == 'rank'">Cards</p>
+                <p *ngIf="currentPageAndState.page == 'rank'" (click)="NavigateToHome();">Cards</p>
                 <p *ngIf="currentPageAndState.page == 'token' && currentPageAndState.state == ''">Tokens</p>
                 <p *ngIf="currentPageAndState.page == 'token' && currentPageAndState.state != ''"
                 (click)="currentPageAndState.state = 'tokenChanges'" style="cursor: pointer;">Make changes</p>
@@ -17,7 +17,7 @@
             <div class="btn option1" *ngIf="currentPageAndState.page != 'rank'" (click)="currentPageAndState.state = currentPageAndState.state == 'discardedCards' ? '' : 'discardedCards'">
                 <p>Play discarded cards</p>
             </div>
-            <div class="btn option1" *ngIf="currentPageAndState.page == 'rank'">
+            <div class="btn option1" *ngIf="currentPageAndState.page == 'rank'" (click)="NavigateToHome();">
                 <p>Cards</p>
             </div>
 
@@ -25,8 +25,8 @@
             <div class="btn option2" *ngIf="currentPageAndState.page != 'rank'" (click)="currentPageAndState.state = currentPageAndState.state == 'reposition' ? '' : 'reposition'">
                 <p>Reposition</p>
             </div>
-            <div  class="btn option2" *ngIf="currentPageAndState.page == 'rank'"  (click)="fixCardPosition()">
-                <p>{{ localTodo.length ? 'Lock it in' : 'Done' }}</p>
+            <div  class="btn option2" *ngIf="currentPageAndState.page == 'rank'"  (click)="fixRankCardPosition()">
+                <p>{{ isLastCard ? 'Done' : 'Lock it in' }}</p>
             </div>
         </ng-template>
     </div>
@@ -60,13 +60,13 @@
                     <p class="disc-cards">Discarded Cards</p>
                     <div cdkDropList
                         #todoList="cdkDropList"
-                        [cdkDropListData]="localTodo"
+                        [cdkDropListData]="localDiscardedCards"
                         [cdkDropListConnectedTo]="[dropZone]"
                         cdkDropListSortingDisabled
                         class="card-list"
                         (cdkDropListDropped)="placeCard($event)">
                             <div class="card-container"
-                                *ngFor="let item of localTodo"
+                                *ngFor="let item of localDiscardedCards"
                                 cdkDrag
                                 [cdkDragDisabled]="currentPageAndState.state != 'discardedCards'"
                                 (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"

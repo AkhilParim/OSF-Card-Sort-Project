@@ -20,7 +20,8 @@ export class DiscussPageComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.service.displayCard) {
-      this.displayCardData = this.service.cardsData[this.service.displayCard]
+      this.displayCardData = this.service.cardsData[this.service.displayCard];
+      this.service.discardedCards = this.service.discardedCards.filter(ele => ele != this.service.displayCard);
     }
   }
   

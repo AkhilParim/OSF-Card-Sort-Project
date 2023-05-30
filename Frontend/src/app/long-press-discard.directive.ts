@@ -10,7 +10,6 @@ export class LongPressDiscardDirective {
   private longPressActive = false;
 
   @HostListener('mousedown') onMouseDown(): void {
-    console.log('mousedown - The long press event was fired!');
     this.longPressActive = false;
     this.timeoutId = setTimeout(() => {
       this.appLongPressDiscard.emit();
@@ -20,7 +19,6 @@ export class LongPressDiscardDirective {
 
   @HostListener('touchstart') onTouchStart(): void {
 
-    console.log('touchstart - The long press event was fired!');
     this.longPressActive = false;
     this.timeoutId = setTimeout(() => {
       // this.appLongPressDiscard.emit();
@@ -30,7 +28,6 @@ export class LongPressDiscardDirective {
   }
 
   @HostListener('mouseup') onMouseUp(): void {
-    console.log('mouseup - The long press event was fired!');
     clearTimeout(this.timeoutId);
     console.log(this.longPressActive);
     if(this.longPressActive) {
@@ -43,7 +40,6 @@ export class LongPressDiscardDirective {
   }
 
   @HostListener('touchend') onTouchEnd(): void {
-    console.log('touchend - The long press event was fired!');
     clearTimeout(this.timeoutId);
     console.log(this.longPressActive);
     if(this.longPressActive) {

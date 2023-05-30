@@ -1,4 +1,6 @@
+import { CdkDragMove, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 
 @Component({
@@ -9,49 +11,42 @@ import { AppService } from 'src/app/app.service';
 
 
 export class HomePageComponent {
+  off: any;
+  _pointerPosition: any;
 
   @Input() appLongPressDiscard: any ; 
 
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
 
-
-  localUsedCards: Array<any> = [];
-
-  localAllCards: any; 
-  allCardArray: Array<any> = [];
-  localDiscardedCards: Array<any> = [];
-
-  constructor(public appService: AppService) { 
+  constructor(public service: AppService, private router: Router) { 
   }
 
   ngOnInit(): void {
-    this.localUsedCards = this.appService.usedCards.map(ele => ele);
-    this.localAllCards = this.appService.cardsData;
-    this.localDiscardedCards = this.appService.discardedCards;
-    this.allCardArray = Object.values(this.localAllCards);
-    console.log(this.localAllCards);
-    console.log(this.allCardArray);
   }
 
-  onLongPressDiscard(card: any,index : any, event: any): void {
-    console.log('The long press event was fired!');
-    console.log('The discarded card is: ', card);
-    console.log('The discarded card index is: ', index);
-    console.log('The discarded card event is: ', event);
-
-    // add the card to the discarded cards array in service as well as in the component list
-
-
-    this.appService.discardedCards.push(card.label);
-    this.localDiscardedCards.push(card.label);
-    this.localUsedCards = this.appService.usedCards.map(ele => ele);
+  onLongPressDiscard(card: any, event: any): void {
+    if(!this.service.discardedCards.includes(card.label)) {
+      this.service.discardedCards.push(card.label);
+    }
   }
 
-  isDiscardedCheck(card : any){
-
-    if(this.localDiscardedCards.includes(card.label))    
-      return 'discarded-overlay';
-    else
-      return '';
+  cardMoveListener(event: CdkDragMove<any>) {
+    this._pointerPosition = event.pointerPosition;
   }
+
+  placeCard(event: CdkDragDrop<any>) {
+    const rectZone = this.dropZone.nativeElement.getBoundingClientRect();
+    let y = this._pointerPosition.y - rectZone.top;
+    let x = this._pointerPosition.x - rectZone.left;
+    
+    if(!(y < 0 ||
+      x < 0 ||
+      y > rectZone.height ||
+      x > rectZone.width)) {
+        this.service.displayCard = event.item.data.label;
+        this.service.discardedCards = this.service.discardedCards.filter(ele => ele != event.item.data);
+        this.router.navigate(['/discuss']);   
+    }
+  }
+
 }
