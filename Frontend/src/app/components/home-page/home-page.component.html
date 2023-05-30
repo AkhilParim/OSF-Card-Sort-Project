@@ -1,5 +1,5 @@
 <div class="page-container">
-    <div class="buttons">
+    <div class="buttons" #dropZone>
         <div class="btn">
             Discuss
         </div>
@@ -9,14 +9,27 @@
             <div class="section-header">
                 Used Cards
             </div>
-            <div class="card-container">
-                <div class="card-box" *ngFor="let card of usedCards; index as i">
-                    <mat-icon class="mat-icon">{{ card.imageUrl }} </mat-icon>
+            <div class="card-list-container">
+                <div class="box-container"
+                *ngFor="let item of localUsedCards">
+                    <img src="../../assets/{{ appService.cardsData[item].image }}.svg" alt="">
+                    <div *cdkDragPlaceholder class="field-placeholder"></div>
                 </div>
             </div>
         </div>
         <div class="carousel-container">
-            <app-card-carousel></app-card-carousel>
+            <div *ngFor='let card of allCardArray; let i=index' [ngClass]="isDiscardedCheck(card)" (appLongPressDiscard)="onLongPressDiscard(card,i,$event)" class="big-card-container">
+                
+                    <div class="title">
+                        {{ card.label }}
+                    </div>
+                    <div class="content">
+                        {{ card.text }}
+                    </div>
+                    <div class="logo">
+                        <img src="../../assets/{{ card.image }}.svg" alt="">
+                    </div>
+            </div>
         </div>
     </div>
 </div>
