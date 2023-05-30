@@ -20,7 +20,7 @@ export class DragDropComponent implements OnInit {
   displayCardData!: any;  // data of the card that is displayed in Rank page
   currentPageAndState: ICurrentPageAndState = {
     page: '',  // pages = 'rank' or 'token' or 'summary'
-    state: ''  // statesOfSummaryPage = 'discardedCards' or 'reposition',     statesOfTokensPage = 'tokensSummary' or 'tokensSummaryChanges'
+    state: ''  // statesOfSummaryPage = 'discardedCards' or 'reposition',     statesOfTokensPage = 'tokenSummary' or 'tokenChanges'
   };
 
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
@@ -150,6 +150,11 @@ export class DragDropComponent implements OnInit {
 
   handleTokenNextPage() {
     // handles the redirection to next page from token page
-
+    if(this.currentPageAndState.state == '') {
+      this.currentPageAndState.state = 'tokenSummary';
+    } else {
+      this.service.placedCards = this.localPlaced.map(ele => ele);  // storing placed cards with tokens added
+      this.router.navigate(['end'])
+    }
   }
 }

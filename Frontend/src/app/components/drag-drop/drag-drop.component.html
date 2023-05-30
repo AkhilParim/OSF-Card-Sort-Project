@@ -6,7 +6,9 @@
                     <img src="" alt="back">
                 </div> -->
                 <p *ngIf="currentPageAndState.page == 'rank'">Cards</p>
-                <p *ngIf="currentPageAndState.page == 'token'">Tokens</p>
+                <p *ngIf="currentPageAndState.page == 'token' && currentPageAndState.state == ''">Tokens</p>
+                <p *ngIf="currentPageAndState.page == 'token' && currentPageAndState.state != ''"
+                (click)="currentPageAndState.state = 'tokenChanges'" style="cursor: pointer;">Make changes</p>
             </div>
         </ng-container>
         
@@ -79,15 +81,20 @@
             </ng-container>
 
             <ng-container *ngIf="currentPageAndState.page == 'token'">
-                <div cdkDropList class="tokens-wrapper"
-                    (cdkDropListDropped)="placeToken($event)">
+                <div class="summary" *ngIf="currentPageAndState.state == 'tokenSummary'">Summary</div>
+                <div class="tokens-wrapper" *ngIf="currentPageAndState.state != 'tokenSummary'"
+                    cdkDropList
+                    (cdkDropListDropped)="placeToken($event)"
+                    cdkDropListSortingDisabled="true">
                     <ng-container *ngFor="let token of service.tokens | keyvalue">
                         <div class="token-container">
-                            <div cdkDrag 
+                            <div class="token" cdkDrag 
                             (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
                             [cdkDragData]="token.value"
                             (cdkDragMoved)="cardMoveListener($event)"
-                            class="token" [style.background]="token.value.color"></div>
+                            [style.background]="token.value.color">
+                                <div class="rotating-border"></div>
+                            </div>
                             <p>{{ token.value.label }}</p>
                         </div>
                     </ng-container>
@@ -101,7 +108,9 @@
                 <p>Important</p>
             </div>
             <div class="drag-zone-container">
-                <div class="rotating-border" *ngIf="(currentPageAndState.page == 'rank') || (currentPageAndState.state != '')"></div>
+                <div class="rotating-border" *ngIf="(currentPageAndState.page == 'rank')
+                || (currentPageAndState.page == 'summary' && currentPageAndState.state != '')
+                || (currentPageAndState.page == 'token' && currentPageAndState.state != 'tokenSummary')"></div>
                 <div cdkDropList
                     #dropZone="cdkDropList"
                     [cdkDropListData]="localPlaced"

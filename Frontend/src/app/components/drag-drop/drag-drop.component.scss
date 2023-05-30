@@ -95,17 +95,18 @@
                         font-size: 30px;
                     }
                     .token {
+                        position: relative;
                         width: 80px !important;
                         height: 80px !important;
                     }
                 }
             }
+            .summary {
+                font-weight: 700;
+                font-size: 40px;
+                margin-bottom: 100px;
+            }
             .discarded-cards-wrapper {
-                .summary {
-                    font-weight: 700;
-                    font-size: 40px;
-                    margin-bottom: 100px;
-                }
                 .disc-cards {
                     font-size: 30px;
                     font-weight: 700;
