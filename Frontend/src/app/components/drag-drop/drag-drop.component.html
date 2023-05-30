@@ -47,8 +47,8 @@
                         <div class="rotating-border"></div>
                         <p class="label">{{ displayCardData.label }}</p>
                         <p class="preview">{{ displayCardData.preview }}</p>
-                        <img src="../../assets/{{ displayCardData.image }}.svg" alt="image" class="image">
-                        <img *cdkDragPreview src="../../assets/{{ displayCardData.image }}.svg" alt="image">
+                        <img src="../../assets/{{ displayCardData.imageUrl }}.svg" alt="image" class="image">
+                        <img *cdkDragPreview src="../../assets/{{ displayCardData.imageUrl }}.svg" alt="image">
                         <!-- (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }" -->
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                                 [cdkDragData]="item"
                                 (cdkDragMoved)="cardMoveListener($event)">
                                 <div class="rotating-border" *ngIf="currentPageAndState.state == 'discardedCards'"></div>
-                                <img src="../../assets/{{ service.cardsData[item].image }}.svg" alt="">
+                                <img src="../../assets/{{ service.cardsData[item].imageUrl }}.svg" alt="">
                                 <div *cdkDragPlaceholder class="field-placeholder"></div>
                             </div>
                     </div>
@@ -130,7 +130,7 @@
                             || (currentPageAndState.state == 'discardedCards' && service.discardedCards.indexOf(item.label) > -1) ? false : true"
                             (cdkDragDropped)="changePosition($event, item)">
                             <div class="item-box">
-                                <img src="../../assets/{{ service.cardsData[item.label].image }}.svg" alt="">
+                                <img src="../../assets/{{ service.cardsData[item.label].imageUrl }}.svg" alt="">
                                 <ng-container *ngFor="let token of item.tokens; let i = index">
                                     <div class="item-token" id="token-{{ i }}" [style.background]="service.tokens[token].color"></div>
                                 </ng-container>

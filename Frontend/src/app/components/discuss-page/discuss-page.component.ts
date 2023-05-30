@@ -2,6 +2,7 @@ import { AppService } from './../../app.service';
 import { CdkDragDrop, CdkDragMove } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { ICardData } from 'src/app/app.model';
 
 @Component({
   selector: 'app-discuss-page',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 export class DiscussPageComponent implements OnInit {
   off: any;
   _pointerPosition: any;
-  displayCardData: any;
+  displayCardData!: ICardData;
   
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
   
@@ -23,12 +24,11 @@ export class DiscussPageComponent implements OnInit {
     }
   }
   
-  
   cardMoveListener(event: CdkDragMove<any>) {
     this._pointerPosition = event.pointerPosition;
   }
 
-  placeCard(event: CdkDragDrop<any[]>) {
+  placeCard(event: CdkDragDrop<ICardData>) {
     // handles event when card is dropped on the Card button
     const rectZone = this.dropZone.nativeElement.getBoundingClientRect();
     let y = this._pointerPosition.y - rectZone.top;

@@ -17,12 +17,12 @@
                 (cdkDragMoved)="cardMoveListener($event)">
                 <p class="label">{{ displayCardData.label }}</p>
                 <p class="preview">{{ displayCardData.preview }}</p>
-                <img src="../../assets/{{ displayCardData.image }}.svg" alt="image" class="image">
-                <img *cdkDragPreview src="../../assets/{{ displayCardData.image }}.svg" alt="image">
+                <img src="../../assets/{{ displayCardData.imageUrl }}.svg" alt="image" class="image">
+                <img *cdkDragPreview src="../../assets/{{ displayCardData.imageUrl }}.svg" alt="image">
             </div>
         </div>
         <div class="text">
-            <p>{{ displayCardData.text }}</p>
+            <p>{{ displayCardData.content }}</p>
         </div>
     </div>
 </div>

@@ -12,7 +12,7 @@
             <div class="card-list-container">
                 <div class="box-container"
                 *ngFor="let item of localUsedCards">
-                    <img src="../../assets/{{ appService.cardsData[item].image }}.svg" alt="">
+                    <img src="../../assets/{{ appService.cardsData[item].imageUrl }}.svg" alt="">
                     <div *cdkDragPlaceholder class="field-placeholder"></div>
                 </div>
             </div>

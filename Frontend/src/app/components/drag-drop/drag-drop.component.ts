@@ -4,7 +4,7 @@ import { AppService } from 'src/app/app.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
-import { ICurrentPageAndState } from 'src/app/app.model';
+import { ICardData, ICurrentPageAndState, IPlacedCard, PageTypes, StateTypes } from 'src/app/app.model';
 
 @Component({
   selector: 'app-drag-drop',
@@ -15,9 +15,9 @@ export class DragDropComponent implements OnInit {
   off: any;
   _pointerPosition: any;
   isCardPlaced: Boolean = false;   // checks if card has been placed in drop zone in Rank page
-  localTodo!: Array<any>;
-  localPlaced!: Array<any>;
-  displayCardData!: any;  // data of the card that is displayed in Rank page
+  localTodo!: Array<string>;
+  localPlaced!: Array<IPlacedCard>;
+  displayCardData!: ICardData;  // data of the card that is displayed in Rank page
   currentPageAndState: ICurrentPageAndState = {
     page: '',  // pages = 'rank' or 'token' or 'summary'
     state: ''  // statesOfSummaryPage = 'discardedCards' or 'reposition',     statesOfTokensPage = 'tokenSummary' or 'tokenChanges'
@@ -28,7 +28,7 @@ export class DragDropComponent implements OnInit {
   constructor(public service: AppService, private router: Router, public dialog: MatDialog) { }
   
   ngOnInit(): void {
-    this.currentPageAndState.page = String(this.router.url.split('/').slice(-1));
+    this.currentPageAndState.page = String(this.router.url.split('/').slice(-1)) as PageTypes;
     if(this.currentPageAndState.page == 'rank') {
       this.localTodo = this.service.todoCards.map(ele => ele);  // cloning todo cards
     } else {  // Summary Page
@@ -55,7 +55,7 @@ export class DragDropComponent implements OnInit {
       x < 0 ||
       y > rectZone.height ||
       x > rectZone.width)) {
-      let coordinates = { 'label': event.item.data, 'x': x, 'y': y, 'z-index': 0, tokens: new Set() }
+      let coordinates: IPlacedCard = { 'label': event.item.data, 'x': x, 'y': y, 'z-index': 0, tokens: new Set() }
       this.localTodo = this.localTodo.filter(card => card != String(event.item.data));
       this.localPlaced.push(coordinates);
       this.changeZIndex(coordinates);
