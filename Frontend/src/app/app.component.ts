@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DiscardedCardsComponent } from './components/discarded-cards/discarded-cards.component';
+import { DragDropComponent } from './components/drag-drop/drag-drop.component';
 
 
 @Component({

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DiscardedCardsComponent } from './discarded-cards.component';
+import { EndPageComponent } from './end-page.component';
 
-describe('DiscardedCardsComponent', () => {
-  let component: DiscardedCardsComponent;
-  let fixture: ComponentFixture<DiscardedCardsComponent>;
+describe('EndPageComponent', () => {
+  let component: EndPageComponent;
+  let fixture: ComponentFixture<EndPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DiscardedCardsComponent ]
+      declarations: [ EndPageComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DiscardedCardsComponent);
+    fixture = TestBed.createComponent(EndPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

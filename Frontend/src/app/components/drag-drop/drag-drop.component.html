@@ -1,0 +1,148 @@
+<div class="container">
+    <div class="buttons">
+        <ng-container *ngIf="currentPageAndState.page == 'token' || (currentPageAndState.page == 'rank' && !isCardPlaced); else multipleBtns">
+            <div class="singleBtn btn option1">
+                <!-- <div class="back-btn">
+                    <img src="" alt="back">
+                </div> -->
+                <p *ngIf="currentPageAndState.page == 'rank'">Cards</p>
+                <p *ngIf="currentPageAndState.page == 'token' && currentPageAndState.state == ''">Tokens</p>
+                <p *ngIf="currentPageAndState.page == 'token' && currentPageAndState.state != ''"
+                (click)="currentPageAndState.state = 'tokenChanges'" style="cursor: pointer;">Make changes</p>
+            </div>
+        </ng-container>
+        
+        <ng-template #multipleBtns>
+            <!-- Button 1 -->
+            <div class="btn option1" *ngIf="currentPageAndState.page != 'rank'" (click)="currentPageAndState.state = currentPageAndState.state == 'discardedCards' ? '' : 'discardedCards'">
+                <p>Play discarded cards</p>
+            </div>
+            <div class="btn option1" *ngIf="currentPageAndState.page == 'rank'">
+                <p>Cards</p>
+            </div>
+
+            <!-- Button 2 -->
+            <div class="btn option2" *ngIf="currentPageAndState.page != 'rank'" (click)="currentPageAndState.state = currentPageAndState.state == 'reposition' ? '' : 'reposition'">
+                <p>Reposition</p>
+            </div>
+            <div  class="btn option2" *ngIf="currentPageAndState.page == 'rank'"  (click)="fixCardPosition()">
+                <p>{{ localTodo.length ? 'Lock it in' : 'Done' }}</p>
+            </div>
+        </ng-template>
+    </div>
+
+    <div class="main">
+        <div class="options">
+            <ng-container *ngIf="currentPageAndState.page == 'rank'">
+                <div class="display-card-wrapper"
+                    cdkDropList
+                    [cdkDropListConnectedTo]="[dropZone]"
+                    [cdkDropListData]="[displayCardData.label]"
+                    (cdkDropListDropped)="placeCard($event)">
+                    <div *ngIf="!isCardPlaced" cdkDrag 
+                        class="display-card" 
+                        (pointerdown)="off = { x: 0, y: 0 }"
+                        [cdkDragData]="displayCardData.label"
+                        (cdkDragMoved)="cardMoveListener($event)">
+                        <div class="rotating-border"></div>
+                        <p class="label">{{ displayCardData.label }}</p>
+                        <p class="preview">{{ displayCardData.preview }}</p>
+                        <img src="../../assets/{{ displayCardData.image }}.svg" alt="image" class="image">
+                        <img *cdkDragPreview src="../../assets/{{ displayCardData.image }}.svg" alt="image">
+                        <!-- (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }" -->
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="currentPageAndState.page == 'summary'">
+                <div class="discarded-cards-wrapper">
+                    <p class="summary">Summary</p>
+                    <p class="disc-cards">Discarded Cards</p>
+                    <div cdkDropList
+                        #todoList="cdkDropList"
+                        [cdkDropListData]="localTodo"
+                        [cdkDropListConnectedTo]="[dropZone]"
+                        cdkDropListSortingDisabled
+                        class="card-list"
+                        (cdkDropListDropped)="placeCard($event)">
+                            <div class="card-container"
+                                *ngFor="let item of localTodo"
+                                cdkDrag
+                                [cdkDragDisabled]="currentPageAndState.state != 'discardedCards'"
+                                (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
+                                [cdkDragData]="item"
+                                (cdkDragMoved)="cardMoveListener($event)">
+                                <div class="rotating-border" *ngIf="currentPageAndState.state == 'discardedCards'"></div>
+                                <img src="../../assets/{{ service.cardsData[item].image }}.svg" alt="">
+                                <div *cdkDragPlaceholder class="field-placeholder"></div>
+                            </div>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="currentPageAndState.page == 'token'">
+                <div class="summary" *ngIf="currentPageAndState.state == 'tokenSummary'">Summary</div>
+                <div class="tokens-wrapper" *ngIf="currentPageAndState.state != 'tokenSummary'"
+                    cdkDropList
+                    (cdkDropListDropped)="placeToken($event)"
+                    cdkDropListSortingDisabled="true">
+                    <ng-container *ngFor="let token of service.tokens | keyvalue">
+                        <div class="token-container">
+                            <div class="token" cdkDrag 
+                            (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
+                            [cdkDragData]="token.value"
+                            (cdkDragMoved)="cardMoveListener($event)"
+                            [style.background]="token.value.color">
+                                <div class="rotating-border"></div>
+                            </div>
+                            <p>{{ token.value.label }}</p>
+                        </div>
+                    </ng-container>
+                </div>
+            </ng-container>
+        </div>
+
+        <div class="drop-zone-wrapper">
+            <div class="importance">
+                <p>Less important</p>
+                <p>Important</p>
+            </div>
+            <div class="drag-zone-container">
+                <div class="rotating-border" *ngIf="(currentPageAndState.page == 'rank')
+                || (currentPageAndState.page == 'summary' && currentPageAndState.state != '')
+                || (currentPageAndState.page == 'token' && currentPageAndState.state != 'tokenSummary')"></div>
+                <div cdkDropList
+                    #dropZone="cdkDropList"
+                    [cdkDropListData]="localPlaced"
+                    class="drag-zone"
+                    cdkDropListSortingDisabled="true"
+                    (cdkDropListDropped)="placeCard($event)">
+                    <ng-container *ngFor="let item of localPlaced">
+                        <div cdkDrag
+                            class="item-box-wrapper"
+                            cdkDragBoundary=".drag-zone"
+                            [style.top.px]="item.y"
+                            [style.left.px]="item.x"
+                            [style.z-index]="item['z-index']"
+                            (cdkDragStarted)="changeZIndex(item)"
+                            [cdkDragDisabled]="(currentPageAndState.page == 'rank' && item.label == displayCardData.label)
+                            || (currentPageAndState.state == 'reposition')
+                            || (currentPageAndState.state == 'discardedCards' && service.discardedCards.indexOf(item.label) > -1) ? false : true"
+                            (cdkDragDropped)="changePosition($event, item)">
+                            <div class="item-box">
+                                <img src="../../assets/{{ service.cardsData[item.label].image }}.svg" alt="">
+                                <ng-container *ngFor="let token of item.tokens; let i = index">
+                                    <div class="item-token" id="token-{{ i }}" [style.background]="service.tokens[token].color"></div>
+                                </ng-container>
+                            </div>
+                            <div *cdkDragPlaceholder class="field-placeholder"></div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <button *ngIf="currentPageAndState.page != 'rank'" (click)="openDialog()">done</button>
+    </div>
+</div>

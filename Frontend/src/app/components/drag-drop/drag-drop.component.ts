@@ -4,69 +4,42 @@ import { AppService } from 'src/app/app.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
+import { ICurrentPageAndState } from 'src/app/app.model';
 
 @Component({
-  selector: 'app-discarded-cards',
-  templateUrl: './discarded-cards.component.html',
-  styleUrls: ['./discarded-cards.component.scss']
+  selector: 'app-drag-drop',
+  templateUrl: './drag-drop.component.html',
+  styleUrls: ['./drag-drop.component.scss']
 })
-export class DiscardedCardsComponent implements OnInit {
+export class DragDropComponent implements OnInit {
   off: any;
   _pointerPosition: any;
   isCardPlaced: Boolean = false;   // checks if card has been placed in drop zone in Rank page
-  currentPage!: string;  // pages = 'rank' or 'token' or 'discardedCards'
   localTodo!: Array<any>;
   localPlaced!: Array<any>;
   displayCardData!: any;  // data of the card that is displayed in Rank page
+  currentPageAndState: ICurrentPageAndState = {
+    page: '',  // pages = 'rank' or 'token' or 'summary'
+    state: ''  // statesOfSummaryPage = 'discardedCards' or 'reposition',     statesOfTokensPage = 'tokenSummary' or 'tokenChanges'
+  };
 
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
 
   constructor(public service: AppService, private router: Router, public dialog: MatDialog) { }
   
   ngOnInit(): void {
-    this.currentPage = String(this.router.url.split('/').slice(-1));
-    this.localTodo = this.service.todoCards.map(ele => ele);  // cloning todo cards
+    this.currentPageAndState.page = String(this.router.url.split('/').slice(-1));
+    if(this.currentPageAndState.page == 'rank') {
+      this.localTodo = this.service.todoCards.map(ele => ele);  // cloning todo cards
+    } else {  // Summary Page
+      this.localTodo = this.service.discardedCards.map(ele => ele);
+    }
     this.localPlaced = this.service.placedCards.map(ele => ele);  // cloning placed cards
     this.localPlaced.sort((a,b) => (a.x > b.x) ? 1 : ((b.x > a.x) ? -1 : 0));  // sorting based on x-coordinates
     if(this.service.displayCard) {
       this.displayCardData = this.service.cardsData[this.service.displayCard]      
     }
   }
-
-  // drop(event: CdkDragDrop<any[]>) {  
-  //   // handles event when discarded card is placed on the drop zone
-  //   if (event.previousContainer === event.container) {
-  //     return;
-  //   }
-  //   let y = this._pointerPosition.y -
-  //     this.off.y - this.dropZone.nativeElement.getBoundingClientRect().top;
-
-  //   let x = this._pointerPosition.x -
-  //     this.off.x - this.dropZone.nativeElement.getBoundingClientRect().left;
-
-  //   if(this.checkIfItemInBounds(x, y, event)) {
-  //     transferArrayItem(
-  //       event.previousContainer.data,
-  //       event.container.data,
-  //       event.previousIndex,
-  //       event.currentIndex
-  //     );
-  //     event.item.data.y = y;
-  //     event.item.data.x = x;
-  //     this.changeZIndex(event.item.data);
-  //   }
-  // }
-
-  // checkIfItemInBounds(x: number, y: number, event: any) {
-  //   const rectZone = this.dropZone.nativeElement.getBoundingClientRect();
-  //   const rectElement = event.item.element.nativeElement.getBoundingClientRect();
-  //   const out =
-  //     y < 0 ||
-  //     x < 0 ||
-  //     y > rectZone.height - rectElement.height ||
-  //     x > rectZone.width - rectElement.width;
-  //   return !out;
-  // }
 
   placeCard(event: CdkDragDrop<any[]>) {
     // handles event when card in the Rank page is placed on the drop zone
@@ -151,21 +124,37 @@ export class DiscardedCardsComponent implements OnInit {
   }
 
   openDialog() {
-    let dialogRef = this.dialog.open(DialogBoxComponent, { data: this.currentPage == 'token' ? 'tokens' : 'cards' });
+    let dialogRef = this.dialog.open(DialogBoxComponent, { data: this.currentPageAndState.page == 'token' ? 'tokens' : 'cards' });
     dialogRef.afterClosed().subscribe(result => {
       if(result == 'true') {
-        this.handleNextPage();
+        if(this.currentPageAndState.page != 'token') {
+          this.handleSummaryNextPage();
+        } else {
+          this.handleTokenNextPage();
+        }
       }
     });
   }
 
-  handleNextPage() {
-    this.service.todoCards = this.localTodo.map(ele => ele);  // storing new todo cards
+  handleSummaryNextPage() {
+    // handles the redirection to next page from summary page
     this.service.placedCards = this.localPlaced.map(ele => ele);  // storing new placed cards
-    if(this.currentPage == 'rank') {
-      this.router.navigate(['drag-and-drop/discardedCards'])
-    } else if(this.currentPage == 'discardedCards') {
+    if(this.currentPageAndState.page == 'rank') {
+      this.service.todoCards = this.localTodo.map(ele => ele);  // storing new todo cards
+      this.router.navigate(['drag-and-drop/summary'])
+    } else if(this.currentPageAndState.page == 'summary') {
+      this.service.discardedCards = this.localTodo.map(ele => ele);  // storing new discarded cards
       this.router.navigate(['drag-and-drop/token'])
+    }
+  }
+
+  handleTokenNextPage() {
+    // handles the redirection to next page from token page
+    if(this.currentPageAndState.state == '') {
+      this.currentPageAndState.state = 'tokenSummary';
+    } else {
+      this.service.placedCards = this.localPlaced.map(ele => ele);  // storing placed cards with tokens added
+      this.router.navigate(['end'])
     }
   }
 }
