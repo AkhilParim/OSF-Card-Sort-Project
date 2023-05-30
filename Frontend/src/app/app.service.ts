@@ -42,6 +42,14 @@ export class AppService {
     }
   }
 
+  usedCards: Array<any> = [
+    'Home',
+    'File',
+    'Gear',
+    'Shield',
+    'Filter'
+  ]
+  
   placedCards: Array<any> = [
     {'label': 'File', 'x': 559.94921875, 'y': 155.6015625, 'z-index': 0, tokens: new Set()},
     {'label': 'Gear', 'x': 753.6953125, 'y': 165.98046875, 'z-index': 0, tokens: new Set()},
@@ -51,6 +59,12 @@ export class AppService {
 
   todoCards: Array<any> = [
     'Home'
+  ]
+
+  discardedCards: Array<any> = [
+    'File',
+    'Shield',
+    'Filter'
   ]
 
   tokens: {
