@@ -5,10 +5,10 @@ import { ICardsData, IPlacedCard, ITokens } from './app.model';
   providedIn: 'root'
 })
 export class AppService {
-
+  
   constructor() { }
-
-  displayCard = '';  // card to be displayed in Display and Rank pages
+  
+  displayCardIndex: number = 0;
 
   cardsData: ICardsData = {
     'Home': {
@@ -58,12 +58,11 @@ export class AppService {
     'Okay': { label: 'Okay', color: '#DC851F' },
     'Great': { label: 'Great', color: '#417B5A' }
   }
-
+  
   localCardsForHome: Array<string> = Object.keys(this.cardsData).filter(card => {
     return this.placedCards.some(x => {
       return x && x.label != card
     }) || true;
   });
-
-  displayCardIndex: number = 0;
+  
 }

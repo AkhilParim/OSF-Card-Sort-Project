@@ -31,7 +31,7 @@ export class DragDropComponent implements OnInit {
   ngOnInit(): void {
     this.currentPageAndState.page = String(this.router.url.split('/').slice(-1)) as PageTypes;
     if(this.currentPageAndState.page == 'rank') {
-      this.displayCardData = this.service.cardsData[this.service.displayCard];  
+      this.displayCardData = this.service.cardsData[this.service.localCardsForHome[this.service.displayCardIndex]];  
     } else {  // Summary Page
       this.localDiscardedCards = this.service.discardedCards.map(ele => ele);   // cloning todo cards
     }
@@ -139,7 +139,6 @@ export class DragDropComponent implements OnInit {
   handleSummaryNextPage() {
     // handles the redirection to next page from summary page
     this.service.placedCards = this.localPlaced.map(ele => ele);  // storing new placed cards
-    this.service.localCardsForHome = this.service.localCardsForHome.filter(ele => ele != this.displayCardData.label);
     if(this.currentPageAndState.page == 'rank') {
       this.router.navigate(['drag-and-drop/summary'])
     } else if(this.currentPageAndState.page == 'summary') {

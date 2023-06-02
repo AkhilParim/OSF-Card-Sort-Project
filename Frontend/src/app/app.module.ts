@@ -16,7 +16,6 @@ import { DiscussPageComponent } from './components/discuss-page/discuss-page.com
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogBoxComponent } from './components/dialog-box/dialog-box.component';
-import { LongPressDiscardDirective } from './long-press-discard.directive';
 import { EndPageComponent } from './components/end-page/end-page.component';
 
 @NgModule({
@@ -26,7 +25,6 @@ import { EndPageComponent } from './components/end-page/end-page.component';
     DiscussPageComponent,
     HomePageComponent,
     DialogBoxComponent,
-    LongPressDiscardDirective,
     DragDropComponent,
 
 
@@ -45,7 +43,6 @@ import { EndPageComponent } from './components/end-page/end-page.component';
     DragDropModule,
     MatDialogModule
   ],
-  exports: [LongPressDiscardDirective],
   providers: [],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

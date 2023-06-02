@@ -42,7 +42,6 @@ export class HomePageComponent {
       x < 0 ||
       y > rectZone.height ||
       x > rectZone.width)) {
-        this.service.displayCard = event.item.data.label;
         this.router.navigate(['/discuss']);   
     }
   }

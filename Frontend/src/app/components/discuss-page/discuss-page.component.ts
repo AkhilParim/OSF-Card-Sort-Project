@@ -19,9 +19,7 @@ export class DiscussPageComponent implements OnInit {
   constructor(private router: Router, public service: AppService) { }
 
   ngOnInit(): void {
-    if(this.service.displayCard) {
-      this.displayCardData = this.service.cardsData[this.service.displayCard];
-    }
+    this.displayCardData = this.service.cardsData[this.service.localCardsForHome[this.service.displayCardIndex]];
   }
   
   cardMoveListener(event: CdkDragMove<any>) {
