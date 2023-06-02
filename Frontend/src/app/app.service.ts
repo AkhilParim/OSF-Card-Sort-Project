@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { ICardsData, IPlacedCard, ITokens } from './app.model';
 
 @Injectable({
@@ -49,13 +49,21 @@ export class AppService {
     // {'label': 'Shield', 'x': 116.8515625, 'y': 40.43359375, 'z-index': 0, tokens: new Set()},
     // {'label': 'Filter', 'x': 204.640625, 'y': 257.1171875, 'z-index': 0, tokens: new Set()}
   ]
-
+  
   discardedCards: Array<string> = []
-
+  
   tokens: ITokens = {
     'Angry': { label: 'Angry', color: '#931F1D' },
     'Frustrating': { label: 'Frustrating', color: '#3F6DA4' },
     'Okay': { label: 'Okay', color: '#DC851F' },
     'Great': { label: 'Great', color: '#417B5A' }
   }
+
+  localCardsForHome: Array<string> = Object.keys(this.cardsData).filter(card => {
+    return this.placedCards.some(x => {
+      return x && x.label != card
+    }) || true;
+  });
+
+  displayCardIndex: number = 0;
 }

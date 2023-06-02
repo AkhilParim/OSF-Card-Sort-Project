@@ -116,7 +116,7 @@ export class DragDropComponent implements OnInit {
   fixRankCardPosition() {
     if(!this.isLastCard) {
       this.service.placedCards = this.localPlaced.map(ele => ele);  // storing new placed cards
-      this.service.discardedCards = this.service.discardedCards.filter(ele => ele != this.displayCardData.label);
+      this.service.localCardsForHome = this.service.localCardsForHome.filter(ele => ele != this.displayCardData.label);
       this.router.navigate(['/']);
     } else {
       this.openDialog();
@@ -139,6 +139,7 @@ export class DragDropComponent implements OnInit {
   handleSummaryNextPage() {
     // handles the redirection to next page from summary page
     this.service.placedCards = this.localPlaced.map(ele => ele);  // storing new placed cards
+    this.service.localCardsForHome = this.service.localCardsForHome.filter(ele => ele != this.displayCardData.label);
     if(this.currentPageAndState.page == 'rank') {
       this.router.navigate(['drag-and-drop/summary'])
     } else if(this.currentPageAndState.page == 'summary') {
@@ -158,7 +159,6 @@ export class DragDropComponent implements OnInit {
   }
 
   NavigateToHome() {
-    this.service.discardedCards = this.service.discardedCards.filter(ele => ele != this.displayCardData.label);
     this.router.navigate(['/']);
   }
 }

@@ -16,24 +16,51 @@
                 </div>
             </div>
         </div>
-        <div cdkDropList class="carousel-container"
-        [cdkDropListData]="service.cardsData" cdkDropListSortingDisabled
-        (cdkDropListDropped)="placeCard($event)">
-            <div *ngFor="let card of service.cardsData | keyvalue;" [ngClass]="service.discardedCards.includes(card.value.label) ? 'discarded-overlay' : ''" (appLongPressDiscard)="onLongPressDiscard(card.value,$event)" class="big-card-container"
-            cdkDrag (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
-            (cdkDragMoved)="cardMoveListener($event)"
-            [cdkDragData]="card.value"
-            [cdkDragDisabled]="service.discardedCards.includes(card.value.label)">
-                <div class="title">
-                    {{ card.value.label }}
+        <div class="carousel-wrapper">
+            <div class="carousel-container">
+                <div class="focus-card-wrapper" cdkDropList
+                    cdkDropListSortingDisabled
+                    (cdkDropListDropped)="placeCard($event)">
+                    <div class="focus-card card" cdkDrag
+                    [ngClass]="service.discardedCards.includes(service.localCardsForHome[service.displayCardIndex]) ? 'discarded-card' : ''"
+                    [cdkDragDisabled]="service.discardedCards.includes(service.localCardsForHome[service.displayCardIndex])"
+                    (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
+                    (cdkDragMoved)="cardMoveListener($event)"
+                    *ngFor="let card1 of [service.cardsData[service.localCardsForHome[service.displayCardIndex]]]"
+                    [cdkDragData]="service.cardsData[service.localCardsForHome[service.displayCardIndex]]">
+                        <div class="card-content">
+                            <div class="title">
+                                {{ card1.label }}
+                            </div>
+                            <div class="content">
+                                {{ card1.content }}
+                            </div>
+                        </div>
+                        <div class="logo">
+                            <img src="../../assets/{{ card1.imageUrl }}.svg" alt="">
+                        </div>
+                        <img *cdkDragPreview src="../../assets/{{ card1.imageUrl }}.svg" alt="image">
+                    </div>
                 </div>
-                <div class="content">
-                    {{ card.value.content }}
+
+                <div class="card-wrapper">
+                    <div class="card" *ngIf="service.displayCardIndex+1 <=  service.localCardsForHome.length-1"
+                    [ngClass]="service.discardedCards.includes(service.localCardsForHome[service.displayCardIndex+1]) ? 'discarded-card' : ''">
+                        <img src="../../assets/{{ service.cardsData[service.localCardsForHome[service.displayCardIndex+1]].imageUrl }}.svg" alt="">
+                    </div>
                 </div>
-                <div class="logo">
-                    <img src="../../assets/{{ card.value.imageUrl }}.svg" alt="">
+
+                <div class="card-wrapper">
+                    <div class="card" *ngIf="service.displayCardIndex+2 <=  service.localCardsForHome.length-1"
+                    [ngClass]="service.discardedCards.includes(service.localCardsForHome[service.displayCardIndex+2]) ? 'discarded-card' : ''">
+                        <img src="../../assets/{{ service.cardsData[service.localCardsForHome[service.displayCardIndex+2]].imageUrl }}.svg" alt="">
+                    </div>
                 </div>
-                <img *cdkDragPreview src="../../assets/{{ card.value.imageUrl }}.svg" alt="image">
+            </div>
+            <div class="arrow-container">
+                <img src="../../assets/left-arrow.svg" (click)="changeDisplayImage(-1)" alt="">
+                <div class="discardBtn" (click)="toggleDiscardCard()">{{ service.discardedCards.includes(service.localCardsForHome[service.displayCardIndex]) ? 'Use card' : 'Discard card' }}</div>
+                <img src="../../assets/right-arrow.svg" (click)="changeDisplayImage(1)" alt="">
             </div>
         </div>
     </div>

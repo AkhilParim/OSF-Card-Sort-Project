@@ -1,7 +1,9 @@
 import { CdkDragMove, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
+import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 
 @Component({
   selector: 'app-home-page',
@@ -18,15 +20,12 @@ export class HomePageComponent {
 
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
 
-  constructor(public service: AppService, private router: Router) { 
+  constructor(public service: AppService, private router: Router, public dialog: MatDialog) { 
   }
 
   ngOnInit(): void {
-  }
-
-  onLongPressDiscard(card: any, event: any): void {
-    if(!this.service.discardedCards.includes(card.label)) {
-      this.service.discardedCards.push(card.label);
+    if(this.service.displayCardIndex >= this.service.localCardsForHome.length) {
+      this.service.displayCardIndex = this.service.localCardsForHome.length - 1;
     }
   }
 
@@ -44,9 +43,38 @@ export class HomePageComponent {
       y > rectZone.height ||
       x > rectZone.width)) {
         this.service.displayCard = event.item.data.label;
-        this.service.discardedCards = this.service.discardedCards.filter(ele => ele != event.item.data);
         this.router.navigate(['/discuss']);   
     }
+  }
+
+  changeDisplayImage(change: number) {
+    let changedIndex = this.service.displayCardIndex + change
+    if(changedIndex >= this.service.localCardsForHome.length || changedIndex < 0) {
+      return
+    }
+    this.service.displayCardIndex = changedIndex;
+  }
+
+  toggleDiscardCard() {
+    let indexOfEle = this.service.discardedCards.indexOf(this.service.localCardsForHome[this.service.displayCardIndex]);
+    if(this.service.discardedCards.indexOf(this.service.localCardsForHome[this.service.displayCardIndex]) >= 0) {
+      this.service.discardedCards.splice(indexOfEle, 1);
+    } else {
+      this.service.discardedCards.push(this.service.localCardsForHome[this.service.displayCardIndex]);
+    }
+
+    if(this.service.localCardsForHome.length == this.service.discardedCards.length) {
+      this.openDialog();
+    }
+  }
+
+  openDialog() {
+    let dialogRef = this.dialog.open(DialogBoxComponent, { data: 'cards' });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result == 'true') {
+        this.router.navigate(['drag-and-drop/summary'])
+      }
+    });
   }
 
 }
