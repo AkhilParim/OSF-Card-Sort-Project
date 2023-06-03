@@ -56,6 +56,7 @@ export class DragDropComponent implements OnInit {
       let coordinates: IPlacedCard = { 'label': event.item.data, 'x': x, 'y': y, 'z-index': 0, tokens: new Set() }
       if(this.currentPageAndState.page == 'summary') {
         this.localDiscardedCards = this.localDiscardedCards.filter(card => card != String(event.item.data));
+        this.currentPageAndState.state = '';
       }
       this.localPlaced.push(coordinates);
       this.changeZIndex(coordinates);
@@ -159,7 +160,7 @@ export class DragDropComponent implements OnInit {
     }
   }
 
-  NavigateToHome() {
+  navigateToHome() {
     this.router.navigate(['/']);
   }
 }
