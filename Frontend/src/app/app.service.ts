@@ -64,5 +64,11 @@ export class AppService {
       return x && x.label != card
     }) || true;
   });
-  
+
+  disableRotatingBorder(disable: Boolean) {
+    const borderElements = Array.from(document.getElementsByClassName('rotating-border') as HTMLCollectionOf<HTMLElement>);
+    borderElements.forEach(ele => {
+      ele.style.display = disable ? 'none' : 'flex';
+    });
+  }
 }

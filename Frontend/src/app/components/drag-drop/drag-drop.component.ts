@@ -124,8 +124,10 @@ export class DragDropComponent implements OnInit {
   }
 
   openDialog() {
+    this.service.disableRotatingBorder(true);
     let dialogRef = this.dialog.open(DialogBoxComponent, { data: this.currentPageAndState.page == 'token' ? 'tokens' : 'cards' });
     dialogRef.afterClosed().subscribe(result => {
+      this.service.disableRotatingBorder(false);
       if(result == 'true') {
         if(this.currentPageAndState.page != 'token') {
           this.handleSummaryNextPage();
