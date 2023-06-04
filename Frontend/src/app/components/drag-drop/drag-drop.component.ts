@@ -20,7 +20,7 @@ export class DragDropComponent implements OnInit {
   displayCardData!: ICardData;  // data of the card that is displayed in Rank page
   currentPageAndState: ICurrentPageAndState = {
     page: '',  // pages = 'rank' or 'token' or 'summary'
-    state: ''  // statesOfSummaryPage = 'discardedCards' or 'reposition',     statesOfTokensPage = 'tokenSummary' or 'tokenChanges'
+    state: ''  // statesOfSummaryPage = '' or 'discardedCards' or 'reposition',     statesOfTokensPage = '' or 'tokenSummary'
   };
   isLastCard: Boolean = this.service.placedCards.length + this.service.discardedCards.length + 1 >= Object.keys(this.service.cardsData).length;
 
@@ -90,8 +90,8 @@ export class DragDropComponent implements OnInit {
 
   changePosition(event: CdkDragDrop<any>, field: any) {
     // handles the change of position of a card within the drop zone
-    let y = +field.y + event.distance.y;
-    let x = +field.x + event.distance.x;
+    let y = field.y + event.distance.y;
+    let x = field.x + event.distance.x;
 
     const rectZone = this.dropZone.nativeElement.getBoundingClientRect();
     const rectElement =

@@ -1,6 +1,6 @@
 export type PageTypes = '' | 'rank' | 'token' | 'summary';
 
-export type StateTypes = '' | 'discardedCards' | 'reposition' | 'tokenSummary' | 'tokenChanges';
+export type StateTypes = '' | 'discardedCards' | 'reposition' | 'tokenSummary';
 
 export interface ICurrentPageAndState {
     page: PageTypes,
