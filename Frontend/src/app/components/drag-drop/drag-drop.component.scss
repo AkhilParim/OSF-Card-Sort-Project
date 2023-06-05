@@ -24,6 +24,13 @@
             width: 100%;
             position: relative;
             cursor: default;
+            p {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 100%;
+            }
         }
         .option1 {
             background: linear-gradient(90deg, #F4F1BB 2.6%, #BC3908 71.09%);
@@ -200,23 +207,23 @@
         }
         .item-token {
             position: absolute;
-            height: 35px;
-            width: 35px;
+            height: 40px;
+            width: 40px;
             border-radius: 50%;
-            opacity: 0.8;
+            opacity: 0.6;
             &:nth-of-type(1) {
-                bottom: 0;
+                bottom: -5px;
             }
             &:nth-of-type(2) {
-                bottom: 0;
-                right: 0;
+                bottom: -5px;
+                right: -5px;
             }
             &:nth-of-type(3) {
-                top: 0;
+                top: -5px;
             }
             &:nth-of-type(4) {
-                top: 0;
-                right: 0;
+                top: -5px;
+                right: -5px;
             }
         }
     }

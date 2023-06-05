@@ -1,5 +1,5 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { CdkDragDrop, CdkDragMove } from '@angular/cdk/drag-drop';
+import { Component, ElementRef, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
+import { CdkDragDrop, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 import { AppService } from 'src/app/app.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -25,6 +25,7 @@ export class DragDropComponent implements OnInit {
   isLastCard: Boolean = this.service.placedCards.length + this.service.discardedCards.length + 1 >= Object.keys(this.service.cardsData).length;
 
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
+  @ViewChildren('removeTokensZone') removeTokensZone!: QueryList<ElementRef>;
 
   constructor(public service: AppService, private router: Router, public dialog: MatDialog) { }
   
@@ -88,7 +89,7 @@ export class DragDropComponent implements OnInit {
     this.localPlaced.forEach((x) => (x['z-index'] = x == item ? 1 : 0));
   }
 
-  changePosition(event: CdkDragDrop<any>, field: any) {
+  changePosition(event: CdkDragDrop<any>, field: IPlacedCard) {
     // handles the change of position of a card within the drop zone
     let y = field.y + event.distance.y;
     let x = field.x + event.distance.x;
@@ -112,6 +113,33 @@ export class DragDropComponent implements OnInit {
     this.localPlaced = this.localPlaced.sort((a, b) =>
       a['z-index'] > b['z-index'] ? 1 : a['z-index'] < b['z-index'] ? -1 : 0
     );
+  }
+
+  tokenDragStart(event: CdkDragStart<any>, idx: number) {
+    let children = Array.from(this.dropZone.nativeElement.children[idx].getElementsByClassName('item-token') as HTMLCollectionOf<HTMLElement>);
+    children.forEach(element => {
+      element.style.display = 'none';
+    });
+  }
+
+  removeTokens(event: CdkDragDrop<any>, field: IPlacedCard, idx: number) {
+    field.x = field.x + 0.0001;
+    field.y = field.y + 0.0001;
+    
+    const rectZone = this.removeTokensZone.first.nativeElement.getBoundingClientRect();
+    let x = this._pointerPosition.x - this.off.x - rectZone.left;
+    let y = this._pointerPosition.y - this.off.y - rectZone.top;
+    
+    if(!(y < 0 ||
+      x < 0 ||
+      y > rectZone.height ||
+      x > rectZone.width)) {
+        this.localPlaced[idx].tokens = new Set();
+    }
+    let children = Array.from(this.dropZone.nativeElement.children[idx].getElementsByClassName('item-token') as HTMLCollectionOf<HTMLElement>);
+    children.forEach(element => {
+      element.style.display = 'block';
+    });
   }
 
   fixRankCardPosition() {

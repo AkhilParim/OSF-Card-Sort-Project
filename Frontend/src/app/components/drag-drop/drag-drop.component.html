@@ -3,7 +3,7 @@
         <ng-container *ngIf="currentPageAndState.page == 'token' || (currentPageAndState.page == 'rank' && !isCardPlaced); else multipleBtns">
             <div class="singleBtn btn option1">
                 <p *ngIf="currentPageAndState.page == 'rank'" (click)="navigateToHome();">Cards</p>
-                <p *ngIf="currentPageAndState.page == 'token' && currentPageAndState.state == ''">Remove tokens</p>
+                <p *ngIf="currentPageAndState.page == 'token' && currentPageAndState.state == ''" #removeTokensZone>Remove tokens</p>
                 <p *ngIf="currentPageAndState.page == 'token' && currentPageAndState.state == 'tokenSummary'"
                 (click)="currentPageAndState.state = ''" style="cursor: pointer;">Make changes</p>
             </div>
@@ -114,20 +114,24 @@
                     class="drag-zone"
                     cdkDropListSortingDisabled="true"
                     (cdkDropListDropped)="placeCard($event)">
-                    <ng-container *ngFor="let item of localPlaced">
+                    <ng-container *ngFor="let item of localPlaced; let i = index">
                         <div cdkDrag
                             class="item-box-wrapper"
                             [ngClass]="currentPageAndState.page == 'token' ? 'token-page' : ''"
-                            cdkDragBoundary=".drag-zone"
+                            cdkDragBoundary="{{ currentPageAndState.page != 'token' ? '.drag-zone' : '' }}"
                             [style.top.px]="item.y"
                             [style.left.px]="item.x"
                             [style.z-index]="item['z-index']"
                             (cdkDragStarted)="changeZIndex(item)"
+                            (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
+                            [cdkDragData]="item"
+                            (cdkDragMoved)="cardMoveListener($event)"
+                            (cdkDragStarted)="currentPageAndState.page == 'token' ? tokenDragStart($event, i) : ''"
                             [cdkDragDisabled]="(currentPageAndState.page == 'rank' && item.label == displayCardData.label)
                             || (currentPageAndState.state == 'reposition')
                             || (currentPageAndState.state == 'discardedCards' && service.discardedCards.indexOf(item.label) > -1)
                             || (currentPageAndState.page == 'token' && (currentPageAndState.state == '') ) ? false : true"
-                            (cdkDragDropped)="changePosition($event, item)">
+                            (cdkDragDropped)="currentPageAndState.page != 'token' ? changePosition($event, item) : removeTokens($event, item, i)">
                             <div class="item-box">
                                 <img src="../../assets/{{ service.cardsData[item.label].imageUrl }}.svg" alt="">
                                 <ng-container *ngFor="let token of item.tokens; let i = index">
