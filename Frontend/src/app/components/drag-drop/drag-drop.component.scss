@@ -207,23 +207,25 @@
         }
         .item-token {
             position: absolute;
-            height: 40px;
-            width: 40px;
+            height: 50px;
+            width: 50px;
             border-radius: 50%;
             opacity: 0.6;
             &:nth-of-type(1) {
-                bottom: -5px;
+                bottom: -15px;
+                left: -15px;
             }
             &:nth-of-type(2) {
-                bottom: -5px;
-                right: -5px;
+                bottom: -15px;
+                right: -15px;
             }
             &:nth-of-type(3) {
-                top: -5px;
+                top: -15px;
+                left: -15px;
             }
             &:nth-of-type(4) {
-                top: -5px;
-                right: -5px;
+                top: -15px;
+                right: -15px;
             }
         }
     }

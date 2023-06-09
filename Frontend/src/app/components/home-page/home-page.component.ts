@@ -54,16 +54,25 @@ export class HomePageComponent {
     this.service.displayCardIndex = changedIndex;
   }
 
-  toggleDiscardCard() {
-    let indexOfEle = this.service.discardedCards.indexOf(this.service.localCardsForHome[this.service.displayCardIndex]);
-    if(this.service.discardedCards.indexOf(this.service.localCardsForHome[this.service.displayCardIndex]) >= 0) {
-      this.service.discardedCards.splice(indexOfEle, 1);
-    } else {
-      this.service.discardedCards.push(this.service.localCardsForHome[this.service.displayCardIndex]);
+  toggleDiscardCard(discardCard: Boolean) {
+    let cardLabel = this.service.localCardsForHome[this.service.displayCardIndex];
+    if(discardCard) {   // adding card to discarded card list
+      this.service.discardedCards.push(cardLabel);
+    } else {  // removing card from discarded card list
+      this.service.discardedCards.splice(this.service.discardedCards.indexOf(cardLabel), 1);
     }
 
     if(this.service.localCardsForHome.length == this.service.discardedCards.length) {
+      // if all cards are discarded, then ask confirmation to go to summary page
       this.openDialog();
+    } else {
+      // going to the next non-discarded card
+      let tempDiscardedCardIndex = this.service.displayCardIndex < this.service.localCardsForHome.length - 1 ? this.service.displayCardIndex : 0;
+      while(this.service.discardedCards.includes(this.service.localCardsForHome[tempDiscardedCardIndex])) {
+        tempDiscardedCardIndex += 1
+        if(tempDiscardedCardIndex == this.service.localCardsForHome.length) { tempDiscardedCardIndex = 0 }
+      }
+      this.service.displayCardIndex = tempDiscardedCardIndex;
     }
   }
 

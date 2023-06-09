@@ -59,7 +59,10 @@
             </div>
             <div class="arrow-container">
                 <img src="../../assets/left-arrow.svg" (click)="changeDisplayImage(-1)" alt="">
-                <div class="discardBtn" (click)="toggleDiscardCard()">{{ service.discardedCards.includes(service.localCardsForHome[service.displayCardIndex]) ? 'Use card' : 'Discard card' }}</div>
+                <div class="discardBtn" *ngIf="service.discardedCards.includes(service.localCardsForHome[service.displayCardIndex]); else discardCardBtn" (click)="toggleDiscardCard(false)">Use Card</div>
+                <ng-template #discardCardBtn>
+                    <div class="discardBtn" (click)="toggleDiscardCard(true)">Discard Card</div>
+                </ng-template>
                 <img src="../../assets/right-arrow.svg" (click)="changeDisplayImage(1)" alt="">
             </div>
         </div>
