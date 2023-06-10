@@ -1,9 +1,6 @@
 <div class="container">
     <div class="buttons" #dropZone>
         <div class="btn">
-            <!-- <div class="back-btn">
-                <img src="" alt="back">
-            </div> -->
             Rank
         </div>
     </div>
@@ -17,7 +14,7 @@
                 (cdkDragMoved)="cardMoveListener($event)">
                 <p class="label">{{ displayCardData.label }}</p>
                 <p class="preview">{{ displayCardData.preview }}</p>
-                <img src="../../assets/{{ displayCardData.imageUrl }}.svg" alt="image" class="image">
+                <img [src]="'assets/' + displayCardData.imageUrl + '.svg'" alt="image" class="image">
                 <img *cdkDragPreview src="../../assets/{{ displayCardData.imageUrl }}.svg" alt="image">
             </div>
         </div>
