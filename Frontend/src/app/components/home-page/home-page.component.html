@@ -39,7 +39,7 @@
                         <div class="logo">
                             <img [src]="'assets/' + card1.imageUrl + '.svg'" alt="">
                         </div>
-                        <img *cdkDragPreview src="../../assets/{{ card1.imageUrl }}.svg" alt="image">
+                        <img *cdkDragPreview [src]="'assets/' + card1.imageUrl + '.svg'" alt="image">
                     </div>
                 </div>
 
