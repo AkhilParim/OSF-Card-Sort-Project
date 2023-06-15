@@ -121,7 +121,7 @@
                             cdkDragBoundary="{{ currentPageAndState.page != 'token' ? '.drag-zone' : '' }}"
                             [style.top.px]="item.y"
                             [style.left.px]="item.x"
-                            [style.z-index]="item['z-index']"
+                            [style.z-index]="item['zIndex']"
                             (cdkDragStarted)="changeZIndex(item)"
                             (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
                             [cdkDragData]="item"

@@ -29,6 +29,6 @@ export interface IPlacedCard {
     label: string,
     x: number,
     y: number,
-    'z-index': number,
+    zIndex: number,
     tokens: Set<string>
 }

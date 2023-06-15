@@ -28,7 +28,10 @@ export class HttpService {
 
   saveParticipation() {
     return this.http.post('http://localhost:3000/', {
-      placedCards: this.appService.placedCards,
+      placedCards: this.appService.placedCards.map(({ zIndex, tokens, ...cardData}) => ({
+        ...cardData,
+        tokens: Array.from(tokens)
+      })),
       discardedCards: this.appService.discardedCards
     });
   }

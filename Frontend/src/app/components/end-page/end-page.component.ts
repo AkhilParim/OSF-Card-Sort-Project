@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
 import { HttpService } from 'src/app/http.service';
 
 @Component({
@@ -9,12 +10,16 @@ import { HttpService } from 'src/app/http.service';
 export class EndPageComponent implements OnInit {
   showPageLoader: Boolean = true;
 
-  constructor(private httpService: HttpService) { }
+  constructor(private httpService: HttpService, private appService: AppService) { }
 
   ngOnInit(): void {
-    this.httpService.saveParticipation().subscribe(res => {
+    if(this.appService.placedCards.length > 0) { 
+      this.httpService.saveParticipation().subscribe(res => {
+        this.showPageLoader = false;
+      });
+    } else {
       this.showPageLoader = false;
-    });
+    }
   }
 
 

@@ -54,7 +54,7 @@ export class DragDropComponent implements OnInit {
       x < 0 ||
       y > rectZone.height ||
       x > rectZone.width)) {
-      let coordinates: IPlacedCard = { 'label': event.item.data, 'x': x, 'y': y, 'z-index': 0, tokens: new Set() }
+      let coordinates: IPlacedCard = { 'label': event.item.data, 'x': x, 'y': y, 'zIndex': 0, tokens: new Set() }
       if(this.currentPageAndState.page == 'summary') {
         this.localDiscardedCards = this.localDiscardedCards.filter(card => card != String(event.item.data));
         this.currentPageAndState.state = '';
@@ -86,7 +86,7 @@ export class DragDropComponent implements OnInit {
   }
 
   changeZIndex(item: any) {
-    this.localPlaced.forEach((x) => (x['z-index'] = x == item ? 1 : 0));
+    this.localPlaced.forEach((x) => (x['zIndex'] = x == item ? 1 : 0));
   }
 
   changePosition(event: CdkDragDrop<any>, field: IPlacedCard) {
@@ -111,7 +111,7 @@ export class DragDropComponent implements OnInit {
     field.x = x;
     field.y = y;
     this.localPlaced = this.localPlaced.sort((a, b) =>
-      a['z-index'] > b['z-index'] ? 1 : a['z-index'] < b['z-index'] ? -1 : 0
+      a['zIndex'] > b['zIndex'] ? 1 : a['zIndex'] < b['zIndex'] ? -1 : 0
     );
   }
 

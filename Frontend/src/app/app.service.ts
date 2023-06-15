@@ -13,10 +13,10 @@ export class AppService {
   cardsData: ICardsData = {}
   
   placedCards: Array<IPlacedCard> = [
-    // {'label': 'Mail', 'x': 559.94921875, 'y': 155.6015625, 'z-index': 0, tokens: new Set()},
-    // {'label': 'Gear', 'x': 753.6953125, 'y': 165.98046875, 'z-index': 0, tokens: new Set()},
-    // {'label': 'Shield', 'x': 116.8515625, 'y': 40.43359375, 'z-index': 0, tokens: new Set()},
-    // {'label': 'Filter', 'x': 204.640625, 'y': 257.1171875, 'z-index': 0, tokens: new Set()}
+    // {'label': 'Mail', 'x': 559.94921875, 'y': 155.6015625, 'zIndex': 0, tokens: new Set()},
+    // {'label': 'Gear', 'x': 753.6953125, 'y': 165.98046875, 'zIndex': 0, tokens: new Set()},
+    // {'label': 'Shield', 'x': 116.8515625, 'y': 40.43359375, 'zIndex': 0, tokens: new Set()},
+    // {'label': 'Filter', 'x': 204.640625, 'y': 257.1171875, 'zIndex': 0, tokens: new Set()}
   ]
   
   discardedCards: Array<string> = []
