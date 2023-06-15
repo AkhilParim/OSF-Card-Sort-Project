@@ -25,4 +25,11 @@ export class HttpService {
       });
     });
   }
+
+  saveParticipation() {
+    return this.http.post('http://localhost:3000/', {
+      placedCards: this.appService.placedCards,
+      discardedCards: this.appService.discardedCards
+    });
+  }
 }

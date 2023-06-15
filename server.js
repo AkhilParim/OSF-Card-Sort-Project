@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 
 const Card = require('./models/card');
+const Participation = require('./models/participation');
 
 mongoose.connect('mongodb://127.0.0.1:27017/OSFCardSort');
 const db = mongoose.connection;
@@ -20,12 +21,30 @@ var allowCrossDomain = function(req, res, next) {  // allows angular to connect 
 app.use(allowCrossDomain);
 
 app.get('/', async (req, res) => {
-    try {
-        const cards = await Card.find();
-        res.json(cards[0].data);
-    } catch(err) {
-        res.status(500).json({ message: err.message })
-    }
+    const cards = await Card.find();
+    setTimeout(() => {
+        try {
+            res.json(cards[0].data);
+        } catch(err) {
+            res.status(500).json({ message: err.message })
+        }
+    }, 2000);
+});
+
+app.post('/', async(req, res) => {
+    const participation = new Participation({
+        placedCards: req.body.placedCards,
+        discardedCards: req.body.discardedCards
+    });
+    const newParticipation = await participation.save();
+
+    setTimeout(() => {
+        try {
+            res.status(201).json(newParticipation);
+        } catch(err) {
+            res.status(400).json({ message: err.message });
+        }
+    }, 3000);
 });
 
 app.listen(3000, () => {

@@ -6,6 +6,25 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;  }
     box-sizing: border-box;
 }
 
+// page loader css
+.page-loader {
+    margin: 100px auto 0;
+    border: 12px solid #f3f3f3;
+    border-top: 12px solid #908DDA;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: loader-spin 2s linear infinite;
+}
+@keyframes loader-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 
 // rotating border CSS
 .rotating-border {

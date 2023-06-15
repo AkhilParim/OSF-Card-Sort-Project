@@ -1,5 +1,9 @@
-<div class="body">
+<div class="body" *ngIf="!showPageLoader; else loading">
     <div class="container">
         <p>Thank you for participating!</p>
     </div>
 </div>
+
+<ng-template #loading>
+    <div class="page-loader"></div>
+</ng-template>
