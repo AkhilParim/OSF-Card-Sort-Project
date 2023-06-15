@@ -10,38 +10,7 @@ export class AppService {
   
   displayCardIndex: number = 0;
 
-  cardsData: ICardsData = {
-    'Home': {
-      label: 'Home',
-      preview: 'L. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      imageUrl: 'home',
-      content: `L. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`
-    },
-    'Mail': {
-      label: 'Mail',
-      preview: 'L. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      imageUrl: 'envelope-solid',
-      content: `L. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`
-    },
-    'Gear': {
-      label: 'Gear',
-      preview: 'L. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      imageUrl: 'gear-solid',
-      content: `L. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`
-    },
-    'Shield': {
-      label: 'Shield',
-      preview: 'L. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      imageUrl: 'shield-solid',
-      content: `L. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`
-    },
-    'Filter': {
-      label: 'Filter',
-      preview: 'L. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      imageUrl: 'filter-solid',
-      content: `L. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`
-    }
-  }
+  cardsData: ICardsData = {}
   
   placedCards: Array<IPlacedCard> = [
     // {'label': 'Mail', 'x': 559.94921875, 'y': 155.6015625, 'z-index': 0, tokens: new Set()},
@@ -59,11 +28,7 @@ export class AppService {
     'Great': { label: 'Great', color: '#417B5A' }
   }
   
-  localCardsForHome: Array<string> = Object.keys(this.cardsData).filter(card => {
-    return this.placedCards.some(x => {
-      return x && x.label != card
-    }) || true;
-  });
+  localCardsForHome: Array<string> = [];
 
   disableRotatingBorder(disable: Boolean) {
     const borderElements = Array.from(document.getElementsByClassName('rotating-border') as HTMLCollectionOf<HTMLElement>);
