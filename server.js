@@ -22,13 +22,11 @@ app.use(allowCrossDomain);
 
 app.get('/', async (req, res) => {
     const cards = await Card.find();
-    setTimeout(() => {
-        try {
-            res.json(cards[0].data);
-        } catch(err) {
-            res.status(500).json({ message: err.message })
-        }
-    }, 2000);
+    try {
+        res.json(cards[0].data);
+    } catch(err) {
+        res.status(500).json({ message: err.message })
+    }
 });
 
 app.post('/', async(req, res) => {
@@ -37,14 +35,11 @@ app.post('/', async(req, res) => {
         discardedCards: req.body.discardedCards
     });
     const newParticipation = await participation.save();
-
-    setTimeout(() => {
-        try {
-            res.status(201).json(newParticipation);
-        } catch(err) {
-            res.status(400).json({ message: err.message });
-        }
-    }, 3000);
+    try {
+        res.status(201).json(newParticipation);
+    } catch(err) {
+        res.status(400).json({ message: err.message });
+    }
 });
 
 app.listen(3000, () => {
