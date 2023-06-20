@@ -1,5 +1,5 @@
 import { CdkDragMove, CdkDragDrop } from '@angular/cdk/drag-drop';
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
@@ -12,13 +12,16 @@ import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 })
 
 
-export class HomePageComponent {
+export class HomePageComponent implements OnInit, AfterViewInit {
   off: any;
   _pointerPosition: any;
+  slideWidth!: number;
+  focusEleWidth!: number;
 
   @Input() appLongPressDiscard: any ; 
 
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
+  @ViewChild('carouselTrack', { read: ElementRef, static: true }) track!: ElementRef;
 
   constructor(public service: AppService, private router: Router, public dialog: MatDialog) { 
   }
@@ -26,7 +29,18 @@ export class HomePageComponent {
   ngOnInit(): void {
     if(this.service.displayCardIndex >= this.service.localCardsForHome.length) {
       this.service.displayCardIndex = this.service.localCardsForHome.length - 1;
-    }
+    }    
+  }
+    
+  ngAfterViewInit(): void {
+    let slides = Array.from(this.track.nativeElement.children as HTMLCollectionOf<HTMLElement>);
+    this.slideWidth = slides[0].getBoundingClientRect().width + 30  ;
+    let trackWidth = this.track.nativeElement.getBoundingClientRect().width;
+    this.focusEleWidth = trackWidth - (this.slideWidth * 2);
+    slides[0].style.width = this.focusEleWidth + 'px';
+    Array.from(slides).slice(1).forEach((slide, index) => {
+      slide.style.left = this.focusEleWidth + 30 + this.slideWidth * index + 'px';
+    });
   }
 
   cardMoveListener(event: CdkDragMove<any>) {
@@ -44,14 +58,6 @@ export class HomePageComponent {
       x > rectZone.width)) {
         this.router.navigate(['/discuss']);   
     }
-  }
-
-  changeDisplayImage(change: number) {
-    let changedIndex = this.service.displayCardIndex + change
-    if(changedIndex >= this.service.localCardsForHome.length || changedIndex < 0) {
-      return
-    }
-    this.service.displayCardIndex = changedIndex;
   }
 
   toggleDiscardCard(discardCard: Boolean) {
@@ -85,4 +91,29 @@ export class HomePageComponent {
     });
   }
 
+  changeDisplaySlide(arrow: number) {
+    if((arrow == 1 && this.service.displayCardIndex == this.service.localCardsForHome.length - 1)
+    || (arrow == -1 && this.service.displayCardIndex == 0)) {
+      return
+    } 
+    let slides = Array.from(this.track.nativeElement.children as HTMLCollectionOf<HTMLElement>);
+    let currentSlide = slides[this.service.displayCardIndex];
+    let goToSlide = slides[this.service.displayCardIndex + arrow];
+    if(arrow == 1) {
+      currentSlide.style.width = this.slideWidth - 30 + 'px';
+      goToSlide.style.width = this.focusEleWidth + 'px';
+      goToSlide.style.left = (this.slideWidth * (this.service.displayCardIndex + 1)) + 'px';
+      // goToSlide.querySelector('.card-content').style.display = 'block';
+    } else {
+      goToSlide.style.width = this.focusEleWidth + 'px';
+      currentSlide.style.width = this.slideWidth - 30 + 'px';
+      currentSlide.style.left = this.focusEleWidth + (this.slideWidth * (this.service.displayCardIndex - 1)) + 30 + 'px';
+    }
+    this.service.displayCardIndex += arrow;
+    let amountToScroll = arrow == 1 ? this.slideWidth : -this.slideWidth
+    this.track.nativeElement.scrollBy({
+      left: amountToScroll,
+      behavior: "smooth",
+    });
+  }
 }

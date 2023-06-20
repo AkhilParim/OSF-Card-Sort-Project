@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="carousel-wrapper">
-            <div class="carousel-container">
+            <!-- <div class="carousel-container">
                 <div class="focus-card-wrapper" cdkDropList
                     cdkDropListSortingDisabled
                     (cdkDropListDropped)="placeCard($event)">
@@ -56,14 +56,44 @@
                         <img [src]="'assets/' + service.cardsData[service.localCardsForHome[service.displayCardIndex+2]].imageUrl + '.svg'" alt="">
                     </div>
                 </div>
+            </div> -->
+            <div class="carousel-track" #carouselTrack>
+                <ng-container *ngFor="let card of service.localCardsForHome; let i = index">
+                    <div class="card-wrapper" cdkDropList
+                    cdkDropListSortingDisabled
+                    (cdkDropListDropped)="placeCard($event)">
+                        <div class="card" cdkDrag
+                        [ngClass]="service.discardedCards.includes(card) ? 'discarded-card' : ''"
+                        [cdkDragDisabled]="service.discardedCards.includes(card)"
+                        (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
+                        (cdkDragMoved)="cardMoveListener($event)"
+                        *ngFor="let card1 of [service.cardsData[card]]"
+                        [cdkDragData]="service.cardsData[card]">
+                            <!-- <div class="card-content" *ngIf="i == 0" style="display: none;">
+                                <div class="title">
+                                    {{ card1.label }}
+                                </div>
+                                <div class="content">
+                                    {{ card1.content }}
+                                </div>
+                            </div> -->
+                            <div class="logo">
+                                <img [src]="'assets/' + card1.imageUrl + '.svg'" alt="">
+                            </div>
+                            <img *cdkDragPreview [src]="'assets/' + card1.imageUrl + '.svg'" alt="image">
+                        </div>
+                    </div>
+                </ng-container>
+                <div class="card-wrapper"></div>
+                <div class="card-wrapper"></div>
             </div>
             <div class="arrow-container">
-                <img [src]="'assets/left-arrow.svg'" (click)="changeDisplayImage(-1)" alt="">
+                <img [src]="'assets/left-arrow.svg'" (click)="changeDisplaySlide(-1)" alt="">
                 <div class="discardBtn" *ngIf="service.discardedCards.includes(service.localCardsForHome[service.displayCardIndex]); else discardCardBtn" (click)="toggleDiscardCard(false)">Use Card</div>
                 <ng-template #discardCardBtn>
                     <div class="discardBtn" (click)="toggleDiscardCard(true)">Discard Card</div>
                 </ng-template>
-                <img [src]="'assets/right-arrow.svg'" (click)="changeDisplayImage(1)" alt="">
+                <img [src]="'assets/right-arrow.svg'" (click)="changeDisplaySlide(1)" alt="">
             </div>
         </div>
     </div>
