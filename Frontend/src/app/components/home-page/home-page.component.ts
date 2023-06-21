@@ -15,10 +15,9 @@ import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 export class HomePageComponent implements OnInit, AfterViewInit {
   off: any;
   _pointerPosition: any;
-  slideWidth!: number;
-  focusEleWidth!: number;
-
-  @Input() appLongPressDiscard: any ; 
+  focusSlideWidth!: number;  // width of slide in focus
+  slideWidth!: number;  // width of slides not in focus
+  slides!: HTMLElement[];  // slides in the image carousel
 
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
   @ViewChild('carouselTrack', { read: ElementRef, static: true }) track!: ElementRef;
@@ -33,15 +32,15 @@ export class HomePageComponent implements OnInit, AfterViewInit {
   }
     
   ngAfterViewInit(): void {
-    let slides = Array.from(this.track.nativeElement.children as HTMLCollectionOf<HTMLElement>);
-    this.slideWidth = slides[1].getBoundingClientRect().width + 30  ;
+    this.slides = Array.from(this.track.nativeElement.children as HTMLCollectionOf<HTMLElement>);
+    this.slideWidth = this.slides[1].getBoundingClientRect().width + 30  ;
     let trackWidth = this.track.nativeElement.getBoundingClientRect().width;
-    this.focusEleWidth = trackWidth - (this.slideWidth * 2);
-    slides[0].style.width = this.focusEleWidth + 'px';
-    Array.from(slides).slice(1).forEach((slide, index) => {
-      slide.style.left = this.focusEleWidth + 30 + this.slideWidth * index + 'px';
+    this.focusSlideWidth = trackWidth - (this.slideWidth * 2);
+    this.slides[0].style.width = this.focusSlideWidth + 'px';
+    this.slides.slice(1).forEach((slide, index) => {
+      slide.style.left = this.focusSlideWidth + 30 + this.slideWidth * index + 'px';
     });
-    Array.from(slides[0].getElementsByClassName('card-display') as HTMLCollectionOf<HTMLElement>)[0].style.display = 'flex';
+    Array.from(this.slides[0].getElementsByClassName('card-display') as HTMLCollectionOf<HTMLElement>)[0].style.display = 'flex';
   }
 
   cardMoveListener(event: CdkDragMove<any>) {
@@ -63,11 +62,11 @@ export class HomePageComponent implements OnInit, AfterViewInit {
 
   toggleDiscardCard(discardCard: Boolean) {
     let cardLabel = this.service.localCardsForHome[this.service.displayCardIndex];
-    if(discardCard) {   // adding card to discarded card list
-      this.service.discardedCards.push(cardLabel);
-    } else {  // removing card from discarded card list
-      this.service.discardedCards.splice(this.service.discardedCards.indexOf(cardLabel), 1);
+    if(!discardCard) {
+      this.service.discardedCards.splice(this.service.discardedCards.indexOf(cardLabel), 1);  // removing card from discarded card list
+      return
     }
+    this.service.discardedCards.push(cardLabel);  // adding card to discarded card list
 
     if(this.service.localCardsForHome.length == this.service.discardedCards.length) {
       // if all cards are discarded, then ask confirmation to go to summary page
@@ -79,7 +78,7 @@ export class HomePageComponent implements OnInit, AfterViewInit {
         tempDiscardedCardIndex += 1
         if(tempDiscardedCardIndex == this.service.localCardsForHome.length) { tempDiscardedCardIndex = 0 }
       }
-      this.service.displayCardIndex = tempDiscardedCardIndex;
+      this.changeDisplaySlide(0, tempDiscardedCardIndex);
     }
   }
 
@@ -92,30 +91,46 @@ export class HomePageComponent implements OnInit, AfterViewInit {
     });
   }
 
-  changeDisplaySlide(arrow: number) {
-    if((arrow == 1 && this.service.displayCardIndex == this.service.localCardsForHome.length - 1)
+  changeDisplaySlide(arrow: number, goToIndex?: number) {
+    if(goToIndex == undefined && (arrow == 1 && this.service.displayCardIndex == this.service.localCardsForHome.length - 1)
     || (arrow == -1 && this.service.displayCardIndex == 0)) {
       return
     } 
-    let slides = Array.from(this.track.nativeElement.children as HTMLCollectionOf<HTMLElement>);
-    let currentSlide = slides[this.service.displayCardIndex];
-    let goToSlide = slides[this.service.displayCardIndex + arrow];
-    if(arrow == 1) {
-      currentSlide.style.width = this.slideWidth - 30 + 'px';
-      goToSlide.style.width = this.focusEleWidth + 'px';
-      goToSlide.style.left = (this.slideWidth * (this.service.displayCardIndex + 1)) + 'px';
+
+    let currentSlide = this.slides[this.service.displayCardIndex];
+    let goToSlide = this.slides[goToIndex != undefined ? goToIndex : this.service.displayCardIndex + arrow];
+    currentSlide.style.width = this.slideWidth - 30 + 'px';
+    goToSlide.style.width = this.focusSlideWidth + 'px';
+    if(goToIndex == undefined) {
+      this.setSlidesPosition(this.service.displayCardIndex + arrow)
     } else {
-      goToSlide.style.width = this.focusEleWidth + 'px';
-      currentSlide.style.width = this.slideWidth - 30 + 'px';
-      currentSlide.style.left = this.focusEleWidth + (this.slideWidth * (this.service.displayCardIndex - 1)) + 30 + 'px';
+      this.setSlidesPosition(goToIndex);
     }
+
     this.showHideCardContent(currentSlide, goToSlide)
-    this.service.displayCardIndex += arrow;
-    let amountToScroll = arrow == 1 ? this.slideWidth : -this.slideWidth
+    this.service.displayCardIndex = goToIndex != undefined ? goToIndex : this.service.displayCardIndex + arrow;
+    
+    // set the position of the track accordingly
+    let amountToScroll = Number(this.slides[this.service.displayCardIndex].style.left.slice(0, -2)) - this.track.nativeElement.scrollLeft
     this.track.nativeElement.scrollBy({
       left: amountToScroll,
       behavior: "smooth",
     });
+  }
+
+  setSlidesPosition(goToIndex: number) {
+    // changes the position of slides on the track accordingly
+    if(goToIndex > this.service.displayCardIndex) {
+      let defaultLeft = this.slideWidth * (this.service.displayCardIndex + 1);
+      this.slides.slice(this.service.displayCardIndex + 1, goToIndex + 1).forEach((slide, ind) => {
+        slide.style.left = defaultLeft + (this.slideWidth * ind) + 'px';
+      });
+    } else {
+      let defaultLeft = (goToIndex * this.slideWidth) + this.focusSlideWidth + 30;
+      this.slides.slice(goToIndex + 1, this.service.displayCardIndex + 1).forEach((slide, ind) => {
+        slide.style.left = defaultLeft + (this.slideWidth * ind) + 'px';
+      });
+    }
   }
 
   showHideCardContent(currentSlide: HTMLElement, goToSlide: HTMLElement) {
