@@ -60,63 +60,60 @@
         display: flex;
         flex-direction: column;
         width: 100%;
-        .carousel-container {
+        .carousel-track {
             height: 100%;
-            display: flex;
-            gap: 30px;
+            position: relative;
+            overflow: hidden;
             .card-wrapper {
+                transition: all 250ms linear;
                 min-width: 128px;
+                position: absolute;
+                height: 100%;
                 .card {
-                    align-items: flex-end;
                     justify-content: center;
-                    padding-bottom: 80px;
+                    height: 100%;
+                    background: linear-gradient(180deg, #031926 50.07%, rgba(225, 230, 244, 0) 123.81%);
+                    border-radius: 40px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
                     img {
                         width: 82px;
                         height: 82px;
                     }
-                }
-            }
-            .card {
-                height: 100%;
-                background: linear-gradient(180deg, #031926 50.07%, rgba(225, 230, 244, 0) 123.81%);
-                border-radius: 40px;
-                display: flex;
-                &.discarded-card {
-                    background: linear-gradient(180deg, #BC3908 17.09%, rgba(234, 235, 237, 0) 126.23%);
-                }
-            }
-            .focus-card-wrapper {
-                display: flex;
-                width: 100%;
-                .focus-card {
-                    padding: 50px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    width: 100%;
+                    &.discarded-card {
+                        background: linear-gradient(180deg, #BC3908 17.09%, rgba(234, 235, 237, 0) 126.23%);
+                    }
+                    &.focus-card {
+                        padding: 50px;
+                        padding-bottom: 0;
+                        align-items: baseline;
+                    }
                     .card-content {
-                        margin: 20px 0 40px;
-                        height: 70%;
-                        overflow-y: scroll;
-                        .title{
-                            font-size: 36px;
-                            font-weight: 700;
-                            color : #fff;
-                            margin-bottom: 40px;
-                        }
-                        .content{
-                            font-size: 20px;
-                            font-weight: 400;
-                            color : #fff;
-                            word-wrap: break-word;
+                        flex: 70%;
+                        .card-display {
+                            margin: 20px 0 40px;
+                            overflow-y: scroll;
+                            display: flex;
+                            flex-direction: column;
+                            .title{
+                                font-size: 36px;
+                                font-weight: 700;
+                                color : #fff;
+                                margin-bottom: 40px;
+                            }
+                            .content{
+                                font-size: 20px;
+                                font-weight: 400;
+                                color : #fff;
+                                word-wrap: break-word;
+                            }
                         }
                     }
                     .logo{
-                        height: 30%;
+                        flex: 30%;
                         display: flex;
-                        img {
-                            max-width: 40%;
-                        }
+                        align-items: center;
                     }
                 }
             }
@@ -140,34 +137,6 @@
                 font-size: 16px;
                 line-height: 50px;
                 cursor: pointer;
-            }
-        }
-    }
-}
-
-.carousel-track {
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-    .card-wrapper {
-        transition: all 250ms linear;
-        min-width: 128px;
-        position: absolute;
-        height: 100%;
-        .card {
-            align-items: flex-end;
-            justify-content: center;
-            padding-bottom: 80px;
-            height: 100%;
-            background: linear-gradient(180deg, #031926 50.07%, rgba(225, 230, 244, 0) 123.81%);
-            border-radius: 40px;
-            display: flex;
-            img {
-                width: 82px;
-                height: 82px;
-            }
-            &.discarded-card {
-                background: linear-gradient(180deg, #BC3908 17.09%, rgba(234, 235, 237, 0) 126.23%);
             }
         }
     }

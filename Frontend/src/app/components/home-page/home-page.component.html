@@ -63,24 +63,27 @@
                     cdkDropListSortingDisabled
                     (cdkDropListDropped)="placeCard($event)">
                         <div class="card" cdkDrag
-                        [ngClass]="service.discardedCards.includes(card) ? 'discarded-card' : ''"
+                        [ngClass]="{'discarded-card': service.discardedCards.includes(card), 'focus-card': i == service.displayCardIndex}"
                         [cdkDragDisabled]="service.discardedCards.includes(card)"
                         (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
                         (cdkDragMoved)="cardMoveListener($event)"
-                        *ngFor="let card1 of [service.cardsData[card]]"
+                        *ngFor="let cardData of [service.cardsData[card]]"
                         [cdkDragData]="service.cardsData[card]">
-                            <!-- <div class="card-content" *ngIf="i == 0" style="display: none;">
-                                <div class="title">
-                                    {{ card1.label }}
+                            <div class="card-content">
+                                <div class="card-display" style="display: none;">
+                                    <div class="title">
+                                        {{ cardData.label }}
+                                    </div>
+                                    <div class="content">
+                                        {{ cardData.content }}
+                                        Home
+                                    </div>
                                 </div>
-                                <div class="content">
-                                    {{ card1.content }}
-                                </div>
-                            </div> -->
-                            <div class="logo">
-                                <img [src]="'assets/' + card1.imageUrl + '.svg'" alt="">
                             </div>
-                            <img *cdkDragPreview [src]="'assets/' + card1.imageUrl + '.svg'" alt="image">
+                            <div class="logo">
+                                <img [src]="'assets/' + cardData.imageUrl + '.svg'" alt="">
+                            </div>
+                            <img *cdkDragPreview [src]="'assets/' + cardData.imageUrl + '.svg'" alt="image">
                         </div>
                     </div>
                 </ng-container>

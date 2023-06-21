@@ -34,13 +34,14 @@ export class HomePageComponent implements OnInit, AfterViewInit {
     
   ngAfterViewInit(): void {
     let slides = Array.from(this.track.nativeElement.children as HTMLCollectionOf<HTMLElement>);
-    this.slideWidth = slides[0].getBoundingClientRect().width + 30  ;
+    this.slideWidth = slides[1].getBoundingClientRect().width + 30  ;
     let trackWidth = this.track.nativeElement.getBoundingClientRect().width;
     this.focusEleWidth = trackWidth - (this.slideWidth * 2);
     slides[0].style.width = this.focusEleWidth + 'px';
     Array.from(slides).slice(1).forEach((slide, index) => {
       slide.style.left = this.focusEleWidth + 30 + this.slideWidth * index + 'px';
     });
+    Array.from(slides[0].getElementsByClassName('card-display') as HTMLCollectionOf<HTMLElement>)[0].style.display = 'flex';
   }
 
   cardMoveListener(event: CdkDragMove<any>) {
@@ -103,17 +104,25 @@ export class HomePageComponent implements OnInit, AfterViewInit {
       currentSlide.style.width = this.slideWidth - 30 + 'px';
       goToSlide.style.width = this.focusEleWidth + 'px';
       goToSlide.style.left = (this.slideWidth * (this.service.displayCardIndex + 1)) + 'px';
-      // goToSlide.querySelector('.card-content').style.display = 'block';
     } else {
       goToSlide.style.width = this.focusEleWidth + 'px';
       currentSlide.style.width = this.slideWidth - 30 + 'px';
       currentSlide.style.left = this.focusEleWidth + (this.slideWidth * (this.service.displayCardIndex - 1)) + 30 + 'px';
     }
+    this.showHideCardContent(currentSlide, goToSlide)
     this.service.displayCardIndex += arrow;
     let amountToScroll = arrow == 1 ? this.slideWidth : -this.slideWidth
     this.track.nativeElement.scrollBy({
       left: amountToScroll,
       behavior: "smooth",
     });
+  }
+
+  showHideCardContent(currentSlide: HTMLElement, goToSlide: HTMLElement) {
+    // show content of display card slide and hide other cards content
+    Array.from(currentSlide.getElementsByClassName('card-display') as HTMLCollectionOf<HTMLElement>)[0].style.display = 'none';
+    setTimeout(() => {
+      Array.from(goToSlide.getElementsByClassName('card-display') as HTMLCollectionOf<HTMLElement>)[0].style.display = 'flex';
+    }, 250);
   }
 }
