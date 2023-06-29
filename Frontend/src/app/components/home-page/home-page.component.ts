@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
+import { HttpService } from 'src/app/http.service';
 
 @Component({
   selector: 'app-home-page',
@@ -18,7 +19,7 @@ export class HomePageComponent implements OnInit, AfterViewInit {
   focusSlideWidth!: number;  // width of slide in focus
   slideWidth!: number;  // width of slides not in focus
   slides!: HTMLElement[];  // slides in the image carousel
-  changeSlideExecuting: boolean = false;
+  slideScrollInProgress: boolean = false;  // takes care of multiple clicks on arrows
 
   @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
   @ViewChild('carouselTrack', { read: ElementRef, static: true }) track!: ElementRef;
@@ -103,12 +104,12 @@ export class HomePageComponent implements OnInit, AfterViewInit {
   }
 
   changeDisplaySlide(arrow: number, goToIndex?: number) {
-    if(this.changeSlideExecuting) { return };  // takes care of multiple clicks on arrows
+    if(this.slideScrollInProgress) { return };  // takes care of multiple clicks on arrows
     if(goToIndex == undefined && (arrow == 1 && this.service.displayCardIndex == this.service.localCardsForHome.length - 1)
     || (arrow == -1 && this.service.displayCardIndex == 0)) {
       return
     } 
-    this.changeSlideExecuting = true;
+    this.slideScrollInProgress = true;
 
     let currentSlide = this.slides[this.service.displayCardIndex];
     let goToSlide = this.slides[goToIndex != undefined ? goToIndex : this.service.displayCardIndex + arrow];
@@ -155,7 +156,7 @@ export class HomePageComponent implements OnInit, AfterViewInit {
     Array.from(currentSlide.getElementsByClassName('card-display') as HTMLCollectionOf<HTMLElement>)[0].style.display = 'none';
     setTimeout(() => {
       Array.from(goToSlide.getElementsByClassName('card-display') as HTMLCollectionOf<HTMLElement>)[0].style.display = 'flex';
-      this.changeSlideExecuting = false;
+      this.slideScrollInProgress = false;
     }, 250);
   }
 }

@@ -10,7 +10,7 @@ import { HttpService } from 'src/app/http.service';
 })
 export class EndPageComponent implements OnInit {
   showPageLoader: Boolean = true;
-  promptDuration: number = 10;
+  promptDuration: number = 5;
 
   constructor(private httpService: HttpService, private appService: AppService, private router: Router) { }
 
@@ -31,9 +31,22 @@ export class EndPageComponent implements OnInit {
       this.promptDuration -= 1;
       if(this.promptDuration == -1) {
         clearInterval(interval);
-        this.router.navigate(['/']);
+        this.reInitializeApp();
       }
     }, 1000);
   }
-  
+
+  reInitializeApp() {
+    this.showPageLoader = true;
+    this.appService.discardedCards = [];
+    this.appService.placedCards = [];
+    this.appService.cardsData = {};
+    this.appService.localCardsForHome = [];
+    this.httpService.getCardsData().then(() => {
+      this.router.navigate(['/']).then(() => {
+        // window.location.reload(); 
+      });
+    });
+    this.appService.displayCardIndex = 0;
+  }
 }
