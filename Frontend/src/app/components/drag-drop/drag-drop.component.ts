@@ -93,10 +93,8 @@ export class DragDropComponent implements OnInit {
     // handles the change of position of a card within the drop zone
     let y = field.y + event.distance.y;
     let x = field.x + event.distance.x;
-
     const rectZone = this.dropZone.nativeElement.getBoundingClientRect();
-    const rectElement =
-      event.item.element.nativeElement.getBoundingClientRect();
+    const rectElement = event.item.element.nativeElement.getBoundingClientRect();
 
     if (x < 0) {
       x = 0;
@@ -108,8 +106,10 @@ export class DragDropComponent implements OnInit {
     } else if (y > rectZone.height - rectElement.height) {
       y = rectZone.height - rectElement.height;
     }
-    field.x = x;
-    field.y = y;
+    // do not remove 0.1
+    field.x = x + 0.1;
+    field.y = y + 0.1;
+    
     this.localPlaced = this.localPlaced.sort((a, b) =>
       a['zIndex'] > b['zIndex'] ? 1 : a['zIndex'] < b['zIndex'] ? -1 : 0
     );
@@ -123,8 +123,9 @@ export class DragDropComponent implements OnInit {
   }
 
   removeTokens(event: CdkDragDrop<any>, field: IPlacedCard, idx: number) {
-    field.x = field.x + 0.0001;
-    field.y = field.y + 0.0001;
+    // do not remove 0.1
+    field.x = field.x + 0.1;
+    field.y = field.y + 0.1;
     
     const rectZone = this.removeTokensZone.first.nativeElement.getBoundingClientRect();
     let x = this._pointerPosition.x - this.off.x - rectZone.left;

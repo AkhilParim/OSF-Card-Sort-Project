@@ -13,10 +13,12 @@ export class AppService {
   cardsData: ICardsData = {}
   
   placedCards: Array<IPlacedCard> = [
-    // {'label': 'Mail', 'x': 559.94921875, 'y': 155.6015625, 'zIndex': 0, tokens: new Set()},
-    // {'label': 'Gear', 'x': 753.6953125, 'y': 165.98046875, 'zIndex': 0, tokens: new Set()},
-    // {'label': 'Shield', 'x': 116.8515625, 'y': 40.43359375, 'zIndex': 0, tokens: new Set()},
-    // {'label': 'Filter', 'x': 204.640625, 'y': 257.1171875, 'zIndex': 0, tokens: new Set()}
+      // { "label": "Food", "x": 106.2265625, "y": 41, "zIndex": 0, "tokens": new Set() },
+      // { "label": "Friends", "x": 190.2265625, "y": 158, "zIndex": 0, "tokens": new Set() },
+      // { "label": "Home", "x": 296.2265625, "y": 292, "zIndex": 0, "tokens": new Set() },
+      // { "label": "Physical health", "x": 440.2265625, "y": 104, "zIndex": 0, "tokens": new Set() },
+      // { "label": "Support system", "x": 763.2265625, "y": 140, "zIndex": 0, "tokens": new Set() },
+      // { "label": "Mental health", "x": 580.2265625, "y": 252, "zIndex": 1, "tokens": new Set() }
   ]
   
   discardedCards: Array<string> = []
