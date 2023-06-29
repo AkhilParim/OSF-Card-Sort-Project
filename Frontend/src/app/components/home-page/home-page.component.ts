@@ -28,7 +28,7 @@ export class HomePageComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.service.displayCardIndex = this.getDisplayCardIndex();
+    this.service.displayCardIndex = this.setDisplayCardIndex();
   }
     
   ngAfterViewInit(): void {
@@ -79,12 +79,12 @@ export class HomePageComponent implements OnInit, AfterViewInit {
       this.openDialog();
     } else {
       // going to the next non-discarded card
-      let tempDisplayCardInd = this.getDisplayCardIndex();
+      let tempDisplayCardInd = this.setDisplayCardIndex();
       this.changeDisplaySlide(0, tempDisplayCardInd);
     }
   }
 
-  getDisplayCardIndex() {
+  setDisplayCardIndex() {
     // checks if display card is discarded and returns index of next non-discarded card 
     let tempDisplayCardInd = this.service.displayCardIndex < this.service.localCardsForHome.length - 1 ? this.service.displayCardIndex : 0;
     while(this.service.discardedCards.includes(this.service.localCardsForHome[tempDisplayCardInd])) {
