@@ -75,11 +75,12 @@
                         font-size: 50px;
                         line-height: 61px;
                         margin-bottom: 36px;
+                        word-break: break-all;
                     }
                     .preview {
                         font-size: 16px;
                         margin-bottom: 70px;
-                        overflow: scroll;
+                        overflow: hidden;
                     }
                     .image {
                         width: 160px;
