@@ -1,7 +1,7 @@
 <div class="container">
     <div class="buttons">
         <ng-container *ngIf="currentPageAndState.page == 'token' || (currentPageAndState.page == 'rank' && !isCardPlaced); else multipleBtns">
-            <div class="singleBtn btn option1">
+            <div class="singleBtn btn">
                 <p *ngIf="currentPageAndState.page == 'rank'" (click)="navigateToHome();">Cards</p>
                 <p *ngIf="currentPageAndState.page == 'token' && currentPageAndState.state == ''" #removeTokensZone>Remove tokens</p>
                 <p *ngIf="currentPageAndState.page == 'token' && currentPageAndState.state == 'tokenSummary'"

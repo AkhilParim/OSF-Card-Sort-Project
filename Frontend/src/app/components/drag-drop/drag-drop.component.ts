@@ -70,11 +70,14 @@ export class DragDropComponent implements OnInit {
     const rectZone = this.dropZone.nativeElement.getBoundingClientRect();
     let y = this._pointerPosition.y - this.off.y - rectZone.top;
     let x = this._pointerPosition.x - this.off.x - rectZone.left;
+    const rectElement = event.item.element.nativeElement.getBoundingClientRect();
+    let h = rectElement.height;
+    let w = rectElement.width;
 
     for(var i = 0; i < this.localPlaced.length; i++) {
       let ele = this.localPlaced[i];
-      if(((ele.x < x && x < ele.x+50) || (ele.x < x+40 && x+40 < ele.x+50))
-        && ((ele.y < y && y < ele.y+50) || (ele.y < y+40 && y+40 < ele.y+50))) {   // checking if token is placed on any card
+      if(((ele.x < x && x < ele.x+w) || (ele.x < x+40 && x+40 < ele.x+w))
+        && ((ele.y < y && y < ele.y+h) || (ele.y < y+40 && y+40 < ele.y+h))) {   // checking if token is placed on any card
         this.localPlaced[i].tokens.add(event.item.data.label);
         break;
       };

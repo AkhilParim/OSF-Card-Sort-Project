@@ -1,3 +1,9 @@
+$primary-cards-color: linear-gradient(180deg, #AFABEC 0%, #FFFFFF 100%);
+$primary-text-color: #000000;
+$title-color: linear-gradient(90deg, #F4F1BB 2.6%, #BC3908 71.09%);
+$neg-title-color: linear-gradient(90deg, #F4F1BB 2.6%, #BC3908 71.09%);
+$pos-title-color: linear-gradient(90deg, #F4F1BB 2.6%, #305252 53.84%);;
+
 
 .container {
     height: 100vh;
@@ -24,6 +30,8 @@
             width: 100%;
             position: relative;
             cursor: default;
+            border-radius: 0px 0px 50px 50px;
+            background: $title-color;
             p {
                 display: flex;
                 align-items: center;
@@ -33,11 +41,11 @@
             }
         }
         .option1 {
-            background: linear-gradient(90deg, #F4F1BB 2.6%, #BC3908 71.09%);
+            background: $neg-title-color;
             border-radius: 0px 0px 50px 50px;
         }
         .option2 {
-            background: linear-gradient(90deg, #305252 2.6%, #031926 40.14%);
+            background: $pos-title-color;
             border-radius: 0px 0px 50px 50px;
         }
     }
@@ -60,10 +68,10 @@
                 width: 250px;
                 .display-card {
                     position: relative;
-                    background: linear-gradient(180deg, #031926 42.42%, rgba(234, 235, 237, 1) 99.22%);
+                    background: $primary-cards-color;
                     box-shadow: 0px 4px 30px 21px rgba(0, 0, 0, 0.25);
                     border-radius: 40px;
-                    color: #fff;
+                    color: $primary-text-color;
                     padding: 42px;
                     display: flex;
                     flex-direction: column;
@@ -159,14 +167,14 @@
             .drag-zone-container {
                 height: 100%;
                 position: relative;
-                border-radius: 30px;
+                border-radius: 16px;
                 .drag-zone {
                     position:relative;
                     flex-grow:1;
                     height: 100%;
                     background: linear-gradient(90deg, #9792E3 0%, #F4F1BB 100%);
                     box-shadow: 0px 4px 30px 20px rgba(0, 0, 0, 0.25);
-                    border-radius: 30px;
+                    border-radius: 14px;
                     overflow: hidden;
                     img {
                         width: 50px;   // this value should be same as value in placeToken function and cdk-drag-preview selector in global styles
