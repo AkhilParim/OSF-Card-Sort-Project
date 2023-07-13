@@ -9,12 +9,13 @@ import { AppService } from './app.service';
   providedIn: 'root'
 })
 export class HttpService {
+  baseUrl: string = 'http://3.131.110.250:3000/'
 
   constructor(private http: HttpClient, private appService: AppService) { }
 
   getCardsData() {  // this method is called on app initialisation
     return new Promise<void>((resolve, reject) => {
-      this.http.get('http://localhost:3000/').subscribe((cards) => {
+      this.http.get(this.baseUrl).subscribe((cards) => {
         this.appService.cardsData = JSON.parse(JSON.stringify(cards));
         this.appService.localCardsForHome = Object.keys(this.appService.cardsData).filter(card => {
           return this.appService.placedCards.some(x => {
@@ -27,7 +28,7 @@ export class HttpService {
   }
 
   saveParticipation() {
-    return this.http.post('http://localhost:3000/', {
+    return this.http.post(this.baseUrl, {
       placedCards: this.appService.placedCards.map(({ zIndex, tokens, ...cardData}) => ({
         ...cardData,
         tokens: Array.from(tokens)
