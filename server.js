@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 const Card = require('./models/card');
 const Participation = require('./models/participation');
 
-mongoose.connect('mongodb://127.0.0.1:27017/OSFCardSort');
+// mongoose.connect('mongodb://127.0.0.1:27017/OSFCardSort');
+mongoose.connect('mongodb+srv://root:root@atlascluster.im1sbt0.mongodb.net/?retryWrites=true&w=majority');
 const db = mongoose.connection;
 db.on('error', (err) => console.log(err));
 db.once('open', () => console.log('Connected to Database'));
