@@ -44,6 +44,6 @@ app.post('/', async(req, res) => {
     }
 });
 
-app.listen(443, () => {
+app.listen(3000, () => {
     console.log('Server Started');
 });
