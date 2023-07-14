@@ -9,7 +9,7 @@ import { AppService } from './app.service';
   providedIn: 'root'
 })
 export class HttpService {
-  baseUrl: string = '/api'
+  baseUrl: string = 'http://3.139.232.20/api'
 
   constructor(private http: HttpClient, private appService: AppService) { }
 
