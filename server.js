@@ -13,10 +13,11 @@ db.once('open', () => console.log('Connected to Database'));
 
 app.use(express.json());  // allows the server to accept json
 
-var allowCrossDomain = function(req, res, next) {  // allows angular to connect to 3000 port
+var allowCrossDomain = function(req, res, next) {  // allows angular to connect to other ports
     res.header('Access-Control-Allow-Origin', "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Content-Security-Policy', 'upgrade-insecure-requests');
     next();
 }
 app.use(allowCrossDomain);
@@ -43,6 +44,6 @@ app.post('/', async(req, res) => {
     }
 });
 
-app.listen(3000, () => {
+app.listen(443, () => {
     console.log('Server Started');
 });
