@@ -4,18 +4,18 @@ import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { ICardsData } from './app.model';
 import { AppService } from './app.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
-  baseUrl: string = 'http://3.139.232.20/api'
 
   constructor(private http: HttpClient, private appService: AppService) { }
 
   getCardsData() {  // this method is called on app initialisation
     return new Promise<void>((resolve, reject) => {
-      this.http.get(this.baseUrl).subscribe((cards) => {
+      this.http.get(environment.apiEndPoint).subscribe((cards) => {
         this.appService.cardsData = JSON.parse(JSON.stringify(cards));
         this.appService.localCardsForHome = Object.keys(this.appService.cardsData).filter(card => {
           return this.appService.placedCards.some(x => {
@@ -28,7 +28,7 @@ export class HttpService {
   }
 
   saveParticipation() {
-    return this.http.post(this.baseUrl, {
+    return this.http.post(environment.apiEndPoint, {
       placedCards: this.appService.placedCards.map(({ zIndex, tokens, ...cardData}) => ({
         ...cardData,
         tokens: Array.from(tokens)
