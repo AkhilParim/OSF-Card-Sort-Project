@@ -1,3 +1,6 @@
+// to start using pm2   - pm2 start ecosystem.config.js 
+// or with env variable -  pm2 start ecosystem.config.js --env production
+
 module.exports = {
    apps : [{
       name   : "OSF",

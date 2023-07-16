@@ -5,18 +5,19 @@ const mongoose = require('mongoose');
 const Card = require('./models/card');
 const Participation = require('./models/participation');
 
-console.log(process.env.NODE_ENV);
 let dbEndPoint = '';
 if (process.env.NODE_ENV && process.env.NODE_ENV === "production") {
+//    console.log('production');
     dbEndPoint = String(process.env.DB_END_POINT);
 } else {
+//    console.log('dev');
     dbEndPoint = 'mongodb://127.0.0.1:27017/OSFCardSort';  // mongo shell for development
 }
 
 mongoose.connect(dbEndPoint);
 const db = mongoose.connection;
 db.on('error', (err) => console.log(err));
-db.once('open', () => console.log('Connected to Database'));
+// db.once('open', () => console.log('Connected to Database'));
 
 app.use(express.json());  // allows the server to accept json
 
@@ -52,5 +53,5 @@ app.post('/', async(req, res) => {
 });
 
 app.listen(3000, () => {
-    console.log('Server Started');
+//    console.log('Server Started');
 });
