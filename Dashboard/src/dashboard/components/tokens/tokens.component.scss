@@ -1,0 +1,18 @@
+.chartContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    justify-content: center;
+}
+.chartDiv {
+    background: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    flex-grow: 1;
+    // flex-basis: 33.3333%;
+    max-width: 33.3333%;
+    // height: 100px;
+    max-height: 40%;
+}

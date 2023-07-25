@@ -1,16 +1,25 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
-import { AppComponent } from './dashboard.component';
+import { DashboardComponent } from './dashboard.component';
+import { MostDiscardedComponent } from './components/most-discarded/most-discarded.component';
+import { TokensComponent } from './components/tokens/tokens.component';
+import { MostImportantComponent } from './components/most-important/most-important.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    DashboardComponent,
+    TokensComponent,
+    MostDiscardedComponent,
+    MostImportantComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule,
+    
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [DashboardComponent]
 })
 export class AppModule { }

@@ -1,4 +1,25 @@
-<h1>Dashboard</h1>
-<div id="chartDiv">
-  <canvas id="myChart"></canvas>
+<div class="body">
+  <div class="main">
+    <div class="navbar">
+      <p>Dashboard</p>
+      <!-- <div class="buttons">
+        <button [ngClass]="{'selected': currentChart == 'tokens'}"  (click)="currentChart = 'tokens'">Tokens</button>
+        <button [ngClass]="{'selected': currentChart == 'discarded'}" (click)="currentChart = 'discarded'">Most discarded cards</button>
+        <button [ngClass]="{'selected': currentChart == 'important'}" (click)="currentChart = 'important'">Most important cards</button>
+      </div> -->
+    </div>
+    
+    <div class="charts-container">
+      <div class="page-loader" *ngIf="service.isLoading; else charts"></div>
+      <ng-template #charts>
+        <div class="left">
+          <app-tokens></app-tokens>
+        </div>
+        <div class="right">
+          <app-most-discarded></app-most-discarded>
+          <app-most-important></app-most-important>
+        </div>
+      </ng-template>
+    </div>
+  </div>
 </div>
