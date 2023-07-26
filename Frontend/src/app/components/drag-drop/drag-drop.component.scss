@@ -94,7 +94,6 @@ $pos-title-color: linear-gradient(90deg, #F4F1BB 2.6%, #305252 53.84%);;
                         align-items: center;
                         .preview {
                             font-size: 16px;
-                            overflow: scroll;
                         }
                         .logo {
                             flex-grow: 1;
@@ -103,11 +102,11 @@ $pos-title-color: linear-gradient(90deg, #F4F1BB 2.6%, #305252 53.84%);;
                             display: flex;
                             align-items: flex-end;
                             justify-content: center;
-                        }
-                        img {
-                            max-width: 150px;
                             min-height: 40px;
                             min-width: 40px;
+                            max-width: 150px;
+                        }
+                        img {
                             width: 100%;
                         }
                     }
