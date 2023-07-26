@@ -17,46 +17,6 @@
             </div>
         </div>
         <div class="carousel-wrapper">
-            <!-- <div class="carousel-container">
-                <div class="focus-card-wrapper" cdkDropList
-                    cdkDropListSortingDisabled
-                    (cdkDropListDropped)="placeCard($event)">
-                    <div class="focus-card card" cdkDrag
-                    [ngClass]="service.discardedCards.includes(service.localCardsForHome[service.displayCardIndex]) ? 'discarded-card' : ''"
-                    [cdkDragDisabled]="service.discardedCards.includes(service.localCardsForHome[service.displayCardIndex])"
-                    (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
-                    (cdkDragMoved)="cardMoveListener($event)"
-                    *ngFor="let card1 of [service.cardsData[service.localCardsForHome[service.displayCardIndex]]]"
-                    [cdkDragData]="service.cardsData[service.localCardsForHome[service.displayCardIndex]]">
-                        <div class="card-content">
-                            <div class="title">
-                                {{ card1.label }}
-                            </div>
-                            <div class="content">
-                                {{ card1.content }}
-                            </div>
-                        </div>
-                        <div class="logo">
-                            <img [src]="'assets/' + card1.imageUrl + '.svg'" alt="">
-                        </div>
-                        <img *cdkDragPreview [src]="'assets/' + card1.imageUrl + '.svg'" alt="image">
-                    </div>
-                </div>
-
-                <div class="card-wrapper">
-                    <div class="card" *ngIf="service.displayCardIndex+1 <=  service.localCardsForHome.length-1"
-                    [ngClass]="service.discardedCards.includes(service.localCardsForHome[service.displayCardIndex+1]) ? 'discarded-card' : ''">
-                        <img [src]="'assets/' + service.cardsData[service.localCardsForHome[service.displayCardIndex+1]].imageUrl + '.svg'" alt="">
-                    </div>
-                </div>
-
-                <div class="card-wrapper">
-                    <div class="card" *ngIf="service.displayCardIndex+2 <=  service.localCardsForHome.length-1"
-                    [ngClass]="service.discardedCards.includes(service.localCardsForHome[service.displayCardIndex+2]) ? 'discarded-card' : ''">
-                        <img [src]="'assets/' + service.cardsData[service.localCardsForHome[service.displayCardIndex+2]].imageUrl + '.svg'" alt="">
-                    </div>
-                </div>
-            </div> -->
             <div class="carousel-track" #carouselTrack>
                 <ng-container *ngFor="let card of service.localCardsForHome; let i = index">
                     <div class="card-wrapper" cdkDropList

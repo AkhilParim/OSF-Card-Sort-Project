@@ -29,7 +29,7 @@ export class AppService {
     'Okay': { label: 'Okay', color: '#DC851F' },
     'Great': { label: 'Great', color: '#417B5A' }
   }
-  
+
   localCardsForHome: Array<string> = [];
 
   disableRotatingBorder(disable: Boolean) {
@@ -37,5 +37,9 @@ export class AppService {
     borderElements.forEach(ele => {
       ele.style.display = disable ? 'none' : 'flex';
     });
+  }
+
+  asIsOrder(a: any, b:any) {    // used to preserve order of json objects
+    return 1;
   }
 }

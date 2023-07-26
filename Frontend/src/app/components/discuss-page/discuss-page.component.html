@@ -13,8 +13,12 @@
                 (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
                 (cdkDragMoved)="cardMoveListener($event)">
                 <p class="label">{{ displayCardData.label }}</p>
-                <p class="preview">{{ displayCardData.preview }}</p>
-                <img [src]="'assets/' + displayCardData.imageUrl + '.svg'" alt="image" class="image">
+                <div class="content">
+                    <p class="preview">{{ displayCardData.preview }}</p>
+                    <div class="logo">
+                        <img [src]="'assets/' + displayCardData.imageUrl + '.svg'" alt="image" class="image">
+                    </div>
+                </div>
                 <img *cdkDragPreview [src]="'assets/' + displayCardData.imageUrl + '.svg'" alt="image">
             </div>
         </div>

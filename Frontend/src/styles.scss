@@ -25,6 +25,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;  }
     }
 }
 
+//border radius of dialog box
+.mat-mdc-dialog-surface.mdc-dialog__surface {
+    border-radius: 30px !important;
+}
 
 // rotating border CSS
 .rotating-border {

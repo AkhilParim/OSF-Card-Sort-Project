@@ -21,13 +21,15 @@ $title-color: linear-gradient(90deg, #F4F1BB 2.6%, rgba(139, 138, 118, 0.72) 28.
         color: #fff;
         background: $title-color;
         border-radius: 0px 0px 50px 50px;
+        font-weight: bold;
     }
     .main {
         display: flex;
         flex-direction: row;
         padding: 70px 70px 90px;
-        height: 100%;
+        flex-grow: 1;
         gap: 75px;
+        overflow: auto;
         .display-card-wrapper {
             width: 400px;
             display: flex;
@@ -45,20 +47,36 @@ $title-color: linear-gradient(90deg, #F4F1BB 2.6%, rgba(139, 138, 118, 0.72) 28.
                 flex-direction: column;
                 align-items: center;
                 height: 100%;
+                justify-content: space-between;
                 .label {
                     font-weight: 700;
-                    font-size: 50px;
-                    line-height: 61px;
+                    font-size: 40px;
                     margin-bottom: 36px;
                 }
-                .preview {
-                    font-size: 16px;
-                    margin-bottom: 70px;
+                .content {
+                    flex-grow: 1;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
                     overflow: hidden;
-                }
-                .image {
-                    width: 160px;
-                    height: 160px;
+                    .preview {
+                        font-size: 16px;
+                        overflow: scroll;
+                    }
+                    .logo {
+                        flex-grow: 1;
+                        margin-top: 40px;
+                        width: 100%;
+                        display: flex;
+                        align-items: flex-end;
+                        justify-content: center;
+                        img {
+                            min-width: 40px;
+                            min-height: 40px;
+                            max-width: 150px;
+                            width: 100%;
+                        }
+                    }
                 }
             }
         }
@@ -66,7 +84,7 @@ $title-color: linear-gradient(90deg, #F4F1BB 2.6%, rgba(139, 138, 118, 0.72) 28.
             display: flex;
             align-items: center;
             font-size: 16px;
-            line-height: 19px;
+            line-height: 35px;
             overflow: scroll;
         }
     }

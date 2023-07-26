@@ -43,8 +43,12 @@
                         (cdkDragMoved)="cardMoveListener($event)">
                         <div class="rotating-border"></div>
                         <p class="label">{{ displayCardData.label }}</p>
-                        <p class="preview">{{ displayCardData.preview }}</p>
-                        <img [src]="'assets/' + displayCardData.imageUrl + '.svg'" alt="image" class="image">
+                        <div class="content">
+                            <p class="preview">{{ displayCardData.preview }}</p>
+                            <div class="logo">
+                                <img [src]="'assets/' + displayCardData.imageUrl + '.svg'" alt="image">
+                            </div>
+                        </div>
                         <img *cdkDragPreview [src]="'assets/' + displayCardData.imageUrl + '.svg'" alt="image">
                         <!-- (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }" -->
                     </div>
@@ -83,7 +87,7 @@
                     cdkDropList
                     (cdkDropListDropped)="placeToken($event)"
                     cdkDropListSortingDisabled="true">
-                    <ng-container *ngFor="let token of service.tokens | keyvalue">
+                    <ng-container *ngFor="let token of service.tokens | keyvalue: service.asIsOrder">
                         <div class="token-container">
                             <div class="token" cdkDrag 
                             (pointerdown)="off = { x: $event.offsetX || 0, y: $event.offsetY || 0 }"
