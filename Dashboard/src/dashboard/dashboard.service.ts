@@ -15,6 +15,7 @@ export class DashboardService {
     isLoading: boolean = true;
     discardedCards: any = {};
     importantCards: any = {};
+    totalCount: any = { 'Frustrating': 0, 'Great': 0, 'Okay': 0, 'Angry': 0 };
 
     constructor(private httpService: HttpService) { }
     
@@ -66,6 +67,7 @@ export class DashboardService {
                 } else {
                     num[_card.label] = 1;
                 }
+                this.totalCount[_token] += 1;
             });
         });
     }

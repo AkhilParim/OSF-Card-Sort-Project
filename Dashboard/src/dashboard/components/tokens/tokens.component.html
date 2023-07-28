@@ -1,14 +1,46 @@
-<div class="chartContainer">
-  <div class="chartDiv">
-    <canvas id="Angry"></canvas>
+<div class="tokens">
+  <div class="top">
+    <div id="Great">
+      <p class="title">Great</p>
+      <ng-container *ngFor="let ind of [0, 1, 2]">
+        <div class="row">
+          <p>{{ ind+1 }}. {{ keys[0][ind] }}</p>
+          <p>{{ (values[0][ind])/(service.totalCount['Great'])*100 | number : '2.1-1' }}%</p>
+        </div>
+      </ng-container>
+    </div>
+    <div id="Okay">
+      <p class="title">Okay</p>
+      <ng-container *ngFor="let ind of [0, 1, 2]">
+        <div class="row">
+          <p>{{ ind+1 }}. {{ keys[1][ind] }}</p>
+          <p>{{ (values[1][ind])/(service.totalCount['Okay'])*100 | number : '2.1-1' }}%</p>
+        </div>
+      </ng-container>
+    </div>
   </div>
-  <div class="chartDiv">
-    <canvas id="Frustrating"></canvas>
-  </div>
-  <div class="chartDiv">
-    <canvas id="Okay"></canvas>
-  </div>
-  <div class="chartDiv">
-    <canvas id="Great"></canvas>
+  <div class="bottom">
+    <div id="Frustrating">
+      <p class="title">Frustrating</p>
+      <div class="table">
+        <ng-container *ngFor="let ind of [0, 1, 2]">
+          <div class="row">
+            <p>{{ ind+1 }}. {{ keys[2][ind] }}</p>
+            <p>{{ (values[2][ind])/(service.totalCount['Frustrating'])*100 | number : '2.1-1' }}%</p>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div id="Angry">
+      <p class="title">Angry</p>
+      <div class="table">
+        <ng-container *ngFor="let ind of [0, 1, 2]">
+          <div class="row">
+            <p>{{ ind+1 }}. {{ keys[3][ind] }}</p>
+            <p>{{ (values[3][ind])/(service.totalCount['Angry'])*100 | number : '2.1-1' }}%</p>
+          </div>
+        </ng-container>
+      </div>
+    </div>
   </div>
 </div>
