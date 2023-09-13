@@ -30,8 +30,9 @@ $title-color: linear-gradient(90deg, #9792E3 2.6%, #2F4858 100%);
         flex-direction: row;
         padding: 3% 3% 0;
         gap: 100px;
-        height: 100%;
-        overflow: overlay;
+        max-height: calc(100% - 100px);
+        flex: 1;
+        // overflow: overlay;
         .used-cards-container {
             width: 300px;
             flex-shrink: 0;
@@ -52,6 +53,7 @@ $title-color: linear-gradient(90deg, #9792E3 2.6%, #2F4858 100%);
                 width: 100%;
                 justify-content: flex-start;
                 overflow: scroll;
+                flex: 1;
                 .box-container {
                     display: flex;
                     justify-content: center;

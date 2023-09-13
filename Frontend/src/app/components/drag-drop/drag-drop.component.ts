@@ -150,7 +150,7 @@ export class DragDropComponent implements OnInit {
     if(!this.isLastCard) {
       this.service.placedCards = this.localPlaced.map(ele => ele);  // storing new placed cards
       this.service.localCardsForHome = this.service.localCardsForHome.filter(ele => ele != this.displayCardData.label);
-      this.router.navigate(['/']);
+      this.navigateToHome();
     } else {
       this.openDialog();
     }
@@ -193,6 +193,6 @@ export class DragDropComponent implements OnInit {
   }
 
   navigateToHome() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/home']);
   }
 }

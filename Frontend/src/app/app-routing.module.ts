@@ -4,10 +4,13 @@ import { DiscussPageComponent } from './components/discuss-page/discuss-page.com
 import { DragDropComponent } from './components/drag-drop/drag-drop.component';
 import { EndPageComponent } from './components/end-page/end-page.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
+import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
 
 const routes: Routes = [
-  { path: '', component: HomePageComponent },
+  { path: 'welcome', component: WelcomePageComponent },
+  { path: 'home', component: HomePageComponent },
   { path: 'discuss', component: DiscussPageComponent},
+  { path: '', redirectTo: 'welcome', pathMatch: 'full' },
   { 
     path: 'drag-and-drop',
     children: [

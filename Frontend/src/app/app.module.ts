@@ -20,6 +20,7 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogBoxComponent } from './components/dialog-box/dialog-box.component';
 import { EndPageComponent } from './components/end-page/end-page.component';
+import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
 
 export function appInit(httpService: HttpService) {
   return (): Promise<any> => {
@@ -37,7 +38,8 @@ export function appInit(httpService: HttpService) {
     DiscussPageComponent,
     HomePageComponent,
     DialogBoxComponent,
-    EndPageComponent
+    EndPageComponent,
+    WelcomePageComponent
   ],
   imports: [
     BrowserModule,
