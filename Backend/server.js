@@ -1,9 +1,11 @@
+// @ts-nocheck
 const express = require("express");
 const app = express();
 const mongoose = require('mongoose');
 
 const Card = require('./models/card');
 const Participation = require('./models/participation');
+const idCounter = require("./models/idCounter");
 
 let dbEndPoint = '';
 if (process.env.NODE_ENV && process.env.NODE_ENV === "production") {
@@ -30,6 +32,31 @@ var allowCrossDomain = function(req, res, next) {  // allows angular to connect 
 }
 app.use(allowCrossDomain);
 
+const getUpdatedId = async (collection) => {
+    let seqId;
+    await idCounter.findOneAndUpdate(
+        {_id: collection},
+        {"$inc": {"seq": 1}},
+        {new: true}
+    ).then(function (model) {
+        if(model == null) {
+            const counter = new idCounter({
+                _id: collection,
+                seq: 1
+            });
+            counter.save();
+            seqId = 1;
+        }
+        else {
+            seqId = model.seq;
+        }
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    return seqId;
+}
+
 app.get('/', async (req, res) => {
     const cards = await Card.find();
     try {
@@ -39,11 +66,37 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.post('/', async(req, res) => {
+app.post('/saveParticipation/', async(req, res) => {
+    const participation = await Participation.findOneAndUpdate(
+        { participationId: req.body.participationId },
+        {
+            placedCards: req.body.placedCards,
+            discardedCards: req.body.discardedCards,
+            orderOfPlacedCards: req.body.orderOfPlacedCards,
+            sessionEnd: new Date().getTime()
+        },
+        { new: true }
+    );
+
+    const newParticipation = await participation.save();
+    try {
+        res.status(201).json(newParticipation);
+    } catch(err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+app.post('/createParticipation/', async(req, res) => {
+    let newId = await getUpdatedId('participationId');
     const participation = new Participation({
-        placedCards: req.body.placedCards,
-        discardedCards: req.body.discardedCards
+        participationId: newId,
+        placedCards: null,
+        discardedCards: null,
+        orderOfCardsPlaced: null,
+        sessionStart: new Date().getTime(),
+        sessionEnd: null
     });
+
     const newParticipation = await participation.save();
     try {
         res.status(201).json(newParticipation);

@@ -5,20 +5,15 @@
         </div>
     </div>
     <div class="content-container">
-        <div class="left-panel">
-            <div class="used-cards-container">
-                <div class="section-header">
-                    Used Cards
-                </div>
-                <div class="card-list-container">
-                    <div class="box-container"
-                    *ngFor="let item of service.placedCards">
-                        <img [src]="'assets/' + service.cardsData[item.label].imageUrl + '.svg'" alt="">
-                    </div>
-                </div>
+        <div class="used-cards-container">
+            <div class="section-header">
+                Used Cards
             </div>
-            <div class="participation-id">
-                ID: 1234
+            <div class="card-list-container">
+                <div class="box-container"
+                *ngFor="let item of service.placedCards">
+                    <img [src]="'assets/' + service.cardsData[item.label].imageUrl + '.svg'" alt="">
+                </div>
             </div>
         </div>
         <div class="carousel-wrapper">
@@ -64,4 +59,8 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="participation-id">
+    ID: {{ service.sessionStorage['participationId'] }}
 </div>

@@ -7,7 +7,8 @@ import { ICardsData, IPlacedCard, ITokens } from './app.model';
 export class AppService {
   
   constructor() { }
-  
+  public sessionStorage = sessionStorage;
+
   displayCardIndex: number = 0;
 
   cardsData: ICardsData = {}

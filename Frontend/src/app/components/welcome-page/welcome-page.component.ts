@@ -1,3 +1,4 @@
+import { HttpService } from 'src/app/http.service';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -7,11 +8,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./welcome-page.component.scss']
 })
 export class WelcomePageComponent {
-  constructor(private router: Router) { }
+  constructor(private router: Router, private httpService: HttpService) { }
 
   start() {
-    this.router.navigate(['/home']);
-    sessionStorage.setItem("participationId", "1234");
+    this.httpService.createParticipation().subscribe(res => {
+      if(res && res.participationId) {
+        sessionStorage.setItem("participationId", res.participationId);
+        this.router.navigate(['/home']);
+      }
+      else {
+        // show error message
+      }
+    });
   }
 
 }

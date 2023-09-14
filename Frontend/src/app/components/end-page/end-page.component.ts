@@ -12,7 +12,7 @@ export class EndPageComponent implements OnInit {
   showPageLoader: Boolean = true;
   promptDuration: number = 5;
 
-  constructor(private httpService: HttpService, private appService: AppService, private router: Router) { }
+  constructor(private httpService: HttpService, public appService: AppService, private router: Router) { }
 
   ngOnInit(): void {
     if(this.appService.placedCards.length > 0) { 

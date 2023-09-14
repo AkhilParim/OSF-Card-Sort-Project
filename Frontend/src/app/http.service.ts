@@ -28,12 +28,18 @@ export class HttpService {
   }
 
   saveParticipation() {
-    return this.http.post(environment.apiEndPoint, {
+    return this.http.post(environment.apiEndPoint + 'saveParticipation/', {
+      participationId: this.appService.sessionStorage['participationId'],
       placedCards: this.appService.placedCards.map(({ zIndex, tokens, ...cardData}) => ({
         ...cardData,
         tokens: Array.from(tokens)
       })),
-      discardedCards: this.appService.discardedCards
+      discardedCards: this.appService.discardedCards,
+      orderOfPlacedCards: []
     });
+  }
+
+  createParticipation(): Observable<any> {
+    return this.http.post(environment.apiEndPoint + 'createParticipation/', {});
   }
 }
