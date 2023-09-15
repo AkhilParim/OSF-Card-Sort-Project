@@ -35,7 +35,7 @@ export class HttpService {
         tokens: Array.from(tokens)
       })),
       discardedCards: this.appService.discardedCards,
-      orderOfPlacedCards: [],
+      orderOfPlacedCards: this.appService.orderOfPlacedCards,
       sessionStart: this.appService.sessionStorage['sessionStart']
     });
   }

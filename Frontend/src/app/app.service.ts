@@ -13,14 +13,7 @@ export class AppService {
 
   cardsData: ICardsData = {}
   
-  placedCards: Array<IPlacedCard> = [
-      // { "label": "Food", "x": 106.2265625, "y": 41, "zIndex": 0, "tokens": new Set() },
-      // { "label": "Friends", "x": 190.2265625, "y": 158, "zIndex": 0, "tokens": new Set() },
-      // { "label": "Home", "x": 296.2265625, "y": 292, "zIndex": 0, "tokens": new Set() },
-      // { "label": "Physical health", "x": 440.2265625, "y": 104, "zIndex": 0, "tokens": new Set() },
-      // { "label": "Support system", "x": 763.2265625, "y": 140, "zIndex": 0, "tokens": new Set() },
-      // { "label": "Mental health", "x": 580.2265625, "y": 252, "zIndex": 1, "tokens": new Set() }
-  ]
+  placedCards: Array<IPlacedCard> = []
   
   discardedCards: Array<string> = []
   
@@ -32,6 +25,8 @@ export class AppService {
   }
 
   localCardsForHome: Array<string> = [];
+
+  orderOfPlacedCards: Array<string> = [];
 
   disableRotatingBorder(disable: Boolean) {
     const borderElements = Array.from(document.getElementsByClassName('rotating-border') as HTMLCollectionOf<HTMLElement>);

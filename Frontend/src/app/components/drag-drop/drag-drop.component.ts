@@ -41,7 +41,7 @@ export class DragDropComponent implements OnInit {
   }
 
   placeCard(event: CdkDragDrop<any[]>) {
-    // handles event when card in the Rank page is placed on the drop zone
+    // handles event when card in the Rank and summary pages is placed on the drop zone
     if (event.previousContainer === event.container) {
       return;
     }
@@ -57,6 +57,7 @@ export class DragDropComponent implements OnInit {
       let coordinates: IPlacedCard = { 'label': event.item.data, 'x': x, 'y': y, 'zIndex': 0, tokens: new Set() }
       if(this.currentPageAndState.page == 'summary') {
         this.localDiscardedCards = this.localDiscardedCards.filter(card => card != String(event.item.data));
+        this.service.orderOfPlacedCards.push(event.item.data);
         this.currentPageAndState.state = '';
       }
       this.localPlaced.push(coordinates);
@@ -150,6 +151,7 @@ export class DragDropComponent implements OnInit {
     if(!this.isLastCard) {
       this.service.placedCards = this.localPlaced.map(ele => ele);  // storing new placed cards
       this.service.localCardsForHome = this.service.localCardsForHome.filter(ele => ele != this.displayCardData.label);
+      this.service.orderOfPlacedCards.push(this.displayCardData.label);
       this.navigateToHome();
     } else {
       this.openDialog();
