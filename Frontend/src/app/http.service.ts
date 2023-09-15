@@ -35,11 +35,12 @@ export class HttpService {
         tokens: Array.from(tokens)
       })),
       discardedCards: this.appService.discardedCards,
-      orderOfPlacedCards: []
+      orderOfPlacedCards: [],
+      sessionStart: this.appService.sessionStorage['sessionStart']
     });
   }
 
-  createParticipation(): Observable<any> {
-    return this.http.post(environment.apiEndPoint + 'createParticipation/', {});
+  generateNewID(collection: string): Observable<any> {
+    return this.http.post(environment.apiEndPoint + 'generateNewID/', {'collection': collection});
   }
 }

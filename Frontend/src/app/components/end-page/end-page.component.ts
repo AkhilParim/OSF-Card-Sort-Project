@@ -48,5 +48,7 @@ export class EndPageComponent implements OnInit {
       });
     });
     this.appService.displayCardIndex = 0;
+    sessionStorage['participationId'] = null;
+    sessionStorage['sessionStart'] = null;
   }
 }

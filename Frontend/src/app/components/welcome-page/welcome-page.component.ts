@@ -11,9 +11,10 @@ export class WelcomePageComponent {
   constructor(private router: Router, private httpService: HttpService) { }
 
   start() {
-    this.httpService.createParticipation().subscribe(res => {
+    this.httpService.generateNewID('OSF').subscribe(res => {
       if(res && res.participationId) {
         sessionStorage.setItem("participationId", res.participationId);
+        sessionStorage.setItem("sessionStart", String(new Date().getTime()));
         this.router.navigate(['/home']);
       }
       else {

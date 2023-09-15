@@ -38,7 +38,7 @@ const getUpdatedId = async (collection) => {
         {_id: collection},
         {"$inc": {"seq": 1}},
         {new: true}
-    ).then(function (model) {
+    ).then((model) => {
         if(model == null) {
             const counter = new idCounter({
                 _id: collection,
@@ -46,13 +46,9 @@ const getUpdatedId = async (collection) => {
             });
             counter.save();
             seqId = 1;
-        }
-        else {
-            seqId = model.seq;
-        }
-      })
-      .catch(function (err) {
-        console.log(err);
+        } else { seqId = model.seq; }
+      }).catch((err) => {
+        // console.log(err);
       });
     return seqId;
 }
@@ -67,16 +63,14 @@ app.get('/', async (req, res) => {
 });
 
 app.post('/saveParticipation/', async(req, res) => {
-    const participation = await Participation.findOneAndUpdate(
-        { participationId: req.body.participationId },
-        {
-            placedCards: req.body.placedCards,
-            discardedCards: req.body.discardedCards,
-            orderOfPlacedCards: req.body.orderOfPlacedCards,
-            sessionEnd: new Date().getTime()
-        },
-        { new: true }
-    );
+    const participation = new Participation({
+        participationId: req.body.participationId,
+        placedCards: req.body.placedCards,
+        discardedCards: req.body.discardedCards,
+        orderOfPlacedCards: req.body.orderOfPlacedCards,
+        sessionStart: req.body.sessionStart,
+        sessionEnd: new Date().getTime()
+    });
 
     const newParticipation = await participation.save();
     try {
@@ -86,23 +80,25 @@ app.post('/saveParticipation/', async(req, res) => {
     }
 });
 
-app.post('/createParticipation/', async(req, res) => {
-    let newId = await getUpdatedId('participationId');
-    const participation = new Participation({
-        participationId: newId,
-        placedCards: null,
-        discardedCards: null,
-        orderOfCardsPlaced: null,
-        sessionStart: new Date().getTime(),
-        sessionEnd: null
-    });
-
-    const newParticipation = await participation.save();
-    try {
-        res.status(201).json(newParticipation);
-    } catch(err) {
+app.post('/generateNewID/', async(req, res) => {
+    let participationId;
+    await idCounter.findOneAndUpdate(
+        {_id: req.body.collection},
+        {"$inc": {"seq": 1}},
+        {new: true}
+    ).then((model) => {
+        if(model == null) {
+            const counter = new idCounter({
+                _id: req.body.collection,
+                seq: 1
+            });
+            counter.save();
+            participationId = 1;
+        } else { participationId = model.seq; }
+        res.status(201).json({'participationId': participationId});
+      }).catch((err) => {
         res.status(500).json({ message: err.message });
-    }
+      });
 });
 
 app.get('/participations/', async (req, res) => {

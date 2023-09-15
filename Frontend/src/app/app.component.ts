@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { DragDropComponent } from './components/drag-drop/drag-drop.component';
 
 
 @Component({
@@ -11,7 +10,7 @@ import { DragDropComponent } from './components/drag-drop/drag-drop.component';
 
 export class AppComponent {
   title = 'Frontend';
-  ngOnInit() {
 
-  }
+  ngOnInit() {  }
+
 }
