@@ -165,16 +165,17 @@ export class DragDropComponent implements OnInit {
       this.service.disableRotatingBorder(false);
       if(result == 'true') {
         if(this.currentPageAndState.page != 'token') {
-          this.handleSummaryNextPage();
+          this.currentPageAndState.page == 'rank' ? this.service.orderOfPlacedCards.push(this.displayCardData.label) : null;
+          this.confirmPlacingCards();
         } else {
-          this.handleTokenNextPage();
+          this.confirmPlacingTokens();
         }
       }
     });
   }
 
-  handleSummaryNextPage() {
-    // handles the redirection to next page from summary page
+  confirmPlacingCards() {
+    // handles the redirection to next page from rank and summary page
     this.service.placedCards = this.localPlaced.map(ele => ele);  // storing new placed cards
     if(this.currentPageAndState.page == 'rank') {
       this.router.navigate(['drag-and-drop/summary'])
@@ -184,7 +185,7 @@ export class DragDropComponent implements OnInit {
     }
   }
 
-  handleTokenNextPage() {
+  confirmPlacingTokens() {
     // handles the redirection to next page from token page
     if(this.currentPageAndState.state == '') {
       this.currentPageAndState.state = 'tokenSummary';
