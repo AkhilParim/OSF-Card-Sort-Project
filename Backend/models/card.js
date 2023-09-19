@@ -104,7 +104,7 @@ module.exports = mongoose.model('Card', cardSchema);
 //         'Transportation': {
 //             label: 'Transportation',
 //             preview: 'The ability to take care of oneself, physically, mentally, and emotionally, including activities or actions taken to care for oneself.',
-//             imageUrl: 'self-care',
+//             imageUrl: 'transportation',
 //             content: `<ol><li>How would you describe your access to transportation?</li>
 //             <li>What role does transportation play in your daily life?</li>
 //             <li>Do you have enough to cover transportation costs including upkeep?</li>
