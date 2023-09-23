@@ -39,8 +39,4 @@ export class HttpService {
       sessionStart: this.appService.sessionStorage['sessionStart']
     });
   }
-
-  generateNewID(collection: string): Observable<any> {
-    return this.http.post(environment.apiEndPoint + 'generateNewID/', {'collection': collection});
-  }
 }

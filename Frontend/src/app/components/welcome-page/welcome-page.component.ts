@@ -1,5 +1,6 @@
+import { AppService } from 'src/app/app.service';
 import { HttpService } from 'src/app/http.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,20 +8,30 @@ import { Router } from '@angular/router';
   templateUrl: './welcome-page.component.html',
   styleUrls: ['./welcome-page.component.scss']
 })
-export class WelcomePageComponent {
-  constructor(private router: Router, private httpService: HttpService) { }
+export class WelcomePageComponent implements OnInit {
+  constructor(private router: Router, private httpService: HttpService, private appService: AppService) { }
+
+  ngOnInit(): void {
+    this.appService.checkQueryParams();
+  }
+
+  checkIdentity() {
+    if(this.appService.redirectedFromOCC && !sessionStorage['userId']) {
+      return false
+    }
+    return true;
+  }
+
 
   start() {
-    this.httpService.generateNewID('OSF').subscribe(res => {
-      if(res && res.participationId) {
-        sessionStorage.setItem("participationId", res.participationId);
-        sessionStorage.setItem("sessionStart", String(new Date().getTime()));
-        this.router.navigate(['/home']);
-      }
-      else {
-        // show error message
-      }
-    });
+    if(this.checkIdentity()) {
+      sessionStorage.setItem("sessionStart", String(new Date().getTime()));
+      this.router.navigate(['/home']);
+    } else {
+      // show error message
+      console.log('no ID');
+      
+    }
   }
 
 }

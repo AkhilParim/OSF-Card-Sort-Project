@@ -3,12 +3,12 @@
 
 module.exports = {
    apps : [{
-      name   : "OSF",
+      name   : "CardSort",
       script : "./server.js",
       watch: ["./server.js"],
       env: {
          NODE_ENV: "production",  // default environment
-         DB_END_POINT: "mongodb+srv://root:root@atlascluster.im1sbt0.mongodb.net/OSF-Card-Sort"
+         DB_END_POINT: "mongodb://3.132.135.90:27017/OSFCardSort"
       },
       // env_development: {
       //    NODE_ENV: "development",
@@ -16,7 +16,7 @@ module.exports = {
       // },
       // env_production: {
       //    NODE_ENV: "production",
-      //    DB_END_POINT: "mongodb+srv://root:root@atlascluster.im1sbt0.mongodb.net/OSF-Card-Sort"
+      //    DB_END_POINT: "mongodb://3.132.135.90:27017/OSFCardSort"
       // },
    }]
 }

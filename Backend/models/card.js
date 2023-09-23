@@ -16,13 +16,13 @@ const cardSchema = new mongoose.Schema({
 module.exports = mongoose.model('Card', cardSchema);
 
 
-// const Card = mongoose.model('Card', cardSchema);;
+// const Card = mongoose.model('Card', cardSchema);
 
 // const newCard = new Card({
 //     data: {
 //         'Physical Health': {
-//             label: 'Physical health',
-//             preview: 'Access to physical health services, health insurance, and the priority of your physical health and wellbeing, such as how often you engage in physical activity.',
+//             label: 'Physical Health',
+//             preview: 'Access to physical health services, health insurance, and the priority of your physical health and wellbeing, such as how often you engage in physical activity',
 //             imageUrl: 'physical-health',
 //             content: `<ol><li>How does your physical health impact your daily life in the past?</li>
 //             <li>Where do you get dependable health advice?</li>
@@ -32,7 +32,7 @@ module.exports = mongoose.model('Card', cardSchema);
 //         },
 //         'Friends and Support': {
 //             label: 'Friends and Support',
-//             preview: 'Importance of friends in your daily life.',
+//             preview: 'Importance of friends in your daily life',
 //             imageUrl: 'friends',
 //             content: `<ol><li>Who is your support system?</li>
 //             <li>How would you describe your friends?</li>
@@ -43,7 +43,7 @@ module.exports = mongoose.model('Card', cardSchema);
 //         },
 //         'Food': {
 //             label: 'Food',
-//             preview: 'Access to nutritious food that sustains you.',
+//             preview: 'Access to nutritious food that sustains you',
 //             imageUrl: 'food',
 //             content: `<ol><li>What does your access to food look like?</li>
 //             <li>Are there any barriers to accessing food? If so, what are they?</li>
@@ -53,7 +53,7 @@ module.exports = mongoose.model('Card', cardSchema);
 //         },
 //         'Home': {
 //             label: 'Home',
-//             preview: 'Importance of your home, whether that is the place you live or where you feel most comfortable.',
+//             preview: 'Importance of your home, whether that is the place you live or where you feel most comfortable',
 //             imageUrl: 'home',
 //             content: `<ol><li>What does home mean to you?</li>
 //             <li>If home is a physical place, where is it and what does it look like?</li>
@@ -63,7 +63,7 @@ module.exports = mongoose.model('Card', cardSchema);
 //         },
 //         'Mental health and Self Care': {
 //             label: 'Mental health and Self Care',
-//             preview: 'Access to mental health services, health insurance, and the priority of your mental and emotional wellbeing.',
+//             preview: 'Access to mental health services, health insurance, and the priority of your mental and emotional wellbeing',
 //             imageUrl: 'mental-health',
 //             content: `<ol><li>How does your mental health impact your daily life?</li>
 //             <li>How has your mental health been in the past?</li>
@@ -73,7 +73,7 @@ module.exports = mongoose.model('Card', cardSchema);
 //         },
 //         'Money': {
 //             label: 'Money',
-//             preview: 'Any money earned from work or otherwise.',
+//             preview: 'Any money earned from work or otherwise',
 //             imageUrl: 'money',
 //             content: `<ol><li>How would you describe your access to money?</li>
 //             <li>What role does money play in your daily life?</li>
@@ -83,7 +83,7 @@ module.exports = mongoose.model('Card', cardSchema);
 //         },
 //         'Employment': {
 //             label: 'Employment',
-//             preview: 'Having a job, having job security, how you feel about the work you are doing.',
+//             preview: 'Having a job, having job security, how you feel about the work you are doing',
 //             imageUrl: 'employment',
 //             content: `<ol><li>How do you feel about your current employment?</li>
 //             <li>Do you feel secure in your job or position? Why or why not?</li>
@@ -93,7 +93,7 @@ module.exports = mongoose.model('Card', cardSchema);
 //         },
 //         'Family': {
 //             label: 'Family',
-//             preview: 'Importance of family in your daily life, whether biological or chosen.',
+//             preview: 'Importance of family in your daily life, whether biological or chosen',
 //             imageUrl: 'family',
 //             content: `<ol><li>What role does your family play in your daily life?</li>
 //             <li>How do you feel about your family?</li>
@@ -103,7 +103,7 @@ module.exports = mongoose.model('Card', cardSchema);
 //         },
 //         'Transportation': {
 //             label: 'Transportation',
-//             preview: 'The ability to take care of oneself, physically, mentally, and emotionally, including activities or actions taken to care for oneself.',
+//             preview: 'The ability to get to the places you need to go',
 //             imageUrl: 'transportation',
 //             content: `<ol><li>How would you describe your access to transportation?</li>
 //             <li>What role does transportation play in your daily life?</li>

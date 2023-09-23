@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 
 const Card = require('./models/card');
 const Participation = require('./models/participation');
-const idCounter = require("./models/idCounter");
 
 let dbEndPoint = '';
 if (process.env.NODE_ENV && process.env.NODE_ENV === "production") {
@@ -78,27 +77,6 @@ app.post('/saveParticipation/', async(req, res) => {
     } catch(err) {
         res.status(500).json({ message: err.message });
     }
-});
-
-app.post('/generateNewID/', async(req, res) => {
-    let participationId;
-    await idCounter.findOneAndUpdate(
-        {_id: req.body.collection},
-        {"$inc": {"seq": 1}},
-        {new: true}
-    ).then((model) => {
-        if(model == null) {
-            const counter = new idCounter({
-                _id: req.body.collection,
-                seq: 1
-            });
-            counter.save();
-            participationId = 1;
-        } else { participationId = model.seq; }
-        res.status(201).json({'participationId': participationId});
-      }).catch((err) => {
-        res.status(500).json({ message: err.message });
-      });
 });
 
 app.get('/participations/', async (req, res) => {

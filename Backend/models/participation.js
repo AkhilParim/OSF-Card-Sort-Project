@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 const participationSchema = new mongoose.Schema({
+    UserId: String,
     placedCards: mongoose.Schema.Types.Mixed,
     discardedCards: [String],
-    participationId: Number,
+    orderOfPlacedCards: [String],
     sessionStart: Number,
     sessionEnd: Number,
-    orderOfPlacedCards: [String]
 });
 
 module.exports = mongoose.model('Participation', participationSchema);

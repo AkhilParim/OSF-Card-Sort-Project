@@ -1,13 +1,16 @@
 import { Injectable, OnInit } from '@angular/core';
 import { ICardsData, IPlacedCard, ITokens } from './app.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
   
-  constructor() { }
+  constructor(private activatedRoute: ActivatedRoute) { }
+
   public sessionStorage = sessionStorage;
+  redirectedFromOCC: boolean = false;
 
   displayCardIndex: number = 0;
 
@@ -32,6 +35,21 @@ export class AppService {
     const borderElements = Array.from(document.getElementsByClassName('rotating-border') as HTMLCollectionOf<HTMLElement>);
     borderElements.forEach(ele => {
       ele.style.display = disable ? 'none' : 'flex';
+    });
+  }
+
+  checkQueryParams() {
+    this.activatedRoute.queryParams.subscribe(params => {
+      let redirect = params['redirect'];
+      let userId = params['id'];
+      if(redirect == 'true') {
+        this.redirectedFromOCC = true;
+        if(userId) {
+          this.sessionStorage.setItem("userId", userId);
+        } else {
+          this.sessionStorage.setItem("userId", '');
+        }
+      }
     });
   }
 
