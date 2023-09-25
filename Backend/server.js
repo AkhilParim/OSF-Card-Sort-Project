@@ -31,26 +31,26 @@ var allowCrossDomain = function(req, res, next) {  // allows angular to connect 
 }
 app.use(allowCrossDomain);
 
-const getUpdatedId = async (collection) => {
-    let seqId;
-    await idCounter.findOneAndUpdate(
-        {_id: collection},
-        {"$inc": {"seq": 1}},
-        {new: true}
-    ).then((model) => {
-        if(model == null) {
-            const counter = new idCounter({
-                _id: collection,
-                seq: 1
-            });
-            counter.save();
-            seqId = 1;
-        } else { seqId = model.seq; }
-      }).catch((err) => {
-        // console.log(err);
-      });
-    return seqId;
-}
+// const getUpdatedId = async (collection) => {
+//     let seqId;
+//     await idCounter.findOneAndUpdate(
+//         {_id: collection},
+//         {"$inc": {"seq": 1}},
+//         {new: true}
+//     ).then((model) => {
+//         if(model == null) {
+//             const counter = new idCounter({
+//                 _id: collection,
+//                 seq: 1
+//             });
+//             counter.save();
+//             seqId = 1;
+//         } else { seqId = model.seq; }
+//       }).catch((err) => {
+//         // console.log(err);
+//       });
+//     return seqId;
+// }
 
 app.get('/', async (req, res) => {
     const cards = await Card.find();
