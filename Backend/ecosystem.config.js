@@ -8,7 +8,7 @@ module.exports = {
       watch: ["./server.js"],
       env: {
          NODE_ENV: "production",  // default environment
-         DB_END_POINT: "mongodb://3.132.135.90:27017/OSFCardSort"
+         DB_END_POINT: "mongodb://production:prod123@3.132.135.90:27017/OSFCardSort?authMechanism=DEFAULT&authSource=admin"
       },
       // env_development: {
       //    NODE_ENV: "development",
